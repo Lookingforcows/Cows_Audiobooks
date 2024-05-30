@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .post {
+            margin-bottom: 40px;
+        }
+
+        .post h2 {
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to My Blog</h1>
+
+    <div class="post">
+        <h2>First Post</h2>
+        <p>This is my first blog post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula gravida
+            libero, sit amet fermentum felis varius et. Proin at dapibus elit. Integer bibendum erat nec urna
+            lobortis.</p>
+    </div>
+
+    <div class="post">
+        <h2>Second Post</h2>
+        <p>This is my second blog post. Donec sit amet justo non lacus efficitur congue eu vel turpis. Nulla eget est
+            at nibh gravida commodo. Vivamus blandit dolor vel felis mollis, sit amet euismod odio congue.</p>
+    </div>
+</div>
+
+</body>
+</html>
