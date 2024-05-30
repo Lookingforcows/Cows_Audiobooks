@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cow's Audiobooks</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="podcasts"></div>
+
+    <script>
+        // URL of your RSS feed
+        var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+
+        // Fetch the RSS feed
+        $.ajax({
+            url: rssFeedUrl,
+            dataType: "xml",
+            success: function(xml) {
+                // Parse the XML data
+                $(xml).find("item").each(function() {
+                    var title = $(this).find("title").text();
+                    var description = $(this).find("description").text();
+                    var audioUrl = $(this).find("enclosure").attr("url");
+
+                    // Create HTML content for each podcast episode
+                    var episodeHtml = `
+                        <div>
+                            <h2>${title}</h2>
+                            <p>${description}</p>
+                            <audio controls>
+                                <source src="${audioUrl}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    `;
+
+                    // Append the HTML content to the "podcasts" div
+                    $("#podcasts").append(episodeHtml);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
