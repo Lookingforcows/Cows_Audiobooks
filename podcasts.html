@@ -5,19 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podcast Episodes</title>
     <style>
-        /* CSS for podcast episodes */
-        body {
-            margin: 0 auto;
-            max-width: 800px;
-            background-color: #000;
-            color: #fff;
+        /* Background image style */
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: url('IMG_5945.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff; /* Changed text color to white */
             font-family: Arial, sans-serif;
+        }
+
+        /* Container to center content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
 
+        /* CSS for podcast episodes */
         .podcast-episode {
             text-align: center;
             margin-bottom: 20px;
+            color: #fff; /* Changed text color to white */
+            background-color: #000; /* Added black background color */
+            padding: 20px; /* Added padding for better readability */
         }
 
         .podcast-artwork {
@@ -34,17 +47,18 @@
 
         /* Link style */
         a {
-            color: #fff;
+            color: #fff; /* Changed link color to white */
             text-decoration: none;
             display: inline-block;
-            background-color: #333;
+            background-color: #000; /* Changed background color to black */
             padding: 10px 20px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
 
         a:hover {
-            background-color: #555;
+            background-color: #fff; /* Changed background color to white on hover */
+            color: #000; /* Changed text color to black on hover */
         }
 
         /* Progress bar style */
@@ -52,17 +66,52 @@
             width: 100%;
             margin-top: 10px;
         }
+
+        /* Donate button style */
+        .donate-button {
+            color: #fff; /* Changed button text color to white */
+            text-decoration: none;
+            background-color: #000; /* Changed button background color to black */
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .donate-button:hover {
+            background-color: #fff; /* Changed background color to white on hover */
+            color: #000; /* Changed text color to black on hover */
+        }
+
+        /* Black highlight */
+        .black-highlight {
+            background-color: #000; /* Black background color */
+            color: #fff; /* White text color */
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <header>
-        <img src="51uEZVeGgtL.jpg" alt="Description of the image">
-        <h1>Welcome cow watchers!</h1>
-        <a href="https://docs.google.com/document/d/1W55Fi9GWt3Dq2Rv09JWpiUOjAwlJuzUVZLC2xAG4ENU/">Audiobook Text</a>
-    </header>
-    <!-- Podcast episodes will be dynamically added here -->
-    <div id="podcast-container"></div>
+    <div class="container">
+        <!-- Donation Button for Cash App -->
+        <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
+
+        <header>
+            <img src="51uEZVeGgtL.jpg" alt="Description of the image">
+            <h1>Welcome cow watchers!</h1>
+            <a href="audiobook_text.html">Audiobook Text</a>
+        </header>
+        <!-- Podcast episodes will be dynamically added here -->
+        <div id="podcast-container"></div>
+
+        <!-- Black box with white text -->
+        <div class="black-highlight">
+            <p>Thank you for listening!</p>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function() {
