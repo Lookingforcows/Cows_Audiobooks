@@ -46,8 +46,24 @@
         a:hover {
             background-color: #555;
         }
+
+        /* Progress bar style */
+        .progress-bar {
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="51uEZVeGgtL.jpg" alt="Description of the image">
+        <h1>Welcome cow watchers!</h1>
+        <a href="audiobook_text.html">Audiobook Text</a>
+    </header>
+    <!-- Podcast episodes will be dynamically added here -->
+    <div id="podcast-container"></div>
+
     <script>
         $(document).ready(function() {
             var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
@@ -62,6 +78,7 @@
                         var title = $(this).find("title").text();
                         var description = $(this).find("description").text();
                         var artworkUrl = $(this).find("itunes\\:image").attr("href");
+                        var audioUrl = $(this).find("enclosure").attr("url"); // Assuming the audio file URL is in the "enclosure" tag
 
                         // Create HTML content for each podcast episode
                         var episodeHtml = `
@@ -69,11 +86,48 @@
                                 <h2 class="podcast-title">${title}</h2>
                                 <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
                                 <p class="podcast-description">${description}</p>
+                                <audio controls class="audio-player" src="${audioUrl}" style="width: 100%;"></audio>
+                                <button class="stop-button" style="display: none;">Stop</button>
+                                <div class="progress-bar-container" style="display: none;">
+                                    <progress class="progress-bar" value="0" max="100"></progress>
+                                </div>
                             </div>
                         `;
 
-                        // Append the HTML content to the body
-                        $("body").append(episodeHtml);
+                        // Append the HTML content to the podcast container
+                        $("#podcast-container").append(episodeHtml);
+                    });
+
+                    // Add click event listener to play buttons
+                    $(".podcast-episode").each(function() {
+                        var episode = $(this);
+                        var audioPlayer = episode.find('.audio-player');
+                        var stopButton = episode.find('.stop-button');
+                        var progressBarContainer = episode.find('.progress-bar-container');
+
+                        episode.find('.audio-player').attr("src", $(this).find('.play-button').data('audio'));
+
+                        episode.find('.play-button').click(function() {
+                            audioPlayer[0].play(); // Start playing the audio
+                            stopButton.show();
+                            progressBarContainer.show();
+                        });
+
+                        stopButton.click(function() {
+                            audioPlayer[0].pause(); // Pause the audio
+                            audioPlayer[0].currentTime = 0; // Reset audio playback to the beginning
+                            stopButton.hide();
+                            progressBarContainer.hide();
+                        });
+
+                        // Update progress bars as audio plays
+                        audioPlayer.on("timeupdate", function() {
+                            var currentTime = this.currentTime;
+                            var duration = this.duration;
+                            var progress = (currentTime / duration) * 100;
+
+                            episode.find('.progress-bar').val(progress);
+                        });
                     });
                 },
                 error: function(xhr, status, error) {
@@ -82,13 +136,5 @@
             });
         });
     </script>
-</head>
-<body>
-    <header>
-        <img src="51uEZVeGgtL.jpg" alt="Description of the image">
-        <h1>Welcome cow watchers! Check out the show below. Let me know what you think! </h1>
-        <a href="audiobook_text.html">Audiobook Text</a>
-    </header>
-    <!-- Your other content goes here -->
 </body>
 </html>
