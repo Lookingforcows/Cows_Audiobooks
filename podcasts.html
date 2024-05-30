@@ -11,7 +11,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: #fff; /* Changed text color to white */
             font-family: Arial, sans-serif;
@@ -112,7 +112,7 @@
             <img src="51uEZVeGgtL.jpg" alt="Description of the image">
             <h1>Welcome cow watchers! 
 Please consider supporting me by donating to my cash app.</h1>
-            <a href="https://docs.google.com/document/d/1W55Fi9GWt3Dq2Rv09JWpiUOjAwlJuzUVZLC2xAG4ENU/edit?usp=sharing">Audiobook Text</a>
+            <a href="audiobook_text.html">Audiobook Text</a>
 <a href="blog.html">News and Updates</a>
         </header>
         <!-- Podcast episodes will be dynamically added here -->
@@ -134,7 +134,7 @@ Please consider supporting me by donating to my cash app.</h1>
                 dataType: "xml",
                 success: function(xml) {
                     // Parse the XML data and append podcast episodes
-                    $(xml).find("item").each(function() {
+                    $(xml).find("item").each(function(index) {
                         var title = $(this).find("title").text();
                         var description = $(this).find("description").text();
                         var artworkUrl = $(this).find("itunes\\:image").attr("href");
@@ -146,7 +146,9 @@ Please consider supporting me by donating to my cash app.</h1>
                                 <h2 class="podcast-title">${title}</h2>
                                 <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
                                 <p class="podcast-description">${description}</p>
-                                <audio controls class="audio-player" src="${audioUrl}" style="width: 100%;"></audio>
+                                <audio controls class="audio-player" style="width: 100%;">
+                                    <source src="${audioUrl}" type="audio/mpeg">
+                                </audio>
                                 <button class="stop-button" style="display: none;">Stop</button>
                                 <div class="progress-bar-container" style="display: none;">
                                     <progress class="progress-bar" value="0" max="100"></progress>
@@ -158,20 +160,26 @@ Please consider supporting me by donating to my cash app.</h1>
                         $("#podcast-container").append(episodeHtml);
                     });
 
-                    // Add click event listener to play buttons
-                    $(".podcast-episode").each(function() {
+                    // Add event listeners after all episodes have been appended
+                    $(".podcast-episode").each(function(index) {
                         var episode = $(this);
                         var audioPlayer = episode.find('.audio-player');
                         var stopButton = episode.find('.stop-button');
                         var progressBarContainer = episode.find('.progress-bar-container');
 
-                        episode.find('.audio-player').attr("src", $(this).find('.play-button').data('audio'));
+                        // Check if this episode has been played in this session
+                        var playedEpisodes = sessionStorage.getItem('playedEpisodes') ? JSON.parse(sessionStorage.getItem('playedEpisodes')) : {};
 
-                        episode.find('.play-button').click(function() {
-                            audioPlayer[0].play(); // Start playing the audio
-                            stopButton.show();
-                            progressBarContainer.show();
-                        });
+                        // If the episode has been played, set the src attribute and mark as played
+                        if (!playedEpisodes[index]) {
+                            episode.find('.audio-player').attr("src", audioPlayer.find('source').attr('src'));
+
+                            audioPlayer.on("play", function() {
+                                // Mark this episode as played in the session storage
+                                playedEpisodes[index] = true;
+                                sessionStorage.setItem('playedEpisodes', JSON.stringify(playedEpisodes));
+                            });
+                        }
 
                         stopButton.click(function() {
                             audioPlayer[0].pause(); // Pause the audio
