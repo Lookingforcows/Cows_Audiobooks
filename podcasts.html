@@ -3,114 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cow's Audiobooks</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Podcast Episodes</title>
     <style>
-        /* Set background color */
+        /* CSS for podcast episodes */
         body {
+            margin: 0 auto;
+            max-width: 800px;
             background-color: #000;
-            color: #fff; /* Set text color to white */
-            font-family: Arial, sans-serif; /* Use a common font for readability */
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .podcast-episode {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .podcast-artwork {
+            max-width: 300px;
+            display: block;
+            margin: 0 auto;
         }
 
         /* Header style */
         header {
-            background-color: #333;
-            padding: 20px;
             text-align: center;
-        }
-
-        /* Main content container */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Container for individual podcast episodes */
-        .podcast-episode {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 30px;
-            background-color: #333; /* Dark gray background for episodes */
-        }
-
-        /* Title style */
-        .podcast-title {
-            font-size: 20px;
             margin-bottom: 20px;
-            color: #fff; /* Set title text color to white */
         }
 
-        /* Description style */
-        .podcast-description {
-            font-size: 16px;
-            line-height: 1.5;
-            color: #999; /* Light gray color for description */
+        /* Link style */
+        a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
 
-        /* Audio player style */
-        audio {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* Artwork style */
-        .podcast-artwork {
-            max-width: 200px; /* Set maximum width for artwork */
-            margin-bottom: 10px;
+        a:hover {
+            background-color: #555;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+
+            // Fetch the RSS feed
+            $.ajax({
+                url: rssFeedUrl,
+                dataType: "xml",
+                success: function(xml) {
+                    // Parse the XML data and append podcast episodes
+                    $(xml).find("item").each(function() {
+                        var title = $(this).find("title").text();
+                        var description = $(this).find("description").text();
+                        var artworkUrl = $(this).find("itunes\\:image").attr("href");
+
+                        // Create HTML content for each podcast episode
+                        var episodeHtml = `
+                            <div class="podcast-episode">
+                                <h2 class="podcast-title">${title}</h2>
+                                <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
+                                <p class="podcast-description">${description}</p>
+                            </div>
+                        `;
+
+                        // Append the HTML content to the body
+                        $("body").append(episodeHtml);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr, status, error); // Log any errors to the console for debugging
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
-        <h1>Cow's Audiobooks</h1>
+        <img src="51uEZVeGgtL.jpg" alt="Description of the image">
+        <h1>Welcome cow watchers!</h1>
+        <a href="audiobook_text.html">Audiobook Text</a>
     </header>
-
-<a href="text and blog.html">Audiobook Text</a>
-
-    <div class="container">
-        <!-- Podcasts section -->
-        <section id="podcasts"></section>
-    </div>
-
-    <script>
-        // URL of your RSS feed
-        var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
-
-        // Fetch the RSS feed
-        $.ajax({
-            url: rssFeedUrl,
-            dataType: "xml",
-            success: function(xml) {
-                // Parse the XML data
-                $(xml).find("item").each(function() {
-                    var title = $(this).find("title").text();
-                    var description = $(this).find("description").text();
-                    var audioUrl = $(this).find("enclosure").attr("url");
-                    var artworkUrl = $(this).find("itunes\\:image").attr("href");
-
-                    // Create HTML content for each podcast episode
-                    var episodeHtml = `
-                        <div class="podcast-episode">
-                            <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
-                            <h2 class="podcast-title">${title}</h2>
-                            <p class="podcast-description">${description}</p>
-                            <audio controls>
-                                <source src="${audioUrl}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    `;
-
-                    // Append the HTML content to the "podcasts" section
-                    $("#podcasts").append(episodeHtml);
-                });
-            }
-        });
-    </script>
+    <!-- Your other content goes here -->
 </body>
 </html>
