@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Gallery</title>
+    <style>
+        /* Center everything horizontally and vertically */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #fff; /* Set text color to white */
+        }
+
+        /* Container for content */
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Basic styles */
+        header {
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Artwork section */
+        .artwork-section {
+            margin-top: 20px; /* Adjusted margin for better spacing */
+            text-align: center;
+        }
+
+        .artwork-img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        audio {
+            margin-top: 20px;
+        }
+
+        /* Style links */
+        a {
+            color: #fff; /* Set link color to white */
+            text-decoration: none; /* Remove underline */
+            margin-right: 10px; /* Add some spacing between links */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Art and Special Features -->
+    <header>
+        <h1>Art and Special Features</h1>
+    </header>
+
+    <!-- Text about Art and Special Features -->
+    <div>
+        <p>I once tried to make the Aurore Reset into an animation feature, but the story didn't seem to fit. I enjoyed learning how to draw, so here is some unskilled art.</p>
+    </div>
+
+    <!-- Artwork Section -->
+    <div class="artwork-section">
+        <img src="IMG_9304.jpeg" alt="Image 1" class="artwork-img">
+        <img src="IMG_9303.jpeg" alt="Image 2" class="artwork-img">
+        <img src="IMG_7421.jpeg" alt="Image 3" class="artwork-img">
+        <img src="IMG_7873.jpeg" alt="Image 4" class="artwork-img">
+        <img src="IMG_8571.jpeg" alt="Image 5" class="artwork-img">
+        <img src="IMG_7806.jpeg" alt="Image 6" class="artwork-img">
+        <img src="IMG_7892.jpeg" alt="Image 7" class="artwork-img">
+    </div>
+
+    <!-- Audio player with note -->
+    <div>
+        <p>This is an early test back when the Aurore Reset was like a radio play. I love the voices, but the story didn't work this way.</p>
+        <p>Note: This audio is from the radio play demo as listed in the code.</p>
+        <audio controls>
+            <source src="ms_kay_test_scene.wav" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+</div>
+
+</body>
+</html>
