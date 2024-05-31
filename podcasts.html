@@ -8,15 +8,24 @@
         body {
             width: 100vw;
             height: 100vh;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             font-family: Arial, sans-serif;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .banner {
+            width: 100%;
+            max-height: 200px; /* Limit the height of the banner */
+            object-fit: cover;
+            object-position: top; /* Show the top part of the image */
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.8); /* Add a slight background to make text readable */
         }
@@ -28,6 +37,9 @@
             padding: 10px 20px;
             border-radius: 5px;
             margin-bottom: 20px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
         }
         .donate-button:hover {
             background-color: #555;
@@ -36,41 +48,54 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .video-container {
+        .photo-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .photo {
+            width: 48%; /* Adjust as needed to fit layout */
+            height: auto;
+        }
+        .nav-link-container {
             text-align: center;
             margin-top: 20px;
         }
         .nav-link {
-            color: #000;
+            color: #fff;
             text-decoration: none;
             display: inline-block;
             padding: 10px 20px;
             border-radius: 5px;
-            margin: 10px 0;
-            background: linear-gradient(to bottom right, #fff 25%, #000 25%, #000 50%, #fff 50%, #fff 75%, #000 75%);
-            background-size: 50px 50px; /
-            border: 2px solid #000;
+            margin: 5px;
+            background-color: #333;
+            border: 2px solid #555;
         }
         .nav-link:hover {
-            background: linear-gradient(to bottom right, #000 25%, #fff 25%, #fff 50%, #000 50%, #000 75%, #fff 75%);
+            background-color: #555;
         }
     </style>
 </head>
 <body>
+    <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
+    <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
     <div class="container">
-        <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
         <header>
-            <img src="51uEZVeGgtL.jpg" alt="Description of the image">
-            <h1>Welcome cow watchers!</h1>
-            <a href="Audiobook_text.html" -link">Audiobook Text</a>
-            <a href="podcastsv2.html" >Listen here!</a>
-            <a href="art.html" >Art and Special Features </a>
-<a href="blog.html">News and Updates</a>
+            <h1>Welcome to Cow's Audiobooks</h1>
         </header>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/T9dsjz5WfEA?si=Y3b5zgrrs-J6ApJS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice", each tale is brought to life through a unique and dramatic lens only cows could provide. The love of storytelling came from writing character-driven, thought-provoking adventures (if you choose) with relatable quirky characters forced into ridiculous situations. So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. You can listen for free below!</p>
+        
+        <div class="photo-container">
+            <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo">
+            <img src="AR.jpg" alt="The Aurore Reset" class="photo">
+        </div>
+
+        <div class="nav-link-container">
+            <a href="audiobook_text.html" class="nav-link">Audiobook Text</a>
+            <a href="podcasts.html" class="nav-link">Listen here!</a>
+            <a href="art.html" class="nav-link">Art</a>
+            <a href="blog.html" class="nav-link">News and Updates</a>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>
