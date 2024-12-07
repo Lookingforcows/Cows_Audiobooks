@@ -1,45 +1,31 @@
 <script>
-    $(document).ready(function() {
-        var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+    $(document).ready(function () {
+        const rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
 
         // Fetch the RSS feed
         $.ajax({
             url: rssFeedUrl,
             dataType: "xml",
-            success: function(xml) {
-                console.log("RSS feed fetched successfully.");
-                
-                $(xml).find("item").each(function() {
-                    var title = $(this).find("title").text();
-                    var description = $(this).find("description").text();
-                    var artworkUrl = $(this).find("itunes\\:image, image").attr("href"); // Handle potential namespaces
-                    var audioUrl = $(this).find("enclosure").attr("url");
+            success: function (xml) {
+                console.log("RSS feed successfully fetched.");
 
-                    if (!title || !audioUrl) {
-                        console.warn("Missing title or audio URL for an episode.");
-                        return;
-                    }
+                $(xml)
+                    .find("item")
+                    .each(function () {
+                        const $item = $(this);
 
-                    // Create HTML content for each podcast episode
-                    var episodeHtml = `
-                        <div class="podcast-episode">
-                            <h2 class="podcast-title">${title}</h2>
-                            ${artworkUrl ? `<img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">` : ''}
-                            <p class="podcast-description">${description || "No description available."}</p>
-                            <audio controls style="width: 100%;">
-                                <source src="${audioUrl}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    `;
+                        // Extract data
+                        const title = $item.find("title").text() || "No title available";
+                        const description = $item.find("description").text() || "No description available.";
+                        const artworkUrl =
+                            $item.find("itunes\\:image, image").attr("href") || "default-image.jpg"; // Default image if none provided
+                        const audioUrl = $item.find("enclosure").attr("url");
 
-                    $("#podcast-container").append(episodeHtml);
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error("Failed to fetch RSS feed:", status, error);
-                alert("Failed to load podcast episodes. Please try again later.");
-            }
-        });
-    });
-</script>
+                        if (!audioUrl) {
+                            console.warn("Skipping episode: Missing audio URL");
+                            return; // Skip this episode
+                        }
+
+                        // Build episode HTML
+                        const episodeHtml = `
+                            <div class="podcast-episode">
