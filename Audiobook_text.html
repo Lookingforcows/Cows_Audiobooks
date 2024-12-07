@@ -3,76 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Text</title>
+    <title>Looking for Cows Audio</title>
     <style>
-        /* Background image style */
-        html {
-            width: 100%;
-            height: 100%;
+        /* General Styles */
+        body {
             margin: 0;
             padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
             background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
-            color: #fff; /* Changed text color to white */
-            font-family: Arial, sans-serif;
+            color: #fff;
         }
 
-        body {
-            background-color: black; /* This might override the background image */
-        }
-
+        /* Main Content */
         iframe {
             width: 80%;
             height: 80vh;
-            margin: 10% auto;
+            margin: 10vh auto;
             display: block;
-        }
-
-        /* Additional styles for the widgets */
-        .audio-widget, .shortcut-widget {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px;
             border-radius: 5px;
-            color: white;
+            border: none;
         }
-
-        .audio-widget iframe, .shortcut-widget a {
-            margin-top: 10px;
-            display: block;
-        }
-
-        .nav-link-container a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Main content: Google Docs iframe -->
-    <iframe src="https://docs.google.com/document/d/1W55Fi9GWt3Dq2Rv09JWpiUOjAwlJuzUVZLC2xAG4ENU/edit" frameborder="0"></iframe>
-
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Looking for Cows Audio</title>
-    <style>
-        /* Your existing styles remain the same */
-        @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
-        /* ... other styles ... */
 
         /* Floating Shortcut Widget */
         .shortcut-widget {
             position: fixed;
-            top: 70px; /* Prevent overlapping with the donate button */
+            top: 20px;
             right: 20px;
             width: 200px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -80,8 +38,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            color: #fff;
-            font-family: 'Open Dyslexic', sans-serif;
         }
 
         .shortcut-widget h3 {
@@ -106,64 +62,79 @@
             background-color: #555;
         }
 
-        /* Floating YouTube Player */
+        /* Floating Audio Widget */
         .audio-widget {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            width: 350px;
+            width: 300px;
             height: 200px;
             background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            color: #fff;
-            font-family: 'Open Dyslexic', sans-serif;
-            text-align: center;
         }
 
         .audio-widget h3 {
             font-size: 18px;
             margin-bottom: 10px;
+            text-align: center;
         }
 
-        iframe {
-            border-radius: 5px;
+        .audio-widget iframe {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 30px);
+            border-radius: 5px;
         }
 
-        /* ... other styles ... */
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <!-- Your main content here (e.g., banner, paragraphs, etc.) -->
 
-    <!-- Floating Audio Widget (Video Player) -->
-    <div class="audio-widget">
-        <h3>Listen Now</h3>
-        <iframe src="https://www.youtube.com/embed/your_video_id?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
+    <!-- Main Content: Google Docs iframe -->
+    <iframe 
+        src="https://docs.google.com/document/d/1W55Fi9GWt3Dq2Rv09JWpiUOjAwlJuzUVZLC2xAG4ENU/edit" 
+        frameborder="0" 
+        title="Audiobook Text"
+    ></iframe>
 
     <!-- Floating Shortcut Widget -->
     <div class="shortcut-widget">
         <h3>Quick Links</h3>
-        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
-        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-        <a href="art.html" class="nav-link">Art</a>
-        <a href="blog.html" class="nav-link">News and Updates</a>
-        <a href="about me.html" class="nav-link">About me</a>
-        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
+        <a href="Audiobook_text.html">Audiobook Text</a>
+        <a href="podcastsv2.html">Listen Here!</a>
+        <a href="art.html">Art</a>
+        <a href="blog.html">News and Updates</a>
+        <a href="about me.html">About Me</a>
+        <a href="https://www.instagram.com/castleblockart/">Adopted Freelance Artist</a>
+    </div>
+
+    <!-- Floating Audio Widget -->
+    <div class="audio-widget">
+        <h3>Listen Now</h3>
+        <iframe 
+            src="https://www.youtube.com/embed/your_video_id?autoplay=1" 
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen
+        ></iframe>
     </div>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Cow's Audiobooks | Designed by You</p>
     </footer>
-</body>
-</html>
-
 
 </body>
 </html>
