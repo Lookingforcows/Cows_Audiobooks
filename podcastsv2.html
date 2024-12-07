@@ -98,13 +98,11 @@
             console.log("Fetching RSS feed...");
 
             try {
-                // Fetch the RSS feed
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+                const response = await fetch(rssUrl);
                 if (!response.ok) {
                     throw new Error("Failed to fetch RSS feed");
                 }
-                const data = await response.json();
-                const xml = data.contents;
+                const xml = await response.text();
 
                 // Debugging: log the XML response
                 console.log(xml);
