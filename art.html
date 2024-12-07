@@ -1,34 +1,30 @@
-/* Basic Reset */
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    font-family: Arial, sans-serif; /* Add font for general text */
-}
-
 /* Floating Widgets */
 .audio-widget, .shortcut-widget {
     position: fixed;  /* Fixes the widget in place */
-    top: 10px;        /* Adjust this to place it higher or lower */
-    right: 10px;      /* Adjust this to place it further left or right */
-    z-index: 1000;    /* Ensure it stays on top of other elements */
+    z-index: 1000;    /* Keeps the widget on top of other content */
     background-color: #fff;  /* White background for visibility */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional shadow for style */
     padding: 10px;    /* Adds some spacing inside the widget */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adds shadow to the widget */
 }
 
 /* Floating Audio Widget (Video Player) */
+.audio-widget {
+    top: 10px;  /* Position from top */
+    right: 10px;  /* Position from right */
+}
+
 .audio-widget iframe {
-    width: 100%;   /* Make the iframe responsive */
-    max-width: 560px;  /* Set maximum width for large screens */
+    width: 100%;   /* Makes the iframe responsive */
+    max-width: 560px;  /* Max width for large screens */
     height: 315px;   /* Fixed height for the video player */
     border: none;
 }
 
 /* Floating Shortcut Widget */
 .shortcut-widget {
-    top: 120px;  /* Adjust position to avoid overlap with the audio widget */
-    width: 250px;  /* Set a fixed width for the shortcut widget */
+    top: 120px;  /* Position from top */
+    right: 10px;  /* Position from right (same as the audio widget) */
+    width: 250px;  /* Fixed width for the shortcut widget */
 }
 
 .nav-link {
@@ -45,16 +41,16 @@ body, html {
 /* Responsive Adjustments */
 @media screen and (max-width: 768px) {
     .audio-widget, .shortcut-widget {
-        width: 100%;  /* Make widgets take up full width on small screens */
-        right: 0;     /* Align to the right edge on mobile */
-        top: auto;    /* Adjust vertical position if needed */
+        width: 100%;  /* Full width on small screens */
+        right: 0;     /* Align widgets to the right edge on mobile */
+        top: auto;    /* Adjust vertical position on small screens */
     }
 
     .audio-widget iframe {
-        max-width: 100%;  /* Make the iframe responsive on mobile */
+        max-width: 100%;  /* Ensure iframe fits on small screens */
     }
 
     .shortcut-widget {
-        top: 10px;  /* Ensure the shortcut widget is not too low */
+        top: 10px;  /* Keep the shortcut widget at a proper position on mobile */
     }
 }
