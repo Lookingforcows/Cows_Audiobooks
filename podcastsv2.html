@@ -1,65 +1,129 @@
-<script>
-    $(document).ready(function() {
-        var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looking for Cows Audio</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .banner {
+            width: 100%;
+            max-height: 200px; /* Limit the height of the banner */
+            object-fit: cover;
+            object-position: top; /* Show the top part of the image */
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* Add a slight background to make text readable */
+        }
+        .donate-button {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        .donate-button:hover {
+            background-color: #555;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .photo-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .photo {
+            width: 48%; /* Adjust as needed to fit layout */
+            height: auto;
+        }
+        .nav-link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            background-color: #333;
+            border: 2px solid #555;
+        }
+        .nav-link:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
+    <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
+    <div class="container">
+        <header>
+            <h1>Welcome to Cow's Audiobooks</h1>
+        </header>
+        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven, thought-provoking (if you choose) with relatable quirky characters forced into ridiculous situations. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice", each tale is brought to life through a unique and dramatic lens only cows could provide.  So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. You can listen for free below!</p>
+        
+        <div class="photo-container">
+            <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo">
+            <img src="AR.jpg" alt="The Aurore Reset" class="photo">
+        </div>
 
-        // Fetch the RSS feed
-        $.ajax({
-            url: rssFeedUrl,
-            dataType: "xml",
-            success: function(xml) {
-                // Parse the XML data and append podcast episodes
-                $(xml).find("item").each(function(index) {
-                    var title = $(this).find("title").text();
-                    var description = $(this).find("description").text();
-                    var artworkUrl = $(this).find("itunes\\:image").attr("href");
-                    var audioUrl = $(this).find("enclosure").attr("url"); // Assuming the audio file URL is in the "enclosure" tag
+        <div class="nav-link-container">
+            <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
+            <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+            <a href="art.html" class="nav-link">Art</a>
+            <a href="blog.html" class="nav-link">News and Updates</a>
+            <a href="about me.html" class="nav-link">About me</a>
+        </div>
 
-                    // Create HTML content for each podcast episode
-                    var episodeHtml = 
-                        `<div class="podcast-episode">
-                            <h2 class="podcast-title">${title}</h2>
-                            <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
-                            <p class="podcast-description">${description}</p>
-                            <audio controls class="audio-player" style="width: 100%;">
-                                <source src="${audioUrl}" type="audio/mpeg">
-                            </audio>
-                            <button class="stop-button" style="display: none;">Stop</button>
-                            <div class="progress-bar-container" style="display: none;">
-                                <progress class="progress-bar" value="0" max="100"></progress>
-                            </div>
-                        </div>`;
+<div id="mc_embed_shell">
+  
+<div id="mc_embed_signup">
+    <form action="https://lookingforcows.us7.list-manage.com/subscribe/post?u=7a1d45e8cbadf0b1d05d99d27&amp;id=340bf6dfcb&amp;f_id=005acce0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
+        <div id="mc_embed_signup_scroll"><h2>Sign up for updates! </h2>
+            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+            <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
+        <div id="mce-responses" class="clear foot">
+            <div class="response" id="mce-error-response" style="display: none;"></div>
+            <div class="response" id="mce-success-response" style="display: none;"></div>
+        </div>
+    <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
+        <input type="text" name="b_7a1d45e8cbadf0b1d05d99d27_340bf6dfcb" tabindex="-1" value="">
+    </div>
+        <div class="optionalParent">
+            <div class="clear foot">
+                <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                <p style="margin: 0px auto;"><a href="http://eepurl.com/i5JgyY" title="Mailchimp - email marketing made easy and fun"><span style="display: inline-block; background-color: transparent; border-radius: 4px;"><img class="refferal_badge" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span></a></p>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>
 
-                    // Append the HTML content to the podcast container
-                    $("#podcast-container").append(episodeHtml);
-                });
 
-                // Add event listeners after all episodes have been appended
-                $(".podcast-episode").each(function(index) {
-                    var episode = $(this);
-                    var audioPlayer = episode.find('.audio-player');
-                    var stopButton = episode.find('.stop-button');
-                    var progressBarContainer = episode.find('.progress-bar-container');
-
-                    stopButton.click(function() {
-                        audioPlayer[0].pause(); // Pause the audio
-                        audioPlayer[0].currentTime = 0; // Reset audio playback to the beginning
-                        stopButton.hide();
-                        progressBarContainer.hide();
-                    });
-
-                    // Update progress bars as audio plays
-                    audioPlayer.on("timeupdate", function() {
-                        var currentTime = this.currentTime;
-                        var duration = this.duration;
-                        var progress = (currentTime / duration) * 100;
-
-                        episode.find('.progress-bar').val(progress);
-                    });
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr, status, error); // Log any errors to the console for debugging
-            }
-        });
-    });
-</script>
+</body>
+</html>
