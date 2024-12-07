@@ -7,11 +7,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
 
+        /* General Layout */
         body {
             width: 100vw;
             height: 100vh;
             background: url('IMG_5945.JPEG') no-repeat center center fixed;
-            background-size: contain; 
+            background-size: cover; 
             background-position: center;
             background-color: #000;
             margin: 0;
@@ -19,10 +20,12 @@
             color: #fff;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
+            overflow-x: hidden;
         }
 
+        /* Banner */
         .banner {
             width: 100%;
             height: auto;
@@ -30,6 +33,7 @@
             margin: 0 auto;
         }
 
+        /* Container for main content */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -38,16 +42,19 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
 
+        /* Heading */
         header h1 {
             text-align: center;
         }
 
+        /* Paragraph styling */
         p {
             text-align: left;
             font-size: 16px;
             line-height: 1.5;
         }
 
+        /* Photo Container */
         .photo-container {
             display: flex;
             justify-content: center;
@@ -61,6 +68,7 @@
             border-radius: 5px;
         }
 
+        /* Navigation Links */
         .nav-link-container {
             margin-top: 20px;
             display: flex;
@@ -81,6 +89,7 @@
             background-color: #555;
         }
 
+        /* Episode List */
         .episode-list {
             margin-top: 20px;
             display: flex;
@@ -129,6 +138,7 @@
             background-color: #45a049;
         }
 
+        /* Donate Button */
         .donate-button {
             position: absolute;
             top: 20px;
@@ -138,13 +148,14 @@
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
-            z-index: 1500;  /* Increased z-index */
+            z-index: 2; /* Ensure it's above other elements */
         }
 
         .donate-button:hover {
             background-color: #555;
         }
 
+        /* Footer Styling */
         footer {
             width: 100%;
             text-align: center;
@@ -165,10 +176,10 @@
             background-color: #555;
         }
 
-        /* Floating Shortcut Widget Styles */
+        /* Floating Shortcut Widget */
         .shortcut-widget {
             position: fixed;
-            top: 20px;
+            top: 70px; /* Prevent overlapping with the donate button */
             right: 20px;
             width: 200px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -202,7 +213,7 @@
             background-color: #555;
         }
 
-        /* Floating YouTube Player Styles */
+        /* Floating YouTube Player */
         .audio-widget {
             position: fixed;
             bottom: 20px;
@@ -224,19 +235,42 @@
             margin-bottom: 10px;
         }
 
-        .audio-widget iframe {
+        iframe {
             border-radius: 5px;
             width: 100%;
             height: 100%;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .shortcut-widget {
-                top: auto;
-                bottom: 20px;
-                right: 20px;
-            }
+        /* Mailchimp Form */
+        #mc_embed_signup {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .mc-field-group input {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .mc-embedded-subscribe {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mc-embedded-subscribe:hover {
+            background-color: #45a049;
+        }
+
+        .mc-embed-response {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -248,7 +282,7 @@
         <header>
             <h1>Welcome to Cow's Audiobooks</h1>
         </header>
-        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple...</p>
+        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven, thought-provoking (if you choose) with relatable quirky characters forced into ridiculous situations. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice", each tale is brought to life through a unique and dramatic lens only cows could provide. So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. You can listen for free below!</p>
         
         <div class="photo-container">
             <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo">
@@ -263,39 +297,43 @@
             <a href="about me.html" class="nav-link">About me</a>
             <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
         </div>
-    </div>
 
-    <!-- Floating YouTube Player -->
-    <div class="audio-widget">
-        <h3>Podcast Player</h3>
-        <iframe src="https://www.youtube.com/embed/T9dsjz5WfEA?autoplay=1&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-
-    <!-- Floating Shortcuts -->
-    <div class="shortcut-widget">
-        <h3>Quick Links</h3>
-        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
-        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-        <a href="art.html" class="nav-link">Art</a>
-        <a href="blog.html" class="nav-link">News and Updates</a>
-        <a href="about me.html" class="nav-link">About me</a>
-        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
-    </div>
-
-    <div id="mc_embed_shell">
-        <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+        <!-- Mailchimp Form -->
         <div id="mc_embed_signup">
             <form action="https://lookingforcows.us7.list-manage.com/subscribe/post?u=7a1d45e8cbadf0b1d05d99d27&amp;id=340bf6dfcb&amp;f_id=0059cce0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-                <div id="mc_embed_signup_scroll"><h2>Subscribe</h2>
+                <div id="mc_embed_signup_scroll">
+                    <h2>Subscribe</h2>
                     <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
+                    <div class="mc-field-group">
+                        <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
+                        <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required>
+                    </div>
+                    <div class="clear foot">
+                        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                    </div>
                 </div>
             </form>
         </div>
+
     </div>
 
+    <!-- Floating Audio Widget -->
+    <div class="audio-widget">
+        <h3>Listen Now</h3>
+        <iframe src="https://www.youtube.com/embed/your_video_id?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <!-- Floating Shortcut Widget -->
+    <div class="shortcut-widget">
+        <h3>Quick Links</h3>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="Audiobook_text.html">Audiobook Text</a>
+    </div>
+
+    <!-- Footer -->
     <footer>
-        <p>© Looking for Cows Audio 2024</p>
+        <p>&copy; 2024 Cow's Audiobooks | Designed by You</p>
     </footer>
 </body>
 </html>
