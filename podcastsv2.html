@@ -74,6 +74,46 @@
         .nav-link:hover {
             background-color: #555;
         }
+        /* Style for episode list */
+        .episode-list {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .episode {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 250px;
+        }
+        .episode img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .episode h3 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .episode p {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +123,7 @@
         <header>
             <h1>Welcome to Cow's Audiobooks</h1>
         </header>
-        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven, thought-provoking (if you choose) with relatable quirky characters forced into ridiculous situations. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice", each tale is brought to life through a unique and dramatic lens only cows could provide.  So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. You can listen for free below!</p>
+        <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple...</p>
         
         <div class="photo-container">
             <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo">
@@ -98,32 +138,64 @@
             <a href="about me.html" class="nav-link">About me</a>
         </div>
 
-<div id="mc_embed_shell">
-  
-<div id="mc_embed_signup">
-    <form action="https://lookingforcows.us7.list-manage.com/subscribe/post?u=7a1d45e8cbadf0b1d05d99d27&amp;id=340bf6dfcb&amp;f_id=005acce0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
-        <div id="mc_embed_signup_scroll"><h2>Sign up for updates! </h2>
-            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-            <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
-        <div id="mce-responses" class="clear foot">
-            <div class="response" id="mce-error-response" style="display: none;"></div>
-            <div class="response" id="mce-success-response" style="display: none;"></div>
+        <!-- Section for podcast episodes -->
+        <div id="episode-list" class="episode-list">
+            <!-- Episodes will be dynamically loaded here -->
         </div>
-    <div style="position: absolute; left: -5000px;" aria-hidden="true">
-        /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
-        <input type="text" name="b_7a1d45e8cbadf0b1d05d99d27_340bf6dfcb" tabindex="-1" value="">
-    </div>
-        <div class="optionalParent">
-            <div class="clear foot">
-                <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
-                <p style="margin: 0px auto;"><a href="http://eepurl.com/i5JgyY" title="Mailchimp - email marketing made easy and fun"><span style="display: inline-block; background-color: transparent; border-radius: 4px;"><img class="refferal_badge" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span></a></p>
+
+        <!-- Mailchimp Signup Form -->
+        <div id="mc_embed_shell">
+            <div id="mc_embed_signup">
+                <form action="https://lookingforcows.us7.list-manage.com/subscribe/post?u=7a1d45e8cbadf0b1d05d99d27&amp;id=340bf6dfcb&amp;f_id=005acce0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
+                    <div id="mc_embed_signup_scroll">
+                        <h2>Sign up for updates!</h2>
+                        <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                        <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value=""></div>
+                        <div class="clear foot">
+                            <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</form>
-</div>
-</div>
 
+    <script>
+        async function fetchPodcastEpisodes() {
+            const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
+            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+            const data = await response.json();
+            const xml = data.contents;
 
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xml, 'application/xml');
+            const items = xmlDoc.getElementsByTagName('item');
+
+            const episodeList = document.getElementById('episode-list');
+            episodeList.innerHTML = ''; // Clear existing content
+
+            for (let i = 0; i < items.length; i++) {
+                const title = items[i].getElementsByTagName('title')[0].textContent;
+                const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
+                const description = items[i].getElementsByTagName('description')[0].textContent;
+                const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
+
+                const episodeElement = document.createElement('div');
+                episodeElement.classList.add('episode');
+
+                episodeElement.innerHTML = `
+                    <img src="${coverImage}" alt="${title}">
+                    <h3>${title}</h3>
+                    <p>${description}</p>
+                    <a href="${link}" class="download-btn" download>Download Episode</a>
+                `;
+
+                episodeList.appendChild(episodeElement);
+            }
+        }
+
+        // Run the function when the page loads
+        window.onload = fetchPodcastEpisodes;
+    </script>
 </body>
 </html>
