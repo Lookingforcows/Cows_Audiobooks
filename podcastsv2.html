@@ -68,6 +68,19 @@
         .download-btn:hover {
             background-color: #45a049;
         }
+        .donate-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .donate-button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -135,7 +148,7 @@
                         <h3>${title}</h3>
                         <p>${description}</p>
                         <!-- Added the download attribute here -->
-                        <a href="${link}" class="download-btn" download="${title}.wav">Download Episode</a>
+                        <a href="${link}" class="download-btn" download="${title}.mp3">Download Episode</a>
                     `;
 
                     episodeList.appendChild(episodeElement);
