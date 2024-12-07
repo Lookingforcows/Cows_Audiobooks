@@ -1,31 +1,213 @@
-<script>
-    $(document).ready(function () {
-        const rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Episodes</title>
+    <style>
+        /* Background image style */
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff; /* Changed text color to white */
+            font-family: Arial, sans-serif;
+        }
 
-        // Fetch the RSS feed
-        $.ajax({
-            url: rssFeedUrl,
-            dataType: "xml",
-            success: function (xml) {
-                console.log("RSS feed successfully fetched.");
+        /* Container to center content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-                $(xml)
-                    .find("item")
-                    .each(function () {
-                        const $item = $(this);
+        /* Add media query for smaller screens */
+        @media screen and (max-width: 600px) {
+            .container {
+                max-width: 90%;
+                margin: 0 auto;
+                padding: 10px;
+            }
+        }
 
-                        // Extract data
-                        const title = $item.find("title").text() || "No title available";
-                        const description = $item.find("description").text() || "No description available.";
-                        const artworkUrl =
-                            $item.find("itunes\\:image, image").attr("href") || "default-image.jpg"; // Default image if none provided
-                        const audioUrl = $item.find("enclosure").attr("url");
+        /* CSS for podcast episodes */
+        .podcast-episode {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff; /* Changed text color to white */
+            background-color: #000; /* Added black background color */
+            padding: 20px; /* Added padding for better readability */
+        }
 
-                        if (!audioUrl) {
-                            console.warn("Skipping episode: Missing audio URL");
-                            return; // Skip this episode
+        .podcast-artwork {
+            max-width: 300px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Header style */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Link style */
+        a {
+            color: #fff; /* Changed link color to white */
+            text-decoration: none;
+            display: inline-block;
+            background-color: #000; /* Changed background color to black */
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        a:hover {
+            background-color: #fff; /* Changed background color to white on hover */
+            color: #000; /* Changed text color to black on hover */
+        }
+
+        /* Progress bar style */
+        .progress-bar {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Donate button style */
+        .donate-button {
+            color: #fff; /* Changed button text color to white */
+            text-decoration: none;
+            background-color: #000; /* Changed button background color to black */
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .donate-button:hover {
+            background-color: #fff; /* Changed background color to white on hover */
+            color: #000; /* Changed text color to black on hover */
+        }
+
+        /* Black highlight */
+        .black-highlight {
+            background-color: #000; /* Black background color */
+            color: #fff; /* White text color */
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Donation Button for Cash App -->
+        <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
+
+        <header>
+            <img src="51uEZVeGgtL.jpg" alt="Description of the image">
+            <h1>Welcome cow watchers! 
+Please consider supporting me by donating to my cash app.</h1>
+            <a href="Audiobook_text.html">Audiobook Text</a>
+<a href="podcasts.html">Listen here!</a>
+<a href="art.html">Art</a>
+
+
+
+
+<a href="blog.html">News and Updates</a>
+        </header>
+        <!-- Podcast episodes will be dynamically added here -->
+        <div id="podcast-container"></div>
+
+        <!-- Black box with white text -->
+        <div class="black-highlight">
+            <p>Thank you for listening!</p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var rssFeedUrl = "https://anchor.fm/s/e586064c/podcast/rss";
+
+            // Fetch the RSS feed
+            $.ajax({
+                url: rssFeedUrl,
+                dataType: "xml",
+                success: function(xml) {
+                    // Parse the XML data and append podcast episodes
+                    $(xml).find("item").each(function(index) {
+                        var title = $(this).find("title").text();
+                        var description = $(this).find("description").text();
+                        var artworkUrl = $(this).find("itunes\\:image").attr("href");
+                        var audioUrl = $(this).find("enclosure").attr("url"); // Assuming the audio file URL is in the "enclosure" tag
+
+                        // Create HTML content for each podcast episode
+                        var episodeHtml = 
+                            <div class="podcast-episode">
+                                <h2 class="podcast-title">${title}</h2>
+                                <img src="${artworkUrl}" alt="Podcast Artwork" class="podcast-artwork">
+                                <p class="podcast-description">${description}</p>
+                                <audio controls class="audio-player" style="width: 100%;">
+                                    <source src="${audioUrl}" type="audio/mpeg">
+                                </audio>
+                                <button class="stop-button" style="display: none;">Stop</button>
+                                <div class="progress-bar-container" style="display: none;">
+                                    <progress class="progress-bar" value="0" max="100"></progress>
+                                </div>
+                            </div>
+                        ;
+
+                        // Append the HTML content to the podcast container
+                        $("#podcast-container").append(episodeHtml);
+                    });
+
+                    // Add event listeners after all episodes have been appended
+                    $(".podcast-episode").each(function(index) {
+                        var episode = $(this);
+                        var audioPlayer = episode.find('.audio-player');
+                        var stopButton = episode.find('.stop-button');
+                        var progressBarContainer = episode.find('.progress-bar-container');
+
+                        // Check if this episode has been played in this session
+                        var playedEpisodes = sessionStorage.getItem('playedEpisodes') ? JSON.parse(sessionStorage.getItem('playedEpisodes')) : {};
+
+                        // If the episode has been played, set the src attribute and mark as played
+                        if (!playedEpisodes[index]) {
+                            episode.find('.audio-player').attr("src", audioPlayer.find('source').attr('src'));
+
+                            audioPlayer.on("play", function() {
+                                // Mark this episode as played in the session storage
+                                playedEpisodes[index] = true;
+                                sessionStorage.setItem('playedEpisodes', JSON.stringify(playedEpisodes));
+                            });
                         }
 
-                        // Build episode HTML
-                        const episodeHtml = `
-                            <div class="podcast-episode">
+                        stopButton.click(function() {
+                            audioPlayer[0].pause(); // Pause the audio
+                            audioPlayer[0].currentTime = 0; // Reset audio playback to the beginning
+                            stopButton.hide();
+                            progressBarContainer.hide();
+                        });
+
+                        // Update progress bars as audio plays
+                        audioPlayer.on("timeupdate", function() {
+                            var currentTime = this.currentTime;
+                            var duration = this.duration;
+                            var progress = (currentTime / duration) * 100;
+
+                            episode.find('.progress-bar').val(progress);
+                        });
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr, status, error); // Log any errors to the console for debugging
+                }
+            });
+        });
+    </script>
+</body>
+</html>
