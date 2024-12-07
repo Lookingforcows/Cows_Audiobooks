@@ -30,9 +30,9 @@
         /* Floating Shortcut Widget */
         .shortcut-widget {
             position: fixed;
-            top: 20px;
+            top: 70px;
             right: 20px;
-            width: 200px;
+            width: 180px;
             background-color: rgba(0, 0, 0, 0.8);
             padding: 15px;
             border-radius: 8px;
@@ -66,7 +66,7 @@
         .audio-widget {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: 20px; /* Moved to the left side */
             width: 300px;
             height: 200px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -109,63 +109,22 @@
         title="Audiobook Text"
     ></iframe>
 
-   <style>
-    /* Position the Shortcut Widget on the right side */
-    .shortcut-widget {
-        position: fixed;
-        top: 70px; /* Adjust as needed */
-        right: 20px;
-        width: 180px;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 15px;
-        border-radius: 8px;
-        color: #fff;
-        z-index: 1000;
-    }
-/* Position the Audio Widget on the left side */
-.audio-widget {
-    position: fixed;
-    bottom: 20px;
-    left: 20px; /* Moved to the left side */
-    width: 300px;
-    height: 180px;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-    z-index: 1000;
-}
+    <!-- Floating Audio Widget (Video Player) -->
+    <div class="audio-widget">
+        <h3>Listen Now</h3>
+        <iframe src="https://www.youtube.com/embed/your_video_id?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
 
-    /* Position the Audio Widget at the bottom left */
-    .audio-widget {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        width: 300px;
-        height: 180px;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 10px;
-        border-radius: 8px;
-        color: white;
-        z-index: 1000;
-    }
-
-    /* Styling the iframe within the audio widget */
-    iframe {
-        border-radius: 5px;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* Styling links in shortcut widget */
-    .shortcut-widget a {
-        color: white;
-        text-decoration: none;
-        margin: 5px 0;
-        display: block;
-    }
-</style>
-
+    <!-- Floating Shortcut Widget -->
+    <div class="shortcut-widget">
+        <h3>Quick Links</h3>
+        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
+        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+        <a href="art.html" class="nav-link">Art</a>
+        <a href="blog.html" class="nav-link">News and Updates</a>
+        <a href="about me.html" class="nav-link">About me</a>
+        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
+    </div>
 
     <!-- Footer -->
     <footer>
