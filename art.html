@@ -1,72 +1,11 @@
 <!DOCTYPE html>
-
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art</title>
     <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8); /* Add a slight background to make text readable */
-        }
-        .donate-button {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .donate-button:hover {
-            background-color: #555;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .video-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .nav-link {
-            color: #000;
-            text-decoration: none;
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin: 10px 0;
-            background: linear-gradient(to bottom right, #fff 25%, #000 25%, #000 50%, #fff 50%, #fff 75%, #000 75%);
-            background-size: 50px 50px; /* Adjust the size to make it look more like cow spots */
-            border: 2px solid #000;
-        }
-        .nav-link:hover {
-            background: linear-gradient(to bottom right, #000 25%, #fff 25%, #fff 50%, #000 50%, #000 75%, #fff 75%);
-        }
-    </style>
-</head>
-<body>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Gallery</title>
-    <style>
-        /* Center everything horizontally and vertically */
+        /* Ensure body fills the entire viewport */
         html, body {
             height: 100%;
             margin: 0;
@@ -75,7 +14,6 @@
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
-            font-size: 16px;
             color: #fff; /* Set text color to white */
         }
 
@@ -84,9 +22,10 @@
             max-width: 800px;
             padding: 20px;
             text-align: center;
+            background-color: rgba(0, 0, 0, 0.8); /* Make text readable with a transparent background */
         }
 
-        /* Basic styles */
+        /* Header style */
         header {
             background-color: #333;
             padding: 20px;
@@ -99,7 +38,7 @@
 
         /* Artwork section */
         .artwork-section {
-            margin-top: 20px; /* Adjusted margin for better spacing */
+            margin-top: 20px;
             text-align: center;
         }
 
@@ -119,13 +58,26 @@
 
         /* Style links */
         a {
-            color: #fff; /* Set link color to white */
-            text-decoration: none; /* Remove underline */
-            margin-right: 10px; /* Add some spacing between links */
+            color: #fff;
+            text-decoration: none;
+            margin-right: 10px;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: linear-gradient(to bottom right, #fff 25%, #000 25%, #000 50%, #fff 50%, #fff 75%, #000 75%);
+            background-size: 50px 50px;
+            border: 2px solid #000;
         }
 
         a:hover {
+            background: linear-gradient(to bottom right, #000 25%, #fff 25%, #fff 50%, #000 50%, #000 75%, #fff 75%);
             text-decoration: underline; /* Add underline on hover */
+        }
+
+        /* Center navigation links */
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -142,10 +94,10 @@
         <p>I once tried to make the Aurore Reset into an animation feature, but the story didn't seem to fit. I enjoyed learning how to draw, so here is some unskilled art.</p>
     </div>
 
-<p> "The Aurore Reset" at one point was going to be an animated film. I spent months trying to learn how to draw, only to fall in love with audiobook making. Now I draw when I have the chance as a hobby. Here are some of my unskilled art.</p>
+    <p>"The Aurore Reset" at one point was going to be an animated film. I spent months trying to learn how to draw, only to fall in love with audiobook making. Now I draw when I have the chance as a hobby. Here are some of my unskilled art.</p>
+
     <!-- Artwork Section -->
     <div class="artwork-section">
-
         <img src="IMG_9304.JPEG" alt="Image 1" class="artwork-img">
         <img src="IMG_9303.JPEG" alt="Image 2" class="artwork-img">
         <img src="IMG_7421.JPEG" alt="Image 3" class="artwork-img">
@@ -153,32 +105,32 @@
         <img src="IMG_8571.JPEG" alt="Image 5" class="artwork-img">
         <img src="IMG_7806.JPEG" alt="Image 6" class="artwork-img">
         <img src="IMG_7892.JPEG" alt="Image 7" class="artwork-img">
-	<img src="IMG_9308.JPEG" alt="Image 8" class="artwork-img">
-	<img src="IMG_9315.JPEG" alt="Image 9" class="artwork-img">
-	<img src="IMG_9312.JPEG" alt="Image 10" class="artwork-img">
-	<img src="IMG_9313.JPEG" alt="Image 11" class="artwork-img">
-	<img src="IMG_9314.JPEG" alt="Image 12" class="artwork-img">
+        <img src="IMG_9308.JPEG" alt="Image 8" class="artwork-img">
+        <img src="IMG_9315.JPEG" alt="Image 9" class="artwork-img">
+        <img src="IMG_9312.JPEG" alt="Image 10" class="artwork-img">
+        <img src="IMG_9313.JPEG" alt="Image 11" class="artwork-img">
+        <img src="IMG_9314.JPEG" alt="Image 12" class="artwork-img">
     </div>
 
     <!-- Audio player with note -->
     <div>
         <p>This is an early test back when the Aurore Reset was like a radio play. I love the voices, but the story didn't work this way.</p>
-        <p></p>
         <audio controls>
             <source src="ms kay test scene.wav" type="audio/wav">
             Your browser does not support the audio element.
         </audio>
     </div>
 
+    <!-- Navigation links -->
+    <div class="nav-links">
+        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
+        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+        <a href="art.html" class="nav-link">Art</a>
+        <a href="blog.html" class="nav-link">News and Updates</a>
+        <a href="about me.html" class="nav-link">About me</a>
+        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
+    </div>
 </div>
 
- <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
-           
 </body>
- <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-            <a href="art.html" class="nav-link">Art</a>
-            <a href="blog.html" class="nav-link">News and Updates</a>
-            <a href="about me.html" class="nav-link">About me</a>
-            <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
-
 </html>
