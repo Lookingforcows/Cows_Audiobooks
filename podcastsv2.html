@@ -13,11 +13,12 @@
             background: url('IMG_5945.JPEG') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
-            font-family: 'Open Dyslexic', sans-serif; /* Using the dyslexic-friendly font */
+            font-family: 'Open Dyslexic', sans-serif;
             color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         .banner {
@@ -81,7 +82,7 @@
         }
 
         .donate-button {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             background-color: #333;
@@ -93,6 +94,32 @@
 
         .donate-button:hover {
             background-color: #555;
+        }
+
+        .shortcut-widget {
+            position: fixed;
+            top: 200px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .shortcut-widget h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .shortcut-widget a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .shortcut-widget a:hover {
+            color: #4CAF50;
         }
     </style>
 </head>
@@ -117,6 +144,17 @@
             <a href="about me.html" class="nav-link">About me</a>
             <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
         </div>
+    </div>
+
+    <!-- Floating Shortcut Widget -->
+    <div class="shortcut-widget">
+        <h3>Quick Links</h3>
+        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
+        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+        <a href="art.html" class="nav-link">Art</a>
+        <a href="blog.html" class="nav-link">News and Updates</a>
+        <a href="about me.html" class="nav-link">About me</a>
+        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
     </div>
 
     <script>
@@ -161,7 +199,6 @@
                         <img src="${coverImage}" alt="${title}">
                         <h3>${title}</h3>
                         <p>${description}</p>
-                        <!-- Added the download attribute here -->
                         <a href="${link}" class="download-btn" download="${title}.mp3">Download Episode</a>
                     `;
 
@@ -173,4 +210,9 @@
                 document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
             }
         }
+
+        // Run the function when the page loads
+        window.onload = fetchPodcastEpisodes;
+    </script>
+</body>
 </html>
