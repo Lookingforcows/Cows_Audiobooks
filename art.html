@@ -7,45 +7,77 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
 
+        /* General Body Styles */
         body {
             width: 100vw;
             height: 100vh;
             background: url('IMG_5945.JPEG') no-repeat center center fixed;
-            background-size: contain; 
+            background-size: contain;
             background-position: center;
             background-color: #000;
             margin: 0;
-            font-family: 'Open Dyslexic', sans-serif; /* Using the dyslexic-friendly font */
+            font-family: 'Open Dyslexic', sans-serif; /* Dyslexic-friendly font */
             color: #fff;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
+        /* Banner Image */
         .banner {
             width: 100%;
+            max-width: 1000px;
             height: auto;
             display: block;
             margin: 0 auto;
         }
 
+        /* Main Container */
         .container {
-            max-width: 1200px;
             width: 100%;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 800px;
             background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
         }
 
+        /* Heading and Paragraph Styling */
         header h1 {
-            text-align: center;
+            margin-bottom: 20px;
         }
 
         p {
             text-align: left;
             font-size: 16px;
             line-height: 1.5;
+        }
+
+        /* Navigation Links Styling */
+        .nav-link-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-link {
+            margin: 10px 0;
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            width: 200px; /* Ensure they stay in a nice block form */
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
         }
 
         .photo-container {
@@ -61,37 +93,14 @@
             border-radius: 5px;
         }
 
-        /* Styling for links */
-        .nav-link-container {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .nav-link {
-            margin: 10px;
-            text-decoration: none;
-            color: #fff;
-            padding: 10px 20px;
-            background-color: #333;
-            border-radius: 5px;
-            font-size: 16px;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            background-color: #555;
-        }
-
-        /* Center content and make it responsive */
+        /* Footer Styling */
         footer {
             width: 100%;
             text-align: center;
             padding: 20px;
             background-color: #333;
             color: white;
+            margin-top: 20px;
         }
 
         footer a {
@@ -106,6 +115,7 @@
             background-color: #555;
         }
 
+        /* Donate Button Styling */
         .donate-button {
             position: absolute;
             top: 20px;
@@ -123,20 +133,26 @@
     </style>
 </head>
 <body>
+    <!-- Banner Image -->
     <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
     <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
     
+    <!-- Main Content Container -->
     <div class="container">
         <header>
             <h1>Welcome to Cow's Audiobooks</h1>
         </header>
+        
+        <!-- Introduction Paragraph -->
         <p>Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven, thought-provoking (if you choose) with relatable quirky characters forced into ridiculous situations. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice", each tale is brought to life through a unique and dramatic lens only cows could provide. So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. You can listen for free below!</p>
         
+        <!-- Photo Section -->
         <div class="photo-container">
             <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo">
             <img src="AR.jpg" alt="The Aurore Reset" class="photo">
         </div>
 
+        <!-- Navigation Links -->
         <div class="nav-link-container">
             <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
             <a href="podcastsv2.html" class="nav-link">Listen here!</a>
@@ -147,8 +163,9 @@
         </div>
     </div>
 
+    <!-- Footer Section -->
     <footer>
-        <p> © Looking for cows Audio 2024</p>
+        <p>© Looking for Cows Audio 2024</p>
     </footer>
 </body>
 </html>
