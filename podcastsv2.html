@@ -5,36 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Looking for Cows Audio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
+
         body {
             width: 100vw;
             height: 100vh;
             background: url('IMG_5945.JPEG') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Open Dyslexic', sans-serif; /* Using the dyslexic-friendly font */
             color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .banner {
             width: 100%;
             max-height: 200px;
             object-fit: cover;
             object-position: top;
         }
+
         .container {
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.8);
         }
+
         .episode-list {
             margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .episode {
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 8px;
@@ -43,19 +49,23 @@
             text-align: center;
             width: 250px;
         }
+
         .episode img {
             width: 100%;
             height: auto;
             border-radius: 5px;
         }
+
         .episode h3 {
             margin-top: 10px;
             font-size: 18px;
         }
+
         .episode p {
             font-size: 14px;
             margin-top: 10px;
         }
+
         .download-btn {
             background-color: #4CAF50;
             color: white;
@@ -65,9 +75,11 @@
             border-radius: 5px;
             margin-top: 15px;
         }
+
         .download-btn:hover {
             background-color: #45a049;
         }
+
         .donate-button {
             position: absolute;
             top: 20px;
@@ -78,6 +90,7 @@
             border-radius: 5px;
             text-decoration: none;
         }
+
         .donate-button:hover {
             background-color: #555;
         }
