@@ -1,190 +1,60 @@
-<!DOCTYPE html>
+/* Basic Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    font-family: Arial, sans-serif; /* Add font for general text */
+}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art</title>
-    <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8); /* Add a slight background to make text readable */
-        }
-        .donate-button {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .donate-button:hover {
-            background-color: #555;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .video-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .nav-link {
-            color: #000;
-            text-decoration: none;
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin: 10px 0;
-            background: linear-gradient(to bottom right, #fff 25%, #000 25%, #000 50%, #fff 50%, #fff 75%, #000 75%);
-            background-size: 50px 50px; /* Adjust the size to make it look more like cow spots */
-            border: 2px solid #000;
-        }
-        .nav-link:hover {
-            background: linear-gradient(to bottom right, #000 25%, #fff 25%, #fff 50%, #000 50%, #000 75%, #fff 75%);
-        }
-    </style>
-</head>
-<body>
+/* Floating Widgets */
+.audio-widget, .shortcut-widget {
+    position: fixed;  /* Fixes the widget in place */
+    top: 10px;        /* Adjust this to place it higher or lower */
+    right: 10px;      /* Adjust this to place it further left or right */
+    z-index: 1000;    /* Ensure it stays on top of other elements */
+    background-color: #fff;  /* White background for visibility */
+    padding: 10px;    /* Adds some spacing inside the widget */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adds shadow to the widget */
+}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Gallery</title>
-    <style>
-        /* Center everything horizontally and vertically */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            color: #fff; /* Set text color to white */
-        }
+/* Floating Audio Widget (Video Player) */
+.audio-widget iframe {
+    width: 100%;   /* Make the iframe responsive */
+    max-width: 560px;  /* Set maximum width for large screens */
+    height: 315px;   /* Fixed height for the video player */
+    border: none;
+}
 
-        /* Container for content */
-        .container {
-            max-width: 800px;
-            padding: 20px;
-            text-align: center;
-        }
+/* Floating Shortcut Widget */
+.shortcut-widget {
+    top: 120px;  /* Adjust position to avoid overlap with the audio widget */
+    width: 250px;  /* Set a fixed width for the shortcut widget */
+}
 
-        /* Basic styles */
-        header {
-            background-color: #333;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.nav-link {
+    display: block;
+    margin: 8px 0;
+    text-decoration: none;
+    color: #007bff;  /* Blue color for the links */
+}
 
-        header h1 {
-            margin: 0;
-        }
+.nav-link:hover {
+    text-decoration: underline;  /* Underline effect on hover */
+}
 
-        /* Artwork section */
-        .artwork-section {
-            margin-top: 20px; /* Adjusted margin for better spacing */
-            text-align: center;
-        }
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .audio-widget, .shortcut-widget {
+        width: 100%;  /* Make widgets take up full width on small screens */
+        right: 0;     /* Align to the right edge on mobile */
+        top: auto;    /* Adjust vertical position if needed */
+    }
 
-        .artwork-img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
+    .audio-widget iframe {
+        max-width: 100%;  /* Make the iframe responsive on mobile */
+    }
 
-        p {
-            margin-bottom: 20px;
-        }
-
-        audio {
-            margin-top: 20px;
-        }
-
-        /* Style links */
-        a {
-            color: #fff; /* Set link color to white */
-            text-decoration: none; /* Remove underline */
-            margin-right: 10px; /* Add some spacing between links */
-        }
-
-        a:hover {
-            text-decoration: underline; /* Add underline on hover */
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <!-- Art and Special Features -->
-    <header>
-        <h1>Art and Special Features</h1>
-    </header>
-
-    <!-- Text about Art and Special Features -->
-    <div>
-        <p>I once tried to make the Aurore Reset into an animation feature, but the story didn't seem to fit. I enjoyed learning how to draw, so here is some unskilled art.</p>
-    </div>
-
-<p> "The Aurore Reset" at one point was going to be an animated film. I spent months trying to learn how to draw, only to fall in love with audiobook making. Now I draw when I have the chance as a hobby. Here are some of my unskilled art.</p>
-    <!-- Artwork Section -->
-    <div class="artwork-section">
-
-        <img src="IMG_9304.JPEG" alt="Image 1" class="artwork-img">
-        <img src="IMG_9303.JPEG" alt="Image 2" class="artwork-img">
-        <img src="IMG_7421.JPEG" alt="Image 3" class="artwork-img">
-        <img src="IMG_7873.JPEG" alt="Image 4" class="artwork-img">
-        <img src="IMG_8571.JPEG" alt="Image 5" class="artwork-img">
-        <img src="IMG_7806.JPEG" alt="Image 6" class="artwork-img">
-        <img src="IMG_7892.JPEG" alt="Image 7" class="artwork-img">
-	<img src="IMG_9308.JPEG" alt="Image 8" class="artwork-img">
-	<img src="IMG_9315.JPEG" alt="Image 9" class="artwork-img">
-	<img src="IMG_9312.JPEG" alt="Image 10" class="artwork-img">
-	<img src="IMG_9313.JPEG" alt="Image 11" class="artwork-img">
-	<img src="IMG_9314.JPEG" alt="Image 12" class="artwork-img">
-    </div>
-
-    <!-- Audio player with note -->
-    <div>
-        <p>This is an early test back when the Aurore Reset was like a radio play. I love the voices, but the story didn't work this way.</p>
-        <p></p>
-        <audio controls>
-            <source src="ms kay test scene.wav" type="audio/wav">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
-	 <!-- Floating Audio Widget (Video Player) -->
-    <div class="audio-widget">
-        <h3>Listen Now</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=nXq96NYs-0XKP9Ws&amp;list=PLHrnHTN2TPi3aX72aYaD-jteCoahWJAH7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    </div>
-
-    <!-- Floating Shortcut Widget -->
-    <div class="shortcut-widget">
-        <h3>Quick Links</h3>
-        <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
-        <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-        <a href="art.html" class="nav-link">Art</a>
-        <a href="blog.html" class="nav-link">News and Updates</a>
-        <a href="about me.html" class="nav-link">About me</a>
-        <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
-    </div>
-
-           
-</body>
-</html>
+    .shortcut-widget {
+        top: 10px;  /* Ensure the shortcut widget is not too low */
+    }
+}
