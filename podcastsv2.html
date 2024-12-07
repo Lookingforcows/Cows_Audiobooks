@@ -134,7 +134,8 @@
                         <img src="${coverImage}" alt="${title}">
                         <h3>${title}</h3>
                         <p>${description}</p>
-                        <a href="${link}" class="download-btn" download>Download Episode</a>
+                        <!-- Added the download attribute here -->
+                        <a href="${link}" class="download-btn" download="${title}.wav">Download Episode</a>
                     `;
 
                     episodeList.appendChild(episodeElement);
