@@ -29,25 +29,6 @@
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.8);
         }
-        .donate-button {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            position: absolute;
-            right: 20px;
-            top: 20px;
-        }
-        .donate-button:hover {
-            background-color: #555;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
         .episode-list {
             margin-top: 20px;
             display: flex;
@@ -114,39 +95,56 @@
     <script>
         async function fetchPodcastEpisodes() {
             const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
-            const data = await response.json();
-            const xml = data.contents;
+            console.log("Fetching RSS feed...");
 
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xml, 'application/xml');
-            const items = xmlDoc.getElementsByTagName('item');
+            try {
+                // Fetch the RSS feed
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch RSS feed");
+                }
+                const data = await response.json();
+                const xml = data.contents;
 
-            const episodeList = document.getElementById('episode-list');
-            episodeList.innerHTML = ''; // Clear any existing content
+                // Debugging: log the XML response
+                console.log(xml);
 
-            if (items.length === 0) {
-                episodeList.innerHTML = '<p>No episodes found.</p>';
-                return;
-            }
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xml, 'application/xml');
+                const items = xmlDoc.getElementsByTagName('item');
 
-            for (let i = 0; i < items.length; i++) {
-                const title = items[i].getElementsByTagName('title')[0].textContent;
-                const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
-                const description = items[i].getElementsByTagName('description')[0].textContent;
-                const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
+                if (items.length === 0) {
+                    console.log("No episodes found.");
+                    document.getElementById('episode-list').innerHTML = '<p>No episodes found.</p>';
+                    return;
+                }
 
-                const episodeElement = document.createElement('div');
-                episodeElement.classList.add('episode');
+                const episodeList = document.getElementById('episode-list');
+                episodeList.innerHTML = ''; // Clear any existing content
 
-                episodeElement.innerHTML = `
-                    <img src="${coverImage}" alt="${title}">
-                    <h3>${title}</h3>
-                    <p>${description}</p>
-                    <a href="${link}" class="download-btn" download>Download Episode</a>
-                `;
+                // Process and display each episode
+                for (let i = 0; i < items.length; i++) {
+                    const title = items[i].getElementsByTagName('title')[0].textContent;
+                    const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
+                    const description = items[i].getElementsByTagName('description')[0].textContent;
+                    const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
-                episodeList.appendChild(episodeElement);
+                    const episodeElement = document.createElement('div');
+                    episodeElement.classList.add('episode');
+
+                    episodeElement.innerHTML = `
+                        <img src="${coverImage}" alt="${title}">
+                        <h3>${title}</h3>
+                        <p>${description}</p>
+                        <a href="${link}" class="download-btn" download>Download Episode</a>
+                    `;
+
+                    episodeList.appendChild(episodeElement);
+                }
+
+            } catch (error) {
+                console.error("Error fetching RSS feed:", error);
+                document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
             }
         }
 
