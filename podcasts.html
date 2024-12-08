@@ -371,55 +371,40 @@
 </head>
 <body>
 
-<h1>Page Content</h1>
-<p>This is your main webpage content. The Discord widget is implemented with various improvements below:</p>
+<style>
+  .discord-widget-container {
+      position: fixed;
+      bottom: 10px; /* Adjust distance from the bottom of the screen */
+      right: 10px; /* Adjust distance from the right edge */
+      width: 300px; /* Compact width */
+      height: 400px; /* Compact height */
+      z-index: 1000; /* Keeps it above other content */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for clarity */
+      border-radius: 8px; /* Optional rounded corners for style */
+      overflow: hidden; /* Prevents overflow for a clean look */
+  }
 
-<!-- Reduced Size -->
-<h2>Reduced Size Widget</h2>
-<iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
-        width="200" height="300" 
-        allowtransparency="true" frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-</iframe>
+  .discord-widget-container iframe {
+      width: 100%; /* Ensures iframe fills the container */
+      height: 100%; /* Ensures iframe fills the container */
+      border: none; /* Removes unnecessary border */
+  }
 
-<!-- Repositioned Widget -->
-<h2>Repositioned Widget</h2>
-<iframe class="discord-widget" 
-        src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
-        width="250" height="350" 
-        allowtransparency="true" frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-</iframe>
+  /* Responsive adjustment for mobile screens */
+  @media (max-width: 600px) {
+      .discord-widget-container {
+          width: 200px; /* Adjust width for smaller devices */
+          height: 300px; /* Adjust height for smaller devices */
+      }
+  }
+</style>
 
-<!-- Scrollable Widget -->
-<h2>Scrollable Widget</h2>
-<div class="scrollable-container">
-    <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
-            width="100%" height="100%" 
-            allowtransparency="true" frameborder="0" 
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-    </iframe>
+<div class="discord-widget-container">
+  <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark"
+          allowtransparency="true"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+  </iframe>
 </div>
-
-<!-- Collapsible Widget -->
-<h2>Collapsible Widget</h2>
-<div class="iframe-container">
-    <button>Show Discord</button>
-    <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
-            width="250" height="350" 
-            allowtransparency="true" frameborder="0" 
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-    </iframe>
-</div>
-
-<!-- Responsive Widget -->
-<h2>Responsive Widget</h2>
-<iframe class="responsive-widget" 
-        src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
-        width="100%" height="100%" 
-        allowtransparency="true" frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-</iframe>
 
 </body>
 </html>
