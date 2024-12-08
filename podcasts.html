@@ -320,8 +320,112 @@
     </div>
     <!-- Footer -->
     <footer>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=UgfDVxon32E9ibZh&amp;list=PLHrnHTN2TPi3aX72aYaD-jteCoahWJAH7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-   <p> © 2024 Looking for cows Audio </p>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Widget</title>
+    <style>
+        /* Reposition the iFrame */
+        .discord-widget {
+            position: fixed;
+            bottom: 10px; /* Position it near the bottom */
+            right: 10px; /* Align it to the right */
+            z-index: 1000; /* Ensure it stays on top */
+        }
+
+        /* Responsive Design */
+        .responsive-widget {
+            max-width: 100%;
+            max-height: 50vh; /* Adjust to take up a maximum percentage of the viewport */
+        }
+
+        /* Collapsible Widget */
+        .iframe-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .iframe-container iframe {
+            display: none;
+        }
+
+        .iframe-container:hover iframe {
+            display: block;
+        }
+
+        /* Scrollable Container */
+        .scrollable-container {
+            width: 200px;
+            height: 300px;
+            overflow: auto;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Page Content</h1>
+<p>This is your main webpage content. The Discord widget is implemented with various improvements below:</p>
+
+<!-- Reduced Size -->
+<h2>Reduced Size Widget</h2>
+<iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+        width="200" height="300" 
+        allowtransparency="true" frameborder="0" 
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+</iframe>
+
+<!-- Repositioned Widget -->
+<h2>Repositioned Widget</h2>
+<iframe class="discord-widget" 
+        src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+        width="250" height="350" 
+        allowtransparency="true" frameborder="0" 
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+</iframe>
+
+<!-- Scrollable Widget -->
+<h2>Scrollable Widget</h2>
+<div class="scrollable-container">
+    <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+            width="100%" height="100%" 
+            allowtransparency="true" frameborder="0" 
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+    </iframe>
+</div>
+
+<!-- Collapsible Widget -->
+<h2>Collapsible Widget</h2>
+<div class="iframe-container">
+    <button>Show Discord</button>
+    <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+            width="250" height="350" 
+            allowtransparency="true" frameborder="0" 
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+    </iframe>
+</div>
+
+<!-- Responsive Widget -->
+<h2>Responsive Widget</h2>
+<iframe class="responsive-widget" 
+        src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+        width="100%" height="100%" 
+        allowtransparency="true" frameborder="0" 
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+</iframe>
+
+</body>
+</html>
+
+        
+        <p> © 2024 Looking for cows Audio </p>  
     </footer>
 </body>
 </html>
