@@ -261,6 +261,70 @@
 .scrollable-container img {
     pointer-events: none; /* Disable pointer events on the image */
 }
+/* Floating button styles */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff8c00;
+    padding: 15px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+/* Audio player styles */
+.audio-player {
+    display: none; /* Initially hidden */
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    z-index: 9999;
+}
+
+/* Close button for the player */
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+/* Simple responsiveness */
+@media (max-width: 600px) {
+    .floating-btn {
+        bottom: 10px;
+        right: 10px;
+        padding: 12px;
+    }
+    .audio-player {
+        width: 80%;
+        bottom: 10px;
+    }
+}
+function togglePlayer() {
+    const player = document.getElementById('audio-player');
+    const btn = document.getElementById('floating-btn');
+
+    if (player.style.display === 'block') {
+        player.style.display = 'none';
+        btn.style.display = 'block'; // Show the floating button again when the player is closed
+    } else {
+        player.style.display = 'block';
+        btn.style.display = 'none'; // Hide the button when the player is open
+    }
+}
 
 <!DOCTYPE html>
 <html lang="en">
