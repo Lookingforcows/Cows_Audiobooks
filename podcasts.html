@@ -342,6 +342,19 @@
   margin: 10px 0;
 }
 
+/* Ensure clickable areas are above other content */
+.scrollable,
+.photo-container {
+  position: relative; /* Ensure it's not being covered by other elements */
+  z-index: 1; /* Ensure these areas are above other elements */
+}
+
+.scrollable a,
+.photo-container a {
+  pointer-events: auto; /* Ensure the links are clickable */
+}
+
+
 
     </style>
 </head>
