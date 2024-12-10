@@ -343,6 +343,50 @@
     background-color: #555;
     transform: scale(1.05);
 }
+/* Add this to center the content */
+@media screen and (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Vertically center the content */
+        align-items: center;     /* Horizontally center the content */
+        height: 100vh;           /* Make sure the body takes full viewport height */
+        margin: 0;
+        padding: 0;              /* Remove default padding and margin */
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+        margin-top: 0;           /* Remove the margin-top */
+    }
+
+    .banner {
+        width: 90%;              /* Adjust width for responsiveness */
+        max-width: 1000px;       /* Ensure it's not too wide */
+        margin: 0 auto;          /* Center the banner */
+    }
+
+    .photo-container {
+        flex-direction: column; /* Stack images vertically on small screens */
+        align-items: center;    /* Center the images */
+        gap: 10px;              /* Reduce the gap between images */
+    }
+
+    .nav-link {
+        font-size: 16px;         /* Slightly reduce font size on mobile */
+        padding: 12px 20px;      /* Increase padding for better clickability */
+        max-width: 80%;          /* Make links responsive */
+    }
+
+    .audio-widget {
+        width: 90%;              /* Make the widget responsive */
+        max-width: 350px;        /* Limit max width */
+        bottom: 10px;            /* Adjust bottom positioning */
+        left: 50%;               /* Center widget horizontally */
+        transform: translateX(-50%);
+    }
+}
 
 
     </style>
