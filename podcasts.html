@@ -325,6 +325,22 @@
 .photo-container a:nth-child(3) {
     margin-top: 30px;  /* Adjust this value to control how much the third image is moved down */
 }
+.scrollable-container {
+  width: 300px; /* Adjust to the desired width */
+  height: 400px; /* Adjust to the desired height */
+  overflow-y: scroll;
+  border: 1px solid #ccc; /* Optional, for visibility */
+  padding: 10px;
+}
+
+.scrollable-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.scrollable-container li {
+  margin: 10px 0;
+}
 
 
     </style>
@@ -340,6 +356,18 @@
         <p>
             Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven with relatable quirky characters forced into ridiculous situations.  Each tale is brought to life through a unique and dramatic lens only cows could provide. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice". So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. Listen and download for free! Click on the Podcast artwork below to view the text.
 <body> </body>
+<div id="audiobookList" class="scrollable-container">
+  <ul>
+    <li><a href="#">Audiobook Title 1</a></li>
+    <li><a href="#">Audiobook Title 2</a></li>
+    <li><a href="#">Audiobook Title 3</a></li>
+    <li><a href="#">Audiobook Title 4</a></li>
+    <li><a href="#">Audiobook Title 5</a></li>
+    <!-- Add more items -->
+  </ul>
+</div>
+
+            <body> </body>
 <div class="photo-container">
   <a href="https://lookingforcows.com/ar.html" target="_blank">
     <img src="AR.jpg" alt="The Aurore Reset" class="photo-same-size">
@@ -367,6 +395,14 @@
 </div>   
   <p>© 2024 Looking for cows Audio</p>
 </body>
+
+    document.querySelectorAll("#audiobookList a").forEach(item => {
+  item.addEventListener("click", function(event) {
+    event.preventDefault();
+    alert("You clicked on " + this.textContent);
+    // Replace alert with functionality to load audiobook details
+  });
+});
 <meta name="description" content="Explore unique audiobooks featuring quirky characters and ridiculous adventures. Download for free.">
 <meta name="keywords" content="audiobooks, storytelling, quirky characters, free audiobooks">
     
