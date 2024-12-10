@@ -328,6 +328,61 @@ function togglePlayer() {
                 bottom: 10px;
             }
         }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cow's Audiobooks</title>
+    <style>
+        /* Add your styling here */
+    </style>
+</head>
+<body>
+    <h1>Welcome to Cow's Audiobooks</h1>
+
+    <!-- Dropdown for episode selection -->
+    <label for="episode-selector">Choose an episode:</label>
+    <select id="episode-selector" onchange="changeEpisode()">
+        <option value="episode1.mp3">Episode 1: The Beginning</option>
+        <option value="episode2.mp3">Episode 2: The Journey</option>
+        <option value="episode3.mp3">Episode 3: The Resolution</option>
+    </select>
+
+    <!-- Floating Audio Player -->
+    <div id="audio-player" class="audio-player">
+        <audio controls>
+            <source id="audio-source" src="https://open.spotify.com/show/63O0RYX0fcnrL9PaSHKU3I?si=f1f8034e40a9428b" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Change episode on dropdown selection
+        function changeEpisode() {
+            var selector = document.getElementById("episode-selector");
+            var episode = selector.value; // Get the selected episode filename
+            
+            // Update the source of the audio player
+            var audio = document.querySelector("audio");
+            var audioSource = document.getElementById("audio-source");
+            audioSource.src = "https://lookingforcows.com/audio/" + episode; // Update the path based on the selection
+
+            // Reload the audio and play the new episode
+            audio.load();
+            audio.play();
+        }
+
+        // Pause the audio when the page is unloaded
+        window.addEventListener("beforeunload", function() {
+            var audio = document.querySelector("audio");
+            audio.pause();
+        });
+    </script>
+</body>
+</html>
+
     </style>
 </head>
 <body>
