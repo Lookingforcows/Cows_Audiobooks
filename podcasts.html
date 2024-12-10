@@ -366,6 +366,24 @@
     z-index: 1;
 }
 
+<style>
+    /* Ensure that links inside the scrollable and photo containers are clickable */
+    .scrollable-container a,
+    .photo-container a {
+        pointer-events: auto; /* Ensures the links are clickable */
+        position: relative; /* Ensures it is not being overlapped */
+        z-index: 1; /* Makes sure the links are on top of other content */
+    }
+
+    /* Fix any possible issue with overlapping content blocking clicks */
+    .scrollable-container,
+    .photo-container {
+        position: relative;
+        z-index: 0; /* Avoid any overlap with other elements */
+    }
+</style>
+
+
 
 
 
