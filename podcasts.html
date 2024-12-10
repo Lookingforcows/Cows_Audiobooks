@@ -274,6 +274,75 @@ function togglePlayer() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Example</title>
+    <style>
+        /* Basic styling for the popup */
+        #popup {
+            display: none;  /* Initially hidden */
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            font-size: 18px;
+            z-index: 9999;
+        }
+
+        /* Optional styling for the close button */
+        #popup a {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Popup content -->
+<div id="popup">
+    You found a cow! 🐄 <br>
+    <a href="lookingforcows.com/secretcowlevel" target="_blank">Click here for more!</a>
+</div>
+
+<script>
+    // Function to randomly show the popup
+    function showPopup() {
+        // Check if the user has seen the popup recently
+        const lastPopupTime = localStorage.getItem('lastPopupTime');
+        const now = new Date().getTime();
+
+        // Show the popup only if the user hasn't seen it recently
+        // or after a certain random chance
+        if (!lastPopupTime || now - lastPopupTime > 24 * 60 * 60 * 1000) {  // 24 hours
+            // Randomly decide if the popup should appear (20% chance)
+            if (Math.random() < 0.2) {
+                document.getElementById('popup').style.display = 'block';  // Show the popup
+                localStorage.setItem('lastPopupTime', now);  // Update timestamp to prevent frequent popups
+            }
+        }
+    }
+
+    // Hide the popup when the user clicks on it
+    document.getElementById('popup').addEventListener('click', function() {
+        this.style.display = 'none';  // Hide the popup
+    });
+
+    // Show the popup when the page loads
+    window.onload = showPopup;
+</script>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floating Podcast Player</title>
     <style>
         /* Floating button styles */
