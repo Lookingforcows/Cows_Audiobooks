@@ -337,7 +337,7 @@ function togglePlayer() {
         // Generate a random number between 1 and 20 (d20 roll)
         const randomChance = Math.floor(Math.random() * 20) + 1;
 
-        // Display the rolled number in the popup
+        // Display the rolled number in the popup for debugging
         document.getElementById('roll-result').textContent = `You rolled a ${randomChance}!`;
 
         // Debugging: Log the random number
@@ -359,9 +359,16 @@ function togglePlayer() {
 
     // Trigger the popup on page load
     window.onload = function() {
+        // Ensure the popup is hidden initially
+        document.getElementById('cow-popup').style.display = 'none';
+        console.log("Page loaded. Rolling d20 for the popup...");
         showCowPopup();  // Trigger the dice roll on page load
     };
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
