@@ -300,7 +300,9 @@ function togglePlayer() {
     </style>
 </head>
 <body>
-<!DOCTYPE html>
+
+
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -365,21 +367,34 @@ function togglePlayer() {
 </div>
 
 <script>
-    // Function to randomly show the cow popup
     function showCowPopup() {
-        // Random chance (e.g., 20% chance to show the popup)
-        if (Math.random() < 0.2) {
-            document.getElementById('cow-popup').style.display = 'flex'; // Show the popup
+        const LAST_POPUP_KEY = 'lastCowPopup'; // Key to store last popup time
+        const now = Date.now(); // Current timestamp
+        const lastPopup = localStorage.getItem(LAST_POPUP_KEY);
+
+        // Show popup only if:
+        // - No popup has been shown before OR
+        // - The last popup was shown more than 24 hours ago (adjustable)
+        if (!lastPopup || now - parseInt(lastPopup, 10) > 24 * 60 * 60 * 1000) {
+            if (Math.random() < 0.2) { // Random 20% chance
+                document.getElementById('cow-popup').style.display = 'flex';
+                localStorage.setItem(LAST_POPUP_KEY, now); // Update timestamp
+            }
         }
     }
 
     // Close the popup when the button is clicked
     document.getElementById('close-popup').addEventListener('click', function() {
-        document.getElementById('cow-popup').style.display = 'none'; // Hide the popup
+        document.getElementById('cow-popup').style.display = 'none';
     });
 
     // Show the cow popup when the page loads
     window.onload = showCowPopup;
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
