@@ -313,6 +313,36 @@
     background-color: #555;
     transform: scale(1.05); /* Slight scale effect on hover */
 }
+/* Ensure mobile-nav is centered and no flexbox conflicts */
+.mobile-nav {
+    padding: 20px;
+    display: block; /* Remove flexbox display */
+    text-align: center; /* Center the content */
+    width: 100%; /* Ensure full width */
+}
+
+/* Ensure links are block-level and centered */
+.nav-link {
+    display: inline-block; /* Change to inline-block for proper spacing */
+    margin: 10px auto; /* Center the links */
+    padding: 12px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    width: 100%; /* Ensure links take full width of their container */
+    max-width: 300px; /* Limit max width for readability */
+    box-sizing: border-box; /* Prevent overflow */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Hover effect for links */
+.nav-link:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
 
 
     </style>
