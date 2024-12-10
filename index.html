@@ -9,63 +9,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cow's Audiobooks Floating Player</title>
-  <style>
-    /* CSS for Floating Audio Player */
-    #audioPlayer {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      z-index: 9999; /* Ensures the player stays on top of other content */
-      width: 300px; /* Adjust width as needed */
-    }
-  </style>
-</head>
-<body>
-  <!-- Floating Audio Player HTML -->
-  <audio id="audioPlayer" controls>
-    <source src="https://podcasts.apple.com/us/podcast/the-aurore-reset-full-audiobook/id1698424408?i=1000650962079" type="audio/mp3">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    // JavaScript for persistent audio playback
-    const audioPlayer = document.getElementById('audioPlayer');
-    
-    // When the page loads, check the audio state in localStorage
-    window.onload = function() {
-      const audioState = localStorage.getItem('audioState');
-      
-      // If the player was playing, resume playing
-      if (audioState === 'playing') {
-        audioPlayer.play();
-      } else {
-        audioPlayer.pause();
-      }
-    };
-
-    // Save the audio state to localStorage when it changes
-    audioPlayer.addEventListener('play', function() {
-      localStorage.setItem('audioState', 'playing');
-    });
-
-    audioPlayer.addEventListener('pause', function() {
-      localStorage.setItem('audioState', 'paused');
-    });
-  </script>
-
-</body>
-</html>
-
-
-
-
 <body>
     <p> 🐄🐄If you are not redirected automatically, <a href="rss test.html">click here🐄🐄</a>.</p>
 </body>
