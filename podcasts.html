@@ -346,7 +346,7 @@ function togglePlayer() {
         // Show the popup only if the random number is 1 (5% chance)
         if (randomChance === 1) {
             console.log("Popup will be displayed (rolled a 1).");
-            document.getElementById('cow-popup').style.display = 'flex';
+            document.getElementById('cow-popup').style.display = 'flex';  // Show the popup
         } else {
             console.log("Popup not shown (rolled something other than 1).");
         }
@@ -354,18 +354,18 @@ function togglePlayer() {
 
     // Close the popup when the button is clicked
     document.getElementById('close-popup').addEventListener('click', function () {
-        document.getElementById('cow-popup').style.display = 'none';
+        document.getElementById('cow-popup').style.display = 'none'; // Hide the popup when the close button is clicked
     });
 
     // Trigger the popup on page load
     window.onload = function() {
-        console.log("Page loaded. Rolling d20 for the popup...");
-        showCowPopup();  // Only trigger once on page load
+        showCowPopup();  // Trigger the dice roll on page load
     };
 </script>
 
 </body>
 </html>
+
 
 <body>
 
