@@ -339,29 +339,33 @@ function togglePlayer() {
 </div>
 
 <script>
-    // Function to handle showing the popup
     function showCowPopup() {
         // Generate a random number between 1 and 10
         const randomChance = Math.floor(Math.random() * 10) + 1;
 
-        console.log(`Generated random number: ${randomChance}`); // Debugging the randomness
+        console.log("Random number generated:", randomChance); // Debugging
 
         // Show the popup only if the random number is 1 (10% chance)
         if (randomChance === 1) {
-            console.log("Popup displayed!");
+            console.log("Popup will display");
             document.getElementById('cow-popup').style.display = 'flex';
         } else {
-            console.log("Popup not displayed.");
+            console.log("Popup will not display this time");
         }
     }
 
     // Close the popup when the button is clicked
-    document.getElementById('close-popup').addEventListener('click', function () {
+    document.getElementById('close-popup').addEventListener('click', function() {
         document.getElementById('cow-popup').style.display = 'none';
     });
 
-    // Trigger the popup on page load
-    window.addEventListener('load', showCowPopup);
+    // Show the cow popup when the page loads
+    window.onload = showCowPopup;
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
