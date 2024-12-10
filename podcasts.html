@@ -337,11 +337,11 @@ function togglePlayer() {
         // Generate a random number between 1 and 20 (d20 roll)
         const randomChance = Math.floor(Math.random() * 20) + 1;
 
-        // Debugging: Log the random number
-        console.log(`Random number generated (d20 roll): ${randomChance}`);
-
         // Display the rolled number in the popup
         document.getElementById('roll-result').textContent = `You rolled a ${randomChance}!`;
+
+        // Debugging: Log the random number
+        console.log(`Random number generated (d20 roll): ${randomChance}`);
 
         // Show the popup only if the random number is 1 (5% chance)
         if (randomChance === 1) {
@@ -360,14 +360,12 @@ function togglePlayer() {
     // Trigger the popup on page load
     window.onload = function() {
         console.log("Page loaded. Rolling d20 for the popup...");
-        showCowPopup();
+        showCowPopup();  // Only trigger once on page load
     };
 </script>
 
 </body>
 </html>
-
-        
 
 <body>
 
