@@ -260,6 +260,34 @@
         .mc-embed-response {
             margin-top: 20px;
         }
+
+.mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.nav-link {
+    font-size: 18px; /* Make the text size larger for easier readability */
+    padding: 12px 20px; /* Increase padding for easier clicking */
+    background-color: #f0f0f0; /* Light background color */
+    color: #333; /* Dark text color for contrast */
+    text-align: center;
+    border-radius: 8px; /* Rounded corners */
+    text-decoration: none;
+    width: 100%;
+    max-width: 300px; /* Max width for readability */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #ddd; /* Slight color change on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
     </style>
 </head>
 <body>
