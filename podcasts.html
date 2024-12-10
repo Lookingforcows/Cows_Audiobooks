@@ -269,37 +269,10 @@ function togglePlayer() {
     }
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Example</title>
-    <style>
-        /* Basic styling for the popup */
-        #popup {
-            display: none;  /* Initially hidden */
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            font-size: 18px;
-            z-index: 9999;
-        }
 
-        /* Optional styling for the close button */
-        #popup a {
-            color: #fff;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
+</script>
+
+</body>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -366,41 +339,34 @@ function togglePlayer() {
 </div>
 
 <script>
+    // Function to handle showing the popup
     function showCowPopup() {
         // Generate a random number between 1 and 10
         const randomChance = Math.floor(Math.random() * 10) + 1;
 
-        // Show the popup if the random number is 1 (10% chance)
+        console.log(`Generated random number: ${randomChance}`); // Debugging the randomness
+
+        // Show the popup only if the random number is 1 (10% chance)
         if (randomChance === 1) {
+            console.log("Popup displayed!");
             document.getElementById('cow-popup').style.display = 'flex';
+        } else {
+            console.log("Popup not displayed.");
         }
     }
 
     // Close the popup when the button is clicked
-    document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('close-popup').addEventListener('click', function () {
         document.getElementById('cow-popup').style.display = 'none';
     });
 
-    // Show the cow popup when the page loads
-    window.onload = showCowPopup;
+    // Trigger the popup on page load
+    window.addEventListener('load', showCowPopup);
 </script>
 
 </body>
 </html>
 
-</script>
-
-</body>
-</html>
-
-</script>
-
-</body>
-</html>
-
-</script>
-
-</body>
 </html>
 
     <script src="script.js"></script>
