@@ -293,11 +293,10 @@ function togglePlayer() {
             color: white;
             text-align: center;
             font-size: 2rem;
-            padding: 20px;
             z-index: 9999; /* Make sure it's on top of everything else */
+            display: flex; /* Flexbox to center the content */
             justify-content: center;
             align-items: center;
-            display: flex; /* Flexbox to center the content */
             flex-direction: column;
         }
 
@@ -343,24 +342,28 @@ function togglePlayer() {
         // Generate a random number between 1 and 10
         const randomChance = Math.floor(Math.random() * 10) + 1;
 
-        console.log("Random number generated:", randomChance); // Debugging
+        console.log(`Random number generated: ${randomChance}`); // Debugging
 
         // Show the popup only if the random number is 1 (10% chance)
         if (randomChance === 1) {
-            console.log("Popup will display");
             document.getElementById('cow-popup').style.display = 'flex';
         } else {
-            console.log("Popup will not display this time");
+            console.log("Popup not shown (random check failed).");
         }
     }
 
     // Close the popup when the button is clicked
-    document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('close-popup').addEventListener('click', function () {
         document.getElementById('cow-popup').style.display = 'none';
     });
 
-    // Show the cow popup when the page loads
+    // Trigger the popup on page load
     window.onload = showCowPopup;
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
