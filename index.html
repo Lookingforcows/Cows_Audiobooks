@@ -9,6 +9,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
+// JavaScript to control the floating audio player and make it persistent
+const audioPlayer = document.getElementById('audioPlayer');
+
+// Check if the audio state is saved in localStorage and restore it
+window.onload = function() {
+  const audioState = localStorage.getItem('audioState');
+  
+  // If the player was playing on the previous page, resume playing
+  if (audioState === 'playing') {
+    audioPlayer.play();
+  } else {
+    audioPlayer.pause();
+  }
+};
+
+// Save the audio state to localStorage whenever it changes
+audioPlayer.addEventListener('
+
+
 <!-- Floating Audio Player HTML -->
 <audio id="audioPlayer" controls>
   <!-- Replace the source URL with your actual podcast file or episode URL -->
