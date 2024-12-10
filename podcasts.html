@@ -268,20 +268,80 @@ function togglePlayer() {
         btn.style.display = 'none'; // Hide the button when the player is open
     }
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the Cow Celebration</title>
+    <style>
+        /* Full-screen popup styling */
+        #cow-popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            z-index: 9999; /* Make sure it's on top of everything else */
+            display: flex; /* Flexbox to center the content */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
+        #cow-popup h1 {
+            font-size: 3rem;
+        }
 
+        #cow-popup a {
+            color: #fff;
+            text-decoration: underline;
+            font-size: 1.2rem;
+        }
 
+        /* Close button */
+        #close-popup {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
 
-    <script src="script.js"></script>
-</body>
+        #close-popup:hover {
+            background-color: #f50057;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Full-screen celebration popup -->
+<div id="cow-popup">
+    <h1>You found a cow! 🐄</h1>
+    <p>Congratulations! You did it!</p>
+    <p id="roll-result">Roll: </p> <!-- This will display the rolled number -->
+    <a href="https://example.com" target="_blank">Click here for more fun!</a>
+    <button id="close-popup">Close</button>
+</div>
 
 <script>
     function showCowPopup() {
-        // Generate a random number between 1 and 20
+        // Generate a random number between 1 and 20 (d20 roll)
         const randomChance = Math.floor(Math.random() * 20) + 1;
 
         // Debugging: Log the random number
         console.log(`Random number generated (d20 roll): ${randomChance}`);
+
+        // Display the rolled number in the popup
+        document.getElementById('roll-result').textContent = `You rolled a ${randomChance}!`;
 
         // Show the popup only if the random number is 1 (5% chance)
         if (randomChance === 1) {
@@ -304,12 +364,14 @@ function togglePlayer() {
     };
 </script>
 
+</body>
+</html>
 
         
-</html>  
-    </style>
-</head>
+
 <body>
+
+
     <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
     <a href="https://cash.app/$rerockha" class="donate-button"> Donate with Cash App</a>
     
