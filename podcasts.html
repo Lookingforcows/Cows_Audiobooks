@@ -424,13 +424,28 @@
   <p>© 2024 Looking for cows Audio</p>
 </body>
 
-    document.querySelectorAll("#audiobookList a").forEach(item => {
-  item.addEventListener("click", function(event) {
-    event.preventDefault();
-    alert("You clicked on " + this.textContent);
-    // Replace alert with functionality to load audiobook details
+   <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Add event listeners to all images inside the #photoList container
+    document.querySelectorAll("#photoList a").forEach(item => {
+      item.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevents the link from navigating
+
+        // Get the alt text of the clicked image and the link URL
+        var audiobookTitle = this.querySelector("img").alt; // Title from the image's alt attribute
+        var audiobookLink = this.getAttribute("href"); // Get the href link of the clicked image
+
+        // Log the title and link to the console (for testing purposes)
+        console.log("You clicked on: " + audiobookTitle);
+        console.log("Navigating to: " + audiobookLink);
+
+        // Optionally, you can use the link to navigate directly
+        // window.location.href = audiobookLink; // Uncomment this line to navigate automatically
+      });
+    });
   });
-});
+</script> 
+    <body></body>
 <meta name="description" content="Explore unique audiobooks featuring quirky characters and ridiculous adventures. Download for free.">
 <meta name="keywords" content="audiobooks, storytelling, quirky characters, free audiobooks">
     
