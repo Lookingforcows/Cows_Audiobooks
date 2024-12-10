@@ -301,8 +301,7 @@ function togglePlayer() {
 </head>
 <body>
 
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -368,11 +367,11 @@ function togglePlayer() {
 
 <script>
     function showCowPopup() {
-        // Generate a random number between 0 and 1
-        const randomChance = Math.random();
+        // Generate a random number between 1 and 10
+        const randomChance = Math.floor(Math.random() * 10) + 1;
 
-        // 10% chance to show the popup
-        if (randomChance < 0.1) {
+        // Show the popup if the random number is 1 (10% chance)
+        if (randomChance === 1) {
             document.getElementById('cow-popup').style.display = 'flex';
         }
     }
@@ -384,6 +383,11 @@ function togglePlayer() {
 
     // Show the cow popup when the page loads
     window.onload = showCowPopup;
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
