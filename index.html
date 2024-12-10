@@ -9,31 +9,61 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-// JavaScript to control the floating audio player and make it persistent
-const audioPlayer = document.getElementById('audioPlayer');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cow's Audiobooks Floating Player</title>
+  <style>
+    /* CSS for Floating Audio Player */
+    #audioPlayer {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 9999; /* Ensures it stays on top of other content */
+      width: 300px; /* Adjust the width to fit your layout */
+    }
+  </style>
+</head>
+<body>
 
-// Check if the audio state is saved in localStorage and restore it
-window.onload = function() {
-  const audioState = localStorage.getItem('audioState');
-  
-  // If the player was playing on the previous page, resume playing
-  if (audioState === 'playing') {
-    audioPlayer.play();
-  } else {
-    audioPlayer.pause();
-  }
-};
+  <!-- Floating Audio Player HTML -->
+  <audio id="audioPlayer" controls>
+    <!-- Replace with the actual podcast episode URL -->
+    <source src="https://podcasts.apple.com/us/podcast/the-aurore-reset-full-audiobook/id1698424408?i=1000650962079" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
 
-// Save the audio state to localStorage whenever it changes
-audioPlayer.addEventListener('
+  <script>
+    // JavaScript to make the audio player persistent across page changes
+    const audioPlayer = document.getElementById('audioPlayer');
 
+    // Check if the audio state exists in localStorage and restore it
+    window.onload = function() {
+      const audioState = localStorage.getItem('audioState');
+      
+      // If the player was playing on the previous page, resume playing
+      if (audioState === 'playing') {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+    };
 
-<!-- Floating Audio Player HTML -->
-<audio id="audioPlayer" controls>
-  <!-- Replace the source URL with your actual podcast file or episode URL -->
-  <source src="https://podcasts.apple.com/us/podcast/the-aurore-reset-full-audiobook/id1698424408?i=1000650962079" type="audio/mp3">
-  Your browser does not support the audio element.
-</audio>
+    // Save the audio state to localStorage whenever it changes
+    audioPlayer.addEventListener('play', function() {
+      localStorage.setItem('audioState', 'playing');
+    });
+
+    audioPlayer.addEventListener('pause', function() {
+      localStorage.setItem('audioState', 'paused');
+    });
+  </script>
+
+</body>
+</html>
+
 
 
 <body>
