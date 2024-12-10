@@ -288,6 +288,33 @@
     transform: scale(1.05); /* Slight scale effect on hover */
 }
 
+/* Remove this if the flexbox is causing issues */
+.mobile-nav {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Ensure nav-links are block-level with proper margin and padding */
+.nav-link {
+    display: block;
+    margin: 10px auto;
+    padding: 12px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    max-width: 300px; /* Keep the max-width for readability */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a light shadow for depth */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #555;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+
     </style>
 </head>
 <body>
