@@ -263,7 +263,106 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the Cow Celebration</title>
+    <style>
+        /* Full-screen popup styling */
+        #cow-popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            z-index: 9999; /* Make sure it's on top of everything else */
+            display: flex; /* Flexbox to center the content */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
+        #cow-popup h1 {
+            font-size: 3rem;
+        }
+
+        #cow-popup a {
+            color: #fff;
+            text-decoration: underline;
+            font-size: 1.2rem;
+        }
+
+        /* Close button */
+        #close-popup {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #close-popup:hover {
+            background-color: #f50057;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Full-screen celebration popup -->
+<div id="cow-popup">
+    <h1>You found a flower! 🌸</h1>
+    <p>Congratulations! Almost as good as a cow.</p>
+    <p id="roll-result">Roll: </p> <!-- This will display the rolled number -->
+    <a href="secretcowlevel" target="_blank">Click here for more fun!</a>
+    <button id="close-popup">Close</button>
+</div>
+
+<script>
+    function showCowPopup() {
+        // Generate a random number between 1 and 20 (d20 roll)
+        const randomChance = Math.floor(Math.random() * 20) + 1;
+
+        // Display the rolled number in the popup for debugging
+        document.getElementById('roll-result').textContent = `You rolled a ${randomChance}!`;
+
+        // Debugging: Log the random number
+        console.log(`Random number generated (d20 roll): ${randomChance}`);
+
+        // Show the popup only if the random number is 1 (5% chance)
+        if (randomChance === 20) {
+            console.log("Popup will be displayed (rolled a 20).");
+            document.getElementById('cow-popup').style.display = 'flex';  // Show the popup
+        } else {
+            console.log("Popup not shown (rolled something other than 20).");
+        }
+    }
+
+    // Close the popup when the button is clicked
+    document.getElementById('close-popup').addEventListener('click', function () {
+        document.getElementById('cow-popup').style.display = 'none'; // Hide the popup when the close button is clicked
+    });
+
+    // Trigger the popup on page load
+    window.onload = function() {
+        // Ensure the popup is hidden initially
+        document.getElementById('cow-popup').style.display = 'none';
+        console.log("Page loaded. Rolling d20 for the popup...");
+        showCowPopup();  // Trigger the dice roll on page load
+    };
+</script>
+
+</body>
+</html>
 
 
 <body>
