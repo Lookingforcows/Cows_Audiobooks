@@ -262,6 +262,35 @@
     pointer-events: none; /* Disable pointer events on the image */
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Podcast Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Floating button to open/close the player -->
+    <div id="floating-btn" class="floating-btn" onclick="togglePlayer()">
+        <span>🎧</span>
+    </div>
+
+    <!-- Collapsible audio player -->
+    <div id="audio-player" class="audio-player">
+        <button class="close-btn" onclick="togglePlayer()">❌</button>
+        <audio controls>
+            <source src="your-podcast-url.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
         
     </style>
 </head>
