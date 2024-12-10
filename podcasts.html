@@ -332,6 +332,103 @@ function togglePlayer() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floating Podcast Player</title>
+    <style>
+        /* Floating button styles */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff8c00;
+            padding: 15px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        /* Audio player styles */
+        .audio-player {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            z-index: 9999;
+        }
+
+        /* Close button for the player */
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        /* Simple responsiveness */
+        @media (max-width: 600px) {
+            .floating-btn {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px;
+            }
+            .audio-player {
+                width: 80%;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating button to open/close the player -->
+    <div id="floating-btn" class="floating-btn" onclick="togglePlayer()">
+        <span>🎧</span>
+    </div>
+
+    <!-- Collapsible audio player -->
+    <div id="audio-player" class="audio-player">
+        <button class="close-btn" onclick="togglePlayer()">❌</button>
+        <audio controls>
+            <source src="https://your-podcast-url.com/episode.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        function togglePlayer() {
+            const player = document.getElementById('audio-player');
+            const btn = document.getElementById('floating-btn');
+
+            // Toggle visibility of the audio player and the floating button
+            if (player.style.display === 'block') {
+                player.style.display = 'none';  // Hide the player
+                btn.style.display = 'block';    // Show the button again
+            } else {
+                player.style.display = 'block'; // Show the player
+                btn.style.display = 'none';     // Hide the button
+            }
+        }
+    </script>
+    
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Podcast Player</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
