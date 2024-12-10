@@ -300,103 +300,91 @@ function togglePlayer() {
     </style>
 </head>
 <body>
-
-<!-- Popup content -->
-<div id="popup">
-    You found a cow! 🐄 <br>
-    <a href="lookingforcows.com/secretcowlevel" target="_blank">Click here for more!</a>
-</div>
-
-<script>
-    // Function to randomly show the popup
-    function showPopup() {
-        // Check if the user has seen the popup recently
-        const lastPopupTime = localStorage.getItem('lastPopupTime');
-        const now = new Date().getTime();
-
-        // Show the popup only if the user hasn't seen it recently
-        // or after a certain random chance
-        if (!lastPopupTime || now - lastPopupTime > 24 * 60 * 60 * 1000) {  // 24 hours
-            // Randomly decide if the popup should appear (20% chance)
-            if (Math.random() < 0.2) {
-                document.getElementById('popup').style.display = 'block';  // Show the popup
-                localStorage.setItem('lastPopupTime', now);  // Update timestamp to prevent frequent popups
-            }
-        }
-    }
-
-    // Hide the popup when the user clicks on it
-    document.getElementById('popup').addEventListener('click', function() {
-        this.style.display = 'none';  // Hide the popup
-    });
-
-    // Show the popup when the page loads
-    window.onload = showPopup;
-</script>
-
-</body>
-</html>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floating Podcast Player</title>
+    <title>Find the Cow Celebration</title>
     <style>
-        /* Floating button styles */
-        .floating-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff8c00;
-            padding: 15px;
-            border-radius: 50%;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-        }
-
-        /* Audio player styles */
-        .audio-player {
+        /* Full-screen popup styling */
+        #cow-popup {
             display: none; /* Initially hidden */
             position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            width: 300px;
-            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            padding: 20px;
+            z-index: 9999; /* Make sure it's on top of everything else */
+            justify-content: center;
+            align-items: center;
+            display: flex; /* Flexbox to center the content */
+            flex-direction: column;
         }
 
-        /* Close button for the player */
-        .close-btn {
-            background: transparent;
+        #cow-popup h1 {
+            font-size: 3rem;
+        }
+
+        #cow-popup a {
+            color: #fff;
+            text-decoration: underline;
+            font-size: 1.2rem;
+        }
+
+        /* Close button */
+        #close-popup {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
             border: none;
-            font-size: 20px;
+            font-size: 1.2rem;
             cursor: pointer;
-            position: absolute;
-            top: 5px;
-            right: 5px;
+            border-radius: 5px;
+            margin-top: 20px;
         }
 
-        /* Simple responsiveness */
-        @media (max-width: 600px) {
-            .floating-btn {
-                bottom: 10px;
-                right: 10px;
-                padding: 12px;
-            }
-            .audio-player {
-                width: 80%;
-                bottom: 10px;
-            }
+        #close-popup:hover {
+            background-color: #f50057;
         }
+    </style>
+</head>
+<body>
+
+<!-- Full-screen celebration popup -->
+<div id="cow-popup">
+    <h1>You found a cow! 🐄</h1>
+    <p>Congratulations! You did it!</p>
+    <a href="https://example.com" target="_blank">Click here for more fun!</a>
+    <button id="close-popup">Close</button>
+</div>
+
+<script>
+    // Function to randomly show the cow popup
+    function showCowPopup() {
+        // Random chance (e.g., 20% chance to show the popup)
+        if (Math.random() < 0.2) {
+            document.getElementById('cow-popup').style.display = 'flex'; // Show the popup
+        }
+    }
+
+    // Close the popup when the button is clicked
+    document.getElementById('close-popup').addEventListener('click', function() {
+        document.getElementById('cow-popup').style.display = 'none'; // Hide the popup
+    });
+
+    // Show the cow popup when the page loads
+    window.onload = showCowPopup;
+</script>
+
+</body>
+</html>
+
     <script src="script.js"></script>
 </body>
 </html>  
