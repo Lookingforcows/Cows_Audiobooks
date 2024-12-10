@@ -353,6 +353,19 @@
 .photo-container a {
   pointer-events: auto; /* Ensure the links are clickable */
 }
+/* Add this to your existing CSS */
+.scrollable-container a,
+.photo-container a {
+    pointer-events: auto; /* Ensure links can be clicked */
+}
+
+/* Optional: Ensure z-index does not block clicks */
+.scrollable-container,
+.photo-container {
+    position: relative;
+    z-index: 1;
+}
+
 
 
 
@@ -458,6 +471,26 @@
     });
   });
 </script> 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Ensure links inside photo container and scrollable are clickable
+        document.querySelectorAll(".scrollable-container a, .photo-container a").forEach(item => {
+            item.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent default action (if necessary)
+                
+                // Get the link URL
+                var targetLink = this.getAttribute("href"); 
+
+                // Optionally, log the URL to confirm the click
+                console.log("Link clicked: " + targetLink);
+
+                // If you want to manually navigate after logging, you can uncomment:
+                // window.location.href = targetLink;
+            });
+        });
+    });
+</script>
+
     <body></body>
 <meta name="description" content="Explore unique audiobooks featuring quirky characters and ridiculous adventures. Download for free.">
 <meta name="keywords" content="audiobooks, storytelling, quirky characters, free audiobooks">
