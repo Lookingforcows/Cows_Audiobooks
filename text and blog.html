@@ -20,6 +20,12 @@ iframe {
 
 
 <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-
+ <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self';">
+    <!-- Referrer Policy -->
+    <meta name="referrer" content="no-referrer">
+    <!-- Permissions Policy -->
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <!-- Other Security Headers (non-meta applicable headers below) -->
 </body>
 </html>
