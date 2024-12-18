@@ -71,6 +71,61 @@
         .donate-button:hover {
             background-color: #555;
         }
+
+<style>
+  .email-link {
+    position: relative;
+    text-decoration: none;
+    color: #3498db;
+  }
+
+  .email-link:hover::after {
+    content: "Click to email us!";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #3498db;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+<script>
+  function revealEmail() {
+    const email = "rerockhapenguin@gmail.com";
+    window.location.href = "mailto:" + email;
+  }
+</script>
+
+<button onclick="revealEmail()" style="
+    background-color: #2ecc71; 
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;">
+    Email Us
+</button>
+
+</style>
+
+<a href="mailto:yourpodcast@example.com" class="email-link">📧 Email Us</a>
+
+
+<a href="mailto:rerockhapenguin@gmail.com" style="
+    background-color: #f39c12; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    font-family: Arial, sans-serif;
+    font-size: 16px;">
+    Contact Us
+</a>
+
     </style>
 </head>
 <body>
@@ -116,6 +171,11 @@
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     <!-- Other Security Headers (non-meta applicable headers below) -->
 </head>
+
+<a href="mailto:rerockhapenguin@gmail.com" style="text-decoration: none;">
+    <img src="https://img.icons8.com/ios-filled/50/email.png" alt="Email Icon" style="width: 30px; height: 30px;">
+</a>
+
 <body>
 </body>
 </html>
@@ -125,5 +185,3 @@
 
 
 
-
-<p>You found a cow! Yay! 🐄<p>
