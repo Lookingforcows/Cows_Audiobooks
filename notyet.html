@@ -3,100 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Audiobook isn't there yet</title>
+    <title>Looking for Cows Audio</title>
     <style>
+        /* General Styles */
         body {
+            margin: 0;
+            padding: 0;
             width: 100vw;
             height: 100vh;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            font-family: 'Arial', sans-serif;
+            background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
             color: #fff;
         }
-        p {
-            margin: 10px 0;
-            color: #fff;
-        }
-        .photo-same-size {
-            max-width: 100%;
-            height: auto;
+
+        /* Main Content */
+        iframe {
+            width: 80%;
+            height: 80vh;
+            margin: 10vh auto;
             display: block;
-            margin: 20px auto;
-            border-radius: 10px;
-        }
-        .nav-link-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            padding: 10px 20px;
             border-radius: 5px;
-            margin: 5px;
-            background-color: #333;
-            border: 2px solid #555;
+            border: none;
         }
-        .nav-link:hover {
-            background-color: #555;
-        }
-        .donate-button {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            position: absolute;
+
+        /* Floating Shortcut Widget */
+        .shortcut-widget {
+            position: fixed;
+            top: 70px;
             right: 20px;
-            top: 20px;
+            width: 180px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
-        .donate-button:hover {
+
+        .shortcut-widget h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .shortcut-widget a {
+            display: block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .shortcut-widget a:hover {
             background-color: #555;
+        }
+
+        /* Floating Audio Widget */
+        .audio-widget {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .audio-widget h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .audio-widget iframe {
+            width: 100%;
+            height: calc(100% - 30px);
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <a href="https://cash.app/$rerockha" class="donate-button">Donate</a>
-    <div class="container">
-        <h1>Whisper's Bay</h1>
-        <p>
-            The new audiobook isn't ready. I'm working hard on it, and I am so excited I cannot contain myself. Each of these stories is a long brutal act of labor of love, and I am thankful for those who helped me along the way.
-            The older I get, the more I realize I have to stick close to the people who want to lift each other up. And I need to run from those who get annoyed when I dream. So thank you, whoever is reading this. 
-            Your support means more to me than you will ever know. 
-            Soon you will get to meet Luni and Taylor. But not yet.
-        </p>
-        <a href="https://lookingforcows.com/notyet2.html" target="_blank">
-            <img src="495876FE-C728-47E8-A747-A5B2FE48BB80.jpeg" alt="Whisper's Bay" class="photo-same-size">
-        </a>
-    </div>
-    <div class="shortcut-widget">
-        <h3>Quick Links</h3>
+
+</html>
+
+
+<a href="https://lookingforcows.com/bibi/?book=wb" data-bibi="embed" data-bibi-style="[[ CSS for embedded Bibi frame, as you like ]]">The Aurore Reset</a>
+<script src="https://lookingforcows.com/bibi/and/jo.js"></script>
+
+  
+    
         <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
         <a href="podcastsv2.html" class="nav-link">Listen here!</a>
         <a href="art.html" class="nav-link">Art</a>
         <a href="blog.html" class="nav-link">News and Updates</a>
         <a href="about me.html" class="nav-link">About me</a>
         <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
-        <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
     </div>
- <meta charset="UTF-8">
+
+    
+        <p> © 2024 Looking for cows Audio </p>
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Website</title>
     <!-- Content Security Policy -->
@@ -106,5 +130,6 @@
     <!-- Permissions Policy -->
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     <!-- Other Security Headers (non-meta applicable headers below) -->
+
 </body>
 </html>
