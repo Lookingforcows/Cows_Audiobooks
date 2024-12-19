@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uid" version="3.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:identifier id="uid">085ffd97-eeff-403c-a814-e5868665cf19</dc:identifier>
+    <dc:language>en</dc:language>
+    <dc:title>Untitled document</dc:title>
+    <meta property="dcterms:modified">2024-12-19T05:04:59Z</meta>
+  </metadata>
+  <manifest>
+    <item href="nav.xhtml" id="toc" media-type="application/xhtml+xml" properties="nav"/>
+    <item href="Untitleddocument.xhtml" id="main" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine>
+    <itemref idref="main"/>
+  </spine>
+</package>
