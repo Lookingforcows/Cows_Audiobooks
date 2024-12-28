@@ -133,3 +133,279 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating Audio Player with Dropdown Links</title>
+  <style>
+    /* Floating audio player container */
+    #audio-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: url('smartphone-2354577_1280.png') no-repeat center center; /* Add your boombox image */
+      background-size: contain; /* Ensure the image doesn't stretch */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: grab; /* Indicates the player is draggable */
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%; /* Ensure responsiveness */
+      max-width: 350px; /* Max width for desktop */
+      height: auto;
+      max-height: 250px; /* Set a maximum height for the player */
+    }
+
+    #audio-player header {
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 10px;
+      cursor: grab; /* Grab cursor for dragging */
+      width: 100%;
+      text-align: center;
+    }
+
+    #audio-player audio {
+      width: 100%;
+    }
+
+    /* Progress bar styling */
+    #progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #progress-bar div {
+      width: 0;
+      height: 100%;
+      background-color: #007bff;
+    }
+
+    /* Dropdown link styling */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+      padding: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 8px 12px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 600px) {
+      #audio-player {
+        width: 100%;
+        max-width: 300px; /* Adjusted max-width for mobile */
+        height: 200px; /* Adjusted height for mobile */
+      }
+
+      #audio-player header {
+        font-size: 12px;
+      }
+    }
+
+    /* Landscape orientation rotation */
+    @media screen and (orientation: landscape) {
+      #audio-player {
+        transform: rotate(90deg); /* Rotate the player */
+        transform-origin: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Floating Audio Player with Dropdown Links</h1>
+
+  <!-- Floating Audio Player -->
+  <div id="audio-player">
+    <header>
+      🎵 Audiobooks and Links
+      <span id="close-player" style="cursor: pointer; color: red;">❌</span>
+    </header>
+    <audio id="player" controls>
+      <source src="" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar">
+      <div id="progress"></div>
+    </div>
+
+    <!-- Container for dropdowns (site links and episodes) -->
+    <div class="links-container">
+      <!-- Podcast Episodes Dropdown -->
+      <div class="dropdown">
+        <button>Podcast Episodes</button>
+        <div class="dropdown-content" id="rss-links">
+          <!-- Dynamically populated dropdown items will appear here -->
+        </div>
+      </div>
+
+      <!-- Site Links Dropdown -->
+      <div class="dropdown">
+        <button>Site Links</button>
+        <div class="dropdown-content">
+          <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
+          <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+          <a href="art.html" class="nav-link">Social Links</a>
+          <a href="blog.html" class="nav-link">News and Updates</a>
+          <a href="about me.html" class="nav-link">About me</a>
+          <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
+          <a href="https://www.instagram.com/castleblockart" class="nav-link">Adopted Freelance Artist</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const audio = document.getElementById('player');
+      const playerContainer = document.getElementById('audio-player');
+      const closeButton = document.getElementById('close-player');
+      const rssLinksContainer = document.getElementById('rss-links');
+      const progressBar = document.getElementById('progress-bar');
+      const progress = document.getElementById('progress');
+
+      // Retrieve saved audio position
+      const savedTime = localStorage.getItem('audio-current-time');
+      if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+      }
+
+      // Save audio position periodically
+      audio.addEventListener('timeupdate', function () {
+        localStorage.setItem('audio-current-time', audio.currentTime);
+
+        // Update the progress bar
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percentage + '%';
+      });
+
+      // Close the audio player
+      closeButton.addEventListener('click', function () {
+        playerContainer.style.display = 'none';
+      });
+
+      // Draggable functionality (Desktop)
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      playerContainer.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        offsetX = e.clientX - playerContainer.offsetLeft;
+        offsetY = e.clientY - playerContainer.offsetTop;
+        playerContainer.style.cursor = 'grabbing'; // Change cursor when dragging
+      });
+
+      document.addEventListener('mousemove', function (e) {
+        if (isDragging) {
+          playerContainer.style.left = `${e.clientX - offsetX}px`;
+          playerContainer.style.top = `${e.clientY - offsetY}px`;
+        }
+      });
+
+      document.addEventListener('mouseup', function () {
+        isDragging = false;
+        playerContainer.style.cursor = 'grab'; // Reset cursor after dragging
+      });
+
+      // Draggable functionality (Mobile)
+      playerContainer.addEventListener('touchstart', function (e) {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - playerContainer.offsetLeft;
+        offsetY = e.touches[0].clientY - playerContainer.offsetTop;
+      });
+
+      document.addEventListener('touchmove', function (e) {
+        if (isDragging) {
+          playerContainer.style.left = `${e.touches[0].clientX - offsetX}px`;
+          playerContainer.style.top = `${e.touches[0].clientY - offsetY}px`;
+        }
+      });
+
+      document.addEventListener('touchend', function () {
+        isDragging = false;
+      });
+
+      // Progress bar click functionality (skip to position)
+      progressBar.addEventListener('click', function (e) {
+        const progressWidth = e.offsetX;
+        const newTime = (progressWidth / progressBar.offsetWidth) * audio.duration;
+        audio.currentTime = newTime;
+      });
+
+      // Fetch and display RSS feed links
+      async function fetchRSS() {
+        try {
+          // Fetch the RSS feed
+          const response = await fetch('https://anchor.fm/s/e586064c/podcast/rss');
+          const rssText = await response.text();
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(rssText, 'application/xml');
+          const items = xmlDoc.querySelectorAll('item');
+
+          // Iterate over each RSS item (episode)
+          items.forEach(item => {
+            const title = item.querySelector('title').textContent;
+            const link = item.querySelector('link').textContent;
+            const audioUrl = item.querySelector('enclosure').getAttribute('url');
+
+            // Create an anchor tag for each RSS link
+            const linkElement = document.createElement('a');
+            linkElement.href = '#';
+            linkElement.textContent = title;
+            linkElement.onclick = function() {
+              audio.src = audioUrl;  // Change the audio source
+              audio.play();          // Play the selected episode
+            };
+
+            rssLinksContainer.appendChild(linkElement);
+          });
+        } catch (error) {
+          console.error('Error fetching RSS feed:', error);
+        }
+      }
+
+      // Call the function to load the RSS feed
+      fetchRSS();
+    });
+  </script>
+</body>
+</html>
