@@ -12,7 +12,7 @@
       right: 20px;
       z-index: 1000;
       background: url('radio-5676909_1280.png') no-repeat center center; /* Add your boombox image */
-      background-size: cover;
+      background-size: contain; /* Ensure the image doesn't stretch */
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       cursor: grab; /* Indicates the player is draggable */
@@ -24,7 +24,7 @@
       width: 100%; /* Ensure responsiveness */
       max-width: 350px; /* Max width for desktop */
       height: auto;
-      max-height: 400px;
+      max-height: 250px; /* Set a maximum height for the player */
     }
 
     #audio-player header {
@@ -95,8 +95,8 @@
     @media screen and (max-width: 600px) {
       #audio-player {
         width: 100%;
-        max-width: 300px;
-        height: 250px;
+        max-width: 300px; /* Adjusted max-width for mobile */
+        height: 200px; /* Adjusted height for mobile */
       }
 
       #audio-player header {
@@ -179,7 +179,7 @@
         playerContainer.style.display = 'none';
       });
 
-      // Draggable functionality for desktop (mouse events)
+      // Draggable functionality
       let isDragging = false;
       let offsetX, offsetY;
 
@@ -199,29 +199,6 @@
 
       document.addEventListener('mouseup', function () {
         isDragging = false;
-        playerContainer.style.cursor = 'grab'; // Reset cursor after dragging
-      });
-
-      // Draggable functionality for mobile (touch events)
-      let touchIsDragging = false;
-      let touchOffsetX, touchOffsetY;
-
-      playerContainer.addEventListener('touchstart', function (e) {
-        touchIsDragging = true;
-        touchOffsetX = e.touches[0].clientX - playerContainer.offsetLeft;
-        touchOffsetY = e.touches[0].clientY - playerContainer.offsetTop;
-        playerContainer.style.cursor = 'grabbing'; // Change cursor when dragging
-      });
-
-      document.addEventListener('touchmove', function (e) {
-        if (touchIsDragging) {
-          playerContainer.style.left = `${e.touches[0].clientX - touchOffsetX}px`;
-          playerContainer.style.top = `${e.touches[0].clientY - touchOffsetY}px`;
-        }
-      });
-
-      document.addEventListener('touchend', function () {
-        touchIsDragging = false;
         playerContainer.style.cursor = 'grab'; // Reset cursor after dragging
       });
 
