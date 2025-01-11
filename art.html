@@ -8,7 +8,7 @@
         body {
             width: 100vw;
             height: 100vh;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
+            background: url('IMG_6346.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             font-family: Arial, sans-serif;
@@ -82,6 +82,40 @@
             font-size: 16px;
             margin-top: 10px;
         }
+/* Navigation links style */
+.nav-link {
+  display: block;  /* Make the link block-level so it occupies space */
+  width: 80%;      /* Set width to a percentage so they fit within the container */
+  max-width: 350px; /* Set a maximum width for the nav links */
+  height: 60px;    /* Fixed height for the links */
+  margin: 10px auto; /* Center the links horizontally with auto margin */
+  background-color: #000000; /* Background color */
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline */
+  text-align: center; /* Center the text inside */
+  line-height: 60px; /* Vertically center the text */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 18px; /* Font size */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  box-sizing: border-box; /* Include padding and borders in width/height */
+}
+
+/* Hover effect */
+.nav-link:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .nav-link {
+    width: 90%;  /* Increase width on smaller screens */
+    font-size: 16px; /* Slightly smaller font on mobile */
+  }
+}
+
+
+
     </style>
 </head>
 <body>
@@ -149,7 +183,6 @@
 <a href="https://lookingforcows.com" class="nav-link"> Cow's Library </a>
     <a href="Audiobook_text.html" class="nav-link">Audiobook Text</a>
     <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-    <a href="art.html" class="nav-link">Social Links</a>
     <a href="blog.html" class="nav-link">News and Updates</a>
     <a href="about me.html" class="nav-link">About me</a>
     <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
