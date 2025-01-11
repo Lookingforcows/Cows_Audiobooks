@@ -9,26 +9,22 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100vw;
-            height: 100vh;
             font-family: Arial, sans-serif;
             background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             overflow-y: auto;
+            height: 100%;
         }
 
         /* Embed PDF - Takes up most of the page */
         .pdf-embed {
             width: 100%;
-            height: calc(100vh - 120px); /* Make sure it takes most of the screen */
+            height: 100vh; /* Ensure the PDF takes up the entire height */
             display: block;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
         iframe {
@@ -39,10 +35,6 @@
 
         /* Spotify Player */
         .spotify-player {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
             width: 90%;
             max-width: 600px;
             background-color: rgba(0, 0, 0, 0.7);
@@ -50,7 +42,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            z-index: 5;
+            margin: 20px auto;
         }
 
         .spotify-player iframe {
@@ -65,24 +57,35 @@
             text-align: center;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
-            position: fixed;
-            bottom: 0;
             width: 100%;
             color: white;
         }
 
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .pdf-embed {
+                height: 60vh; /* Adjust PDF height on smaller screens */
+            }
+            footer {
+                position: static; /* Ensure footer is at the end of the content */
+            }
+            .spotify-player {
+                width: 95%;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- Embed PDF directly on the page -->
     <div class="pdf-embed">
-        <iframe src="The Shepherd of the Hills.pdf" title="The Shepherd of the Hills"></iframe>
+        <iframe src="PRIDE AND PREJUDICE.pdf" title="Pride and Prejudice PDF"></iframe>
     </div>
 
     <!-- Spotify Podcast Player -->
     <div class="spotify-player">
-       <iframe src="https://creators.spotify.com/pod/show/lookingforcowsaudio/embed/episodes/The-Shepherd-of-the-Hills-Full-Audiobook-e2kuc3s/a-abc3c7c" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://creators.spotify.com/pod/show/lookingforcowsaudio/embed/episodes/Pride-and-Prejudice-Full-Audiobook-e2irsd1/a-ab7orev" 
+            height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
     </div>
 
     <!-- Footer -->
