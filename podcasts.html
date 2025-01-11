@@ -141,6 +141,49 @@
             text-decoration: none;
             z-index: 2;
         }
+/* Style for the "audiotape" look (larger size with full and centered art) */
+.photo-container a {
+    width: 300px; /* Increased width of the tape */
+    height: 180px; /* Increased height of the tape */
+    position: relative;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    margin: 20px; /* Space between tapes */
+    border-radius: 20px; /* Rounded corners to simulate a tape */
+    background-color: #333; /* Dark background to give depth */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Slightly lighter shadow */
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.photo-container a:hover {
+    transform: scale(1.05); /* Scale up the tape when hovered for emphasis */
+}
+
+/* Audiotape Style for the image */
+.photo-container a img {
+    width: 100%; /* Make the image take full width */
+    height: 100%; /* Make the image take full height */
+    object-fit: cover; /* Ensure the image fully covers the space without being cut off */
+    border-radius: 20px; /* Ensure the image respects the rounded corners */
+}
+
+/* A "label" to make it look like the title of an audiotape */
+.photo-container a::after {
+    content: attr(alt); /* Display the alt text as a label */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px; /* Slightly larger font size for better readability */
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8); /* Lighter shadow for the text */
+    letter-spacing: 1px;
+    text-align: center;
+}
+
 
        
 
