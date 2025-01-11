@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pride and Prejudice</title>
+    <title>Looking for Cows Audio</title>
     <style>
         /* General Styles */
         body {
@@ -13,26 +13,23 @@
             background: url('IMG_5945.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
-            height: 100%;
-            overflow: auto;
             display: flex;
             flex-direction: column;
-        }
-
-        /* Embed PDF - Make it scrollable and take full height */
-        .pdf-embed {
-            width: 100%;
-            height: 100vh; /* Full height of the viewport */
+            height: 100vh;
             overflow: auto;
-            flex-grow: 1; /* Allow the PDF to take up remaining space */
         }
 
-        iframe {
+        /* Embed PDF - Make it scrollable and fill the available space */
+        .pdf-embed {
+            flex-grow: 1;  /* Take available space */
             width: 100%;
             height: 100%;
-            border: none;
-            display: block;
-            overflow-y: scroll;
+        }
+
+        object {
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
         }
 
         /* Spotify Player */
@@ -67,13 +64,7 @@
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .pdf-embed {
-                height: 80vh; /* Adjust the height of the PDF on mobile */
-            }
-            footer {
-                position: static;
-            }
-            .spotify-player {
-                width: 95%;
+                height: 80vh; /* Ensure the PDF fits well on smaller screens */
             }
         }
     </style>
@@ -82,7 +73,7 @@
 
     <!-- Embed PDF directly on the page -->
     <div class="pdf-embed">
-        <iframe src="PRIDE AND PREJUDICE.pdf" title="Pride and Prejudice PDF"></iframe>
+        <object data="PRIDE AND PREJUDICE.pdf" type="application/pdf"></object>
     </div>
 
     <!-- Spotify Podcast Player -->
