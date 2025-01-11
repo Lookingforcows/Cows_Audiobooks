@@ -17,24 +17,21 @@
             overflow: auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
         }
 
-        /* Embed PDF - Ensure it's scrollable */
+        /* Embed PDF - Make it scrollable and take full height */
         .pdf-embed {
             width: 100%;
-            flex-grow: 1; /* Allow it to take up remaining space */
-            display: block;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            height: 100vh; /* Fill the viewport height */
+            height: 100vh; /* Full height of the viewport */
+            overflow: auto;
+            flex-grow: 1; /* Allow the PDF to take up remaining space */
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
             overflow-y: scroll;
         }
 
@@ -70,11 +67,10 @@
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .pdf-embed {
-                height: 80vh; /* Adjust PDF height to fit on smaller screens */
+                height: 80vh; /* Adjust the height of the PDF on mobile */
             }
             footer {
                 position: static;
-                margin-top: 10px; /* Ensure footer isn't stuck at the bottom */
             }
             .spotify-player {
                 width: 95%;
@@ -99,5 +95,6 @@
     <footer>
         <p>© 2024 Looking for Cows Audio</p>
     </footer>
+
 </body>
 </html>
