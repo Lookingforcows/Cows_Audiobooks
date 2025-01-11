@@ -5,41 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Looking for cows Audio</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
+    /* Banner */
+.banner {
+    width: 100%;
+    max-width: 800px; /* Reduce the max width further */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Centers the banner */
+    padding: 0;
+}
 
-        /* General Layout */
-        body {
-            width: 100vw;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Open Dyslexic', sans-serif;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            overflow-x: hidden;
-            background: url('IMG_5945.JPEG') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #000;
-        }
+/* Container for main content */
+.container {
+    max-width: 800px; /* Ensures the content doesn't stretch too wide */
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
 
-        /* Banner */
-        .banner {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
+/* Media Query for Mobile */
+@media screen and (max-width: 768px) {
+    .banner {
+        width: 90%; /* Adjust the banner to 90% width on mobile */
+        max-width: 100%; /* Ensures it doesn't exceed the screen width */
+        height: auto;
+    }
 
-        /* Container for main content */
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+    .container {
+        margin: 10px auto;
+        padding: 15px;
+    }
+}
+
+
 
         /* Text Styles */
         header h1, p {
@@ -86,34 +85,7 @@
             margin-top: 10px;
         }
 
-        /* Navigation Links */
-        .nav-link-container, .mobile-nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .nav-link {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .nav-link:hover {
-            background-color: #555;
-            transform: scale(1.05);
-        }
-
-        .mobile-nav {
-            flex-direction: column;
-            align-items: center;
-        }
-
+    
         /* Buttons */
         .download-btn, .mc-embedded-subscribe, .donate-button {
             padding: 10px 20px;
@@ -141,8 +113,144 @@
             text-decoration: none;
             z-index: 2;
         }
-       
 
+        /* Style for the "audiotape" look (larger size with full and centered art) */
+        .photo-container a {
+            width: 400px;
+            height: 380px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            border-radius: 20px;
+            background-color: #333;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .photo-container a:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-container a img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .photo-container a::after {
+            content: attr(alt);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* Body Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('IMG_6346.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        /* Full-screen popup styling */
+        #cow-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            font-size: 2rem;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #cow-popup h1 {
+            font-size: 3rem;
+        }
+
+        #cow-popup a {
+            color: #fff;
+            text-decoration: underline;
+            font-size: 1.2rem;
+        }
+
+        #close-popup {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #close-popup:hover {
+            background-color: #f50057;
+        }
+
+
+/* Navigation links style */
+.nav-link {
+  display: block;  /* Make the link block-level so it occupies space */
+  width: 80%;      /* Set width to a percentage so they fit within the container */
+  max-width: 350px; /* Set a maximum width for the nav links */
+  height: 60px;    /* Fixed height for the links */
+  margin: 10px auto; /* Center the links horizontally with auto margin */
+  background-color: #000000; /* Background color */
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline */
+  text-align: center; /* Center the text inside */
+  line-height: 60px; /* Vertically center the text */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 18px; /* Font size */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  box-sizing: border-box; /* Include padding and borders in width/height */
+}
+
+/* Hover effect */
+.nav-link:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .nav-link {
+    width: 90%;  /* Increase width on smaller screens */
+    font-size: 16px; /* Slightly smaller font on mobile */
+  }
+}
+
+
+
+
+    </style>
+</head>
+
+    </style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -239,54 +347,191 @@
         console.log("Page loaded. Rolling d20 for the popup...");
         showCowPopup();  // Trigger the dice roll on page load
     };
+
+    
 </script>
 
 </body>
 </html>
 
+  </script>
 
+  <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
 
-    <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
-    <a href="https://cash.app/$rerockha" class="donate-button"> Donate with Cash App</a>
+    <a href="https://cash.app/$rerockha" class="donate-button">Donate with Cash App</a>
     
     <div class="container">
         <header>
-            <h1>Welcome to Lookingforcows.com</h1>
-        </header>
-        <p>
-            Cow's Audiobooks is the storytelling podcast of M.p "Looking for Cows" Temple. Each audiobook is character-driven with relatable quirky characters forced into ridiculous situations.  Each tale is brought to life through a unique and dramatic lens only cows could provide. From "Saku of the Skull Talkers" to "The Aurore Reset", to classics such as "Pride and Prejudice". So join in looking for cows, metaphorically speaking, in this anthology podcast. New seasons come out when the stories are ready. Listen and download for free! Click on the Podcast artwork below to view the text.
+
+        <p> Everyone is looking for cows in one way or another. <p>
+            <p style="text-align:center;">The Cow’s Audiobooks podcast is about creating and sharing original stories.
+                While finding the cows in things in all. 
+                Each one going to be different and weird. 
+                These mostly light-hearted adventures focus on a character's personal growth while placed in strange environments, 
+                with random slice-of-life and absurd moments thrown in for good measure. 
+                
+                Some series contain adult subjects, maybe too close female to female emotional bonds, 
+                alcohol use, and death. But these are done so in a minimal manner that leads to healthy discussions about the material. 
+                Without overshadowing the series' main message. If you’re a parent, talk to your kids about stuff. It helps.  
+                
+                So. I write. I read. I share. 
+                You can donate if you want, but the more important thing is these are my gifts to you. Let me know what you think.</p>
+
+
+            <p> rerockhapenguin@gmail.com</p>
+             
+        
+       
+        </p>
+        <div class="photo-container">
+            <a href="ca site saku .pdf" target="_blank">
+                <img src="AR.jpg" alt="The Aurore Reset" class="photo-same-size">
+            </a>
+            <a href="ca site saku .pdf" target="_blank">
+                <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo-same-size">
+            </a>
+            <a href="Whisper's Bay 11_20.pdf" target="_blank">
+                <img src="495876FE-C728-47E8-A747-A5B2FE48BB80.jpeg" alt="Whisper's Bay" class="photo-same-size">
+            </a>
+            <a href="PRIDE AND PREJUDICE.pdf" target="_blank">
+                <img src="pandp.jpg" alt="Pride and Prejudice" class="photo-same-size">
+            </a>
+            <a href="The Wonderful Wizard of Oz.pdf" target="_blank">
+                <img src="wizard of oz.jpg" alt="The Wonderful Wizard of Oz" class="photo-same-size">
+            </a>
+            <a href="The Shepherd of the Hills.pdf" target="_blank">
+                <img src="shepherd logo.jpg" alt="The Shepherd of the Hills" class="photo-same-size">
+            </a>
+        </div>
+    </div>
   
-</style>
+    <footer>
+        <p>© 2024 Looking for cows Audio</p>
+    </footer>
 
-<div class="photo-container">
-  <a href="ca site AR.pdf" target="_blank">
-    <img src="AR.jpg" alt="The Aurore Reset" class="photo-same-size">
-  </a>
-  <a href="ca site saku .pdf" target="_blank">
-    <img src="Saku.jpg" alt="Saku of the Skull Talkers" class="photo-same-size">
-  </a>
-  <a href="Whisper's Bay 11_20.pdf" target="_blank">
-    <img src="495876FE-C728-47E8-A747-A5B2FE48BB80.jpeg" alt="Whisper's Bay" class="photo-same-size">
-  </a>
-  <a href="PRIDE AND PREJUDICE.pdf" target="_blank">
-    <img src="pandp.jpg" alt="Pride and Prejudice" class="photo-same-size">
-  </a>
- <a href="The Wonderful Wizard of Oz.pdf" target="_blank">
-    <img src="wizard of oz.jpg" alt="The Wonderful Wizard of Oz" class="photo-same-size">
- </a>
- <a href="The Shepherd of the Hills.pdf" target="_blank">
-    <img src="shepherd logo.jpg" alt="The Shepherd of the Hills" class="photo-same-size">
-  </a>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    /* Floating audio player container */
+    #audio-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: url('somethinghere.jpg') no-repeat center center; /* Add your boombox image */
+      background-size: contain; /* Ensure the image doesn't stretch */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: grab; /* Indicates the player is draggable */
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%; /* Ensure responsiveness */
+      max-width: 350px; /* Max width for desktop */
+      height: auto;
+      max-height: 250px; /* Set a maximum height for the player */
+    }
 
-</div>     
-    
-</div>   
-    <a href="podcastsv2.html" class="nav-link">Listen here!</a>
+    #audio-player header {
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 10px;
+      cursor: grab; /* Grab cursor for dragging */
+      width: 100%;
+      text-align: center;
+    }
+
+    #audio-player audio {
+      width: 100%;
+    }
+
+    /* Progress bar styling */
+    #progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #progress-bar div {
+      width: 0;
+      height: 100%;
+      background-color: #007bff;
+    }
+
+    /* Dropdown link styling */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+      padding: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 8px 12px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 600px) {
+      #audio-player {
+        width: 100%;
+        max-width: 300px; /* Adjusted max-width for mobile */
+        height: 200px; /* Adjusted height for mobile */
+      }
+
+      #audio-player header {
+        font-size: 12px;
+      }
+    }
+
+    /* Landscape orientation rotation */
+    @media screen and (orientation: landscape) {
+      #audio-player {
+        transform: rotate(90deg); /* Rotate the player */
+        transform-origin: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="podcastsv2.html" class="nav-link">Listen here!</a>
     <a href="art.html" class="nav-link">Social Links</a>
     <a href="blog.html" class="nav-link">News and Updates</a>
     <a href="about me.html" class="nav-link">About me</a>
     <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
     <a href="https://www.instagram.com/castleblockart" class="nav-link">Adopted Freelance Artist</a>
 
-<footer> 
- <p>© 2024 Looking for cows Audio</p>
+</body>
+</html>
