@@ -130,75 +130,70 @@
         .episode button:hover {
             background-color: #45a049;
         }
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 
-        /* Navigation bar at the bottom (regular flow) */
-        .navbar {
-            display: flex;
-            justify-content: space-between; /* Space between links and the donate button */
-            background-color: #333;
-            padding: 10px 20px;
-            width: 100%;
-            box-sizing: border-box;
-        }
+li {
+  display: inline;
+}
 
-        /* Navigation links */
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            text-align: center;
-        }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
 
-        .nav-link:hover {
-            background-color: #575757;
-            border-radius: 5px;
-        }
+li {
+  float: left;
+}
 
-        /* Space between navigation links */
-        .navbar .nav-links {
-            display: flex;
-            gap: 20px;
-        }
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
 
-        /* Donate Button Styling */
-        .navbar .donate-button {
-            margin-left: 20px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-        }
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
 
-        .navbar .donate-button:hover {
-            background-color: #575757;
-        }
+ul {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    width: 100%;
+    position: relative;
+    margin-bottom: 50px; /* Adjust this if necessary */
+}        
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    width: 100%;
+    position: relative;
+    margin-bottom: 50px; /* Adjust this if necessary */
+}
+ul {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 100;
+}
 
-        /* Responsive Design for Mobile */
-        @media (max-width: 600px) {
-            .navbar {
-                flex-direction: column; /* Stack navbar links and donate button */
-                align-items: center;
-                padding: 20px;
-            }
-
-            .nav-link {
-                padding: 8px 15px;
-                font-size: 16px;
-            }
-
-            .navbar .donate-button {
-                margin-top: 15px; /* Add space above the donate button */
-                font-size: 14px;
-            }
-
-            /* Adjust the banner image on small screens */
-            .banner {
-                max-width: 100%;
-            }
-        }
 
     </style>
 </head>
@@ -219,19 +214,17 @@
 
         <p>To download, right-click and "save as".</p>
     </div>
-
-    <!-- Navigation Bar at the bottom -->
-    <div class="navbar">
-        <div class="nav-links">
-            <a href="art.html" class="nav-link">Social Links</a>
-            <a href="blog.html" class="nav-link">News and Updates</a>
-            <a href="about me.html" class="nav-link">About me</a>
-            <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
-            <a href="https://www.instagram.com/castleblockart" class="nav-link">Adopted Freelance Artist</a>
+    
+    <ul>
+        <li><a href="art.html">Social Links</a></li>
+        <li><a href="blog.html">News and Updates </a></li>
+        <li><a href="about me.html"> About </a></li>
+        <li><a href="https://pay.lookingforcows.com">Donate with paylink </a></li>
+        <li><a href="https://www.instagram.com/castleblockart">Adopted Freelance Artist </a></li>
+        <li><a href="https://cash.app/$rerockha"> Donate with Cash Ap </a></li>
+    </ul>
+    
         </div>
-        <!-- Donate Button next to the navigation links -->
-        <a href="https://cash.app/$rerockha" class="donate-button">Donate with Cash App</a>
-    </div>
 
     <script>
         async function fetchPodcastEpisodes() {
