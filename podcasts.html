@@ -25,6 +25,8 @@
             background-color: rgba(0, 0, 0, 0.8);
             text-align: center; /* Center the text */
             font-family: 'Open Dyslexic', sans-serif; /* Use the Open Dyslexic font */
+            padding-top: 100px; /* Added padding to prevent content overlap */
+            padding-bottom: 120px; /* Added space for the navbar */
         }
 
         /* Body Background */
@@ -37,6 +39,9 @@
             background-repeat: no-repeat;
             font-family: 'Open Dyslexic', sans-serif; /* Use the Open Dyslexic font */
             color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Horizontal scrolling container */
@@ -126,16 +131,14 @@
             background-color: #45a049;
         }
 
-        /* Navigation bar across the top */
+        /* Navigation bar at the bottom (regular flow) */
         .navbar {
             display: flex;
-            justify-content: flex-start; /* Align items to the left */
+            justify-content: space-between; /* Space between links and the donate button */
             background-color: #333;
             padding: 10px 20px;
-            position: fixed;
-            top: 0;
             width: 100%;
-            z-index: 2;
+            box-sizing: border-box;
         }
 
         /* Navigation links */
@@ -152,52 +155,54 @@
             border-radius: 5px;
         }
 
-        /* Add space between navigation links and donate button */
+        /* Space between navigation links */
         .navbar .nav-links {
             display: flex;
             gap: 20px;
         }
 
+        /* Donate Button Styling */
         .navbar .donate-button {
-            margin-left: 20px; /* Add space to the left of the donate button */
+            margin-left: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
         }
 
-        /* Ensure content doesn't go under the navbar */
-        .container {
-            margin-top: 80px; /* Add space for the fixed navbar */
+        .navbar .donate-button:hover {
+            background-color: #575757;
         }
 
-        /* Responsiveness for smaller screens */
+        /* Responsive Design for Mobile */
         @media (max-width: 600px) {
             .navbar {
-                flex-direction: column; /* Stack links vertically on small screens */
+                flex-direction: column; /* Stack navbar links and donate button */
                 align-items: center;
+                padding: 20px;
             }
+
             .nav-link {
-                padding: 10px;
+                padding: 8px 15px;
                 font-size: 16px;
             }
-            .donate-button {
-                margin-top: 10px; /* Add space between the nav and button */
+
+            .navbar .donate-button {
+                margin-top: 15px; /* Add space above the donate button */
+                font-size: 14px;
+            }
+
+            /* Adjust the banner image on small screens */
+            .banner {
+                max-width: 100%;
             }
         }
 
     </style>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="nav-links">
-            <a href="art.html" class="nav-link">Social Links</a>
-            <a href="blog.html" class="nav-link">News and Updates</a>
-            <a href="about me.html" class="nav-link">About me</a>
-            <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
-            <a href="https://www.instagram.com/castleblockart" class="nav-link">Adopted Freelance Artist</a>
-        </div>
-        <!-- Donate Button next to the navigation links -->
-        <a href="https://cash.app/$rerockha" class="donate-button">Donate with Cash App</a>
-    </div>
 
     <img src="51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
 
@@ -213,6 +218,19 @@
         </div>
 
         <p>To download, right-click and "save as".</p>
+    </div>
+
+    <!-- Navigation Bar at the bottom -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="art.html" class="nav-link">Social Links</a>
+            <a href="blog.html" class="nav-link">News and Updates</a>
+            <a href="about me.html" class="nav-link">About me</a>
+            <a href="https://pay.lookingforcows.com" class="nav-link">Donate with paylink</a>
+            <a href="https://www.instagram.com/castleblockart" class="nav-link">Adopted Freelance Artist</a>
+        </div>
+        <!-- Donate Button next to the navigation links -->
+        <a href="https://cash.app/$rerockha" class="donate-button">Donate with Cash App</a>
     </div>
 
     <script>
