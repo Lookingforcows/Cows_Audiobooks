@@ -3,138 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About </title>
+    <title>Looking for cows Audio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap" rel="stylesheet">
     <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            background: url('IMG_6346.jpg') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+
+        /* Container for main content */
         .container {
             max-width: 800px;
+            width: 100%;
             margin: 20px auto;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8); /* Dark background for better readability */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow for depth */
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center; /* Center the text */
+            font-family: 'Open Dyslexic', sans-serif; /* Use the Open Dyslexic font */
+            padding-top: 100px; /* Added padding to prevent content overlap */
+            padding-bottom: 120px; /* Added space for the navbar */
         }
-        h1 {
-            color: #fff;
+
+        /* Body Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('IMG_6346.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Open Dyslexic', sans-serif; /* Use the Open Dyslexic font */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        p {
-            margin: 10px 0;
-            color: #fff;
-        }
-        .profile-pic {
-            float: left;
-            margin: 0 20px 20px 0;
-            border-radius: 50%;
-        }
-        .clear {
-            clear: both;
-        }
-        .nav-link-container {
-            text-align: center;
+
+        /* Horizontal scrolling container */
+        .episode-list {
+            display: flex;
+            overflow-x: auto; /* Enables horizontal scrolling */
+            gap: 20px;
             margin-top: 20px;
+            padding-bottom: 20px; /* Space to avoid content being cut off */
+            scroll-snap-type: x mandatory; /* Snap to episodes */
         }
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
+
+        .episode {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            width: 250px;
+            flex-shrink: 0; /* Prevent shrinking, so each episode has fixed width */
+            box-sizing: border-box;
+            scroll-snap-align: start; /* Snap each episode to the start */
+        }
+
+        .episode img {
+            width: 200px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .episode h3 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .episode p {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Buttons */
+        .download-btn, .mc-embedded-subscribe, .donate-button {
             padding: 10px 20px;
             border-radius: 5px;
-            margin: 5px;
-            background-color: #333;
-            border: 2px solid #555;
+            cursor: pointer;
         }
-        .nav-link:hover {
-            background-color: #555;
+
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
         }
+
+        .download-btn:hover, .mc-embedded-subscribe:hover, .donate-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Donate Button */
         .donate-button {
-            color: #fff;
-            text-decoration: none;
-            display: inline-block;
             background-color: #333;
-            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
             border-radius: 5px;
-            margin-bottom: 20px;
-            position: absolute;
-            right: 20px;
-            top: 20px;
         }
+
         .donate-button:hover {
-            background-color: #555;
+            background-color: #575757;
         }
-/* Navigation links style */
-.nav-link {
-  display: block;  /* Make the link block-level so it occupies space */
-  width: 80%;      /* Set width to a percentage so they fit within the container */
-  max-width: 350px; /* Set a maximum width for the nav links */
-  height: 60px;    /* Fixed height for the links */
-  margin: 10px auto; /* Center the links horizontally with auto margin */
-  background-color: #000000; /* Background color */
-  color: white; /* Text color */
-  text-decoration: none; /* Remove underline */
-  text-align: center; /* Center the text inside */
-  line-height: 60px; /* Vertically center the text */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 18px; /* Font size */
-  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
-  box-sizing: border-box; /* Include padding and borders in width/height */
+
+        /* Audio player styling */
+        .episode audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .episode button {
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .episode button:hover {
+            background-color: #45a049;
+        }
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Hover effect */
-.nav-link:hover {
-  background-color: #2980b9; /* Darker blue on hover */
-  transform: scale(1.05); /* Slightly increase size on hover */
+li {
+  display: inline;
 }
 
-/* Mobile responsiveness */
-@media screen and (max-width: 768px) {
-  .nav-link {
-    width: 90%;  /* Increase width on smaller screens */
-    font-size: 16px; /* Slightly smaller font on mobile */
-  }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
 }
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+ul {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    width: 100%;
+    position: relative;
+    margin-bottom: 50px; /* 
+}        
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    width: 100%;
+    position: relative;
+    margin-bottom: 50px; /* 
+}
+ul {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 100;
+}
+        
     </style>
 </head>
 <body>
-  <a href="https://cash.app/$rerockha" class="donate-button" class="donate-button">Donate</a>
+
+<!-- Use the favicon.ico as the main favicon -->
+<link rel="icon" href="https://lookingforcows.com/favicon/favicon.ico" type="image/x-icon">
+
+<!-- Optional: Use additional formats as fallback (you can leave these out if not needed) -->
+<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+
+<!-- Manifest for Web App -->
+<link rel="manifest" href="/favicon/site.webmanifest">
+<head></head>
+    <body>
+        
+
     <div class="container">
-        <h1>About Me</h1>
-        <img src="IMG_9307.PNG" alt="Looking for Cows" class="profile-pic" width="150">
-        <p>Looking for cows is the Gamertag of M.P Temple, who has been writing since high school. After two college theatre productions and countless screenplays, Cows wanted a way to share the creativity found in their unique stories. They also grew tired of the paywalls, and audio content so drowned in capitalism that commercials seem to fill up the air time. There is a better world out there where stories are art, engaging, and free. This led to "The Aurore Reset", a novella-sized audiobook about learning to love oneself that anyone can enjoy without a subscription or listening limits.</p>
-        <p>Here cows discovered a love for narrating, a love that perhaps borderlines on addiction. So now Cows reads on, classics and original stories that showcase their weird and wacky personality with the flare of the dramatic. This is their collection of narrated audiobooks all in one podcast for you to enjoy for free.</p>
-        <p>When Cows isn't working on new episodes, they can be found playing Dead by Daylight or piano. Their heart also yearns to be by the ocean. Sometimes they dabble in unskilled art. If you have any questions or suggestions or want to play Dead by Daylight, you can contact them via their socials. Links are in each episode. Thank you for stopping by, and good luck looking for cows out there.</p>
-        <div class="clear"></div   
-        </div>
-  <!-- Floating Shortcut Widget -->
-    <div class="shortcut-widget">
-        <h3>Quick Links</h3>
-            <a href="https://lookingforcows.com" class="nav-link">Cow's Library</a>
-            <a href="podcastsv2.html" class="nav-link">Listen here!</a>
-            <a href="art.html" class="nav-link">Socials</a>
-            <a href="blog.html" class="nav-link">News and Updates</a>
-            <a href="https://www.instagram.com/castleblockart/" class="nav-link">Adopted Freelance Artist</a>
- <a href="https://cash.app/$rerockha" class="donate-button">Donate via Cash App</a>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self';">
-    <!-- Referrer Policy -->
-    <meta name="referrer" content="no-referrer">
-    <!-- Permissions Policy -->
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
-    <!-- Other Security Headers (non-meta applicable headers below) -->
-</head>
+        <header>
+            <h1>What's this about cows and Audiobooks?</h1>
+        </header>
+
+       <center> <p>“Looking for cows” is a metaphor—some days you want to leave it all and look for cattle in the hills, preferably the ocean. It’s the desire to search and discover. That’s why I created Cow’s Audiobooks. 
+
+<p> Each series is a novella-sized original audio tale, written and narrated by me. Cows. Metaphorically it’s like standing out in a field, feeling the wind on your face while some cattle munch on grass in front of you.</p>
+   </p>  A tiny audio escape so to speak. I even read some classic literature as a bonus. Such as “The Shepherd of the Hills.” </p>
+
+</p>I hope you join me. Whenever you feel like it. </p></center>
+
+</p>
+</div>
+    </body>
+     <li><a href="art.html">Social Links</a></li>
+        <li><a href="blog.html">News and Updates </a></li>
+        <li><a href="about me.html"> About </a></li>
+<li><a href="https://www.instagram.com/castleblockart">Adopted Freelance Artist </a></li>
+        <li><a href="https://pay.lookingforcows.com">Donate with paylink </a></li>
+        <li><a href="https://cash.app/$rerockha"> Donate with Cash Ap </a></li>
+        
+
+       
+    <footer>
+        <p style="text-align: center;">© 2025 Looking for cows Audio</p>
+        <p style="text-align: center;">All Rights Reserved.</p>
+    </footer>
+</body>
 </html>
