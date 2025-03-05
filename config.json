@@ -1,5 +1,5 @@
 {
-  "defaultHomeserver": "secret.lookingforcows.com:8448",
+  "defaultHomeserver": "http:\\secret.lookingforcows.com:8448",
   "homeserverList": [
 
   ],
