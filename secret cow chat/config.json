@@ -1,12 +1,6 @@
 {
-  "defaultHomeserver": 2,
+  "defaultHomeserver": "https://secret.lookingforcows.com:8448"
   "homeserverList": [
-    "converser.eu",
-    "envs.net",
-    "matrix.org",
-    "monero.social",
-    "mozilla.org",
-    "xmr.se"
   ],
   "allowCustomHomeservers": true,
 
