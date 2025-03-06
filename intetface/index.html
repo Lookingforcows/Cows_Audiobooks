@@ -22,7 +22,7 @@
     <script>
         let client;
         const homeserverUrl = "https://secret.lookingforcows.com:8448"; 
-        const domain = "secret.lookingforcows.com"; // Your Matrix server domain
+        const domain = "secret.lookingforcows.com";
 
         document.getElementById("loginButton").addEventListener("click", async () => {
             const usernameInput = document.getElementById("username").value.trim();
@@ -34,17 +34,13 @@
                 return;
             }
 
-            // Auto-format the username (user enters "john", system converts to "@john:domain")
             const fullUsername = `@${usernameInput}:${domain}`;
 
             try {
                 console.log(`Logging in as: ${fullUsername}`);
                 client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-                const loginResponse = await client.login("m.login.password", {
-                    user: fullUsername,
-                    password: password,
-                });
+                const loginResponse = await client.loginWithPassword(fullUsername, password);
 
                 console.log("Login successful:", loginResponse);
                 document.getElementById("login-container").style.display = "none";
