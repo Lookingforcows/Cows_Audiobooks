@@ -8,17 +8,41 @@
     <style>
         #chat-container {
             display: none;
+            max-width: 600px;
+            margin: 20px auto;
         }
         .message {
-            padding: 5px;
+            padding: 10px;
             margin: 5px;
-            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 90%;
+            word-wrap: break-word;
         }
         .sent {
             background-color: #e0f7fa;
+            align-self: flex-end;
         }
         .received {
             background-color: #f0f0f0;
+            align-self: flex-start;
+        }
+        .message img {
+            max-width: 300px;
+            max-height: 300px;
+            margin-top: 5px;
+        }
+        .message audio, .message video {
+            max-width: 300px;
+            margin-top: 5px;
+        }
+        #messageInputContainer {
+            display: flex;
+            align-items: center;
+        }
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -36,10 +60,17 @@
         <h2>Rooms</h2>
         <ul id="room-list"></ul>
 
-        <div id="messages"></div>
+        <div id="messages" style="display: flex; flex-direction: column;"></div>
 
-        <input type="text" id="messageInput" placeholder="Type a message" />
-        <button id="sendMessageButton">Send</button>
+        <div id="messageInputContainer">
+            <input type="text" id="messageInput" placeholder="Type a message" />
+            <button id="sendMessageButton">Send</button>
+        </div>
+
+        <div id="fileInputContainer">
+            <input type="file" id="fileInput" style="display: none;"/>
+            <button id="attachFileButton">Attach File</button>
+        </div>
     </div>
 
     <script>
@@ -48,18 +79,14 @@
 
         // Use your homeserver
         const homeserverUrl = "https://secret.lookingforcows.com:8448";
-
-        // Create the client once (use 'matrix' instead of 'matrixcs')
         client = matrix.createClient({ baseUrl: homeserverUrl });
 
-        // Listen for "Enter" key in password input field
         document.getElementById("password").addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 document.getElementById("loginButton").click(); // Trigger login on Enter
             }
         });
 
-        // Login function
         document.getElementById("loginButton").addEventListener("click", async () => {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
@@ -75,7 +102,6 @@
 
                     document.getElementById("login-container").style.display = "none";
                     document.getElementById("chat-container").style.display = "block";
-
                     loadRooms(); // Load the rooms after successful login
                 } catch (error) {
                     console.error("Login failed:", error);
@@ -84,17 +110,16 @@
             }
         });
 
-        // Load rooms (contacts)
         async function loadRooms() {
             try {
-                const rooms = await client.getRooms(); // Getting the rooms
+                const rooms = await client.getRooms();
                 const roomListElement = document.getElementById("room-list");
                 roomListElement.innerHTML = "";
 
                 rooms.forEach(room => {
                     const li = document.createElement("li");
-                    li.textContent = room.name || room.roomId; // Display room name or room ID
-                    li.addEventListener("click", () => joinRoom(room.roomId)); // Attach event to join room
+                    li.textContent = room.name || room.roomId;
+                    li.addEventListener("click", () => joinRoom(room.roomId));
                     roomListElement.appendChild(li);
                 });
             } catch (error) {
@@ -102,14 +127,12 @@
             }
         }
 
-        // Join a room and listen for messages
         async function joinRoom(roomId) {
             try {
                 currentRoomId = roomId;
-                await client.joinRoom(roomId); // Join the selected room
-                document.getElementById("messages").innerHTML = ""; // Clear previous messages
+                await client.joinRoom(roomId);
+                document.getElementById("messages").innerHTML = "";
 
-                // Fetch previous messages
                 const room = client.getRoom(roomId);
                 const timeline = room.getLiveTimeline();
                 timeline.getEvents().forEach(event => {
@@ -118,10 +141,13 @@
                     }
                 });
 
-                // Listen for new messages in the room
                 client.on("Room.timeline", (event, room) => {
                     if (room.roomId === currentRoomId && event.getType() === "m.room.message") {
-                        displayMessage(event.getSender(), event.getContent().body, "received");
+                        if (event.getContent().msgtype === "m.text") {
+                            displayMessage(event.getSender(), event.getContent().body, "received");
+                        } else if (event.getContent().msgtype === "m.file") {
+                            displayMedia(event.getContent().url, event.getContent().body);
+                        }
                     }
                 });
             } catch (error) {
@@ -129,25 +155,58 @@
             }
         }
 
-        // Send a message
         document.getElementById("sendMessageButton").addEventListener("click", async () => {
             const message = document.getElementById("messageInput").value;
             if (message && currentRoomId) {
                 try {
                     await client.sendTextMessage(currentRoomId, message);
-                    displayMessage("You", message, "sent"); // Display the sent message
-                    document.getElementById("messageInput").value = ""; // Clear input field
+                    displayMessage("You", message, "sent");
+                    document.getElementById("messageInput").value = "";
                 } catch (error) {
                     console.error("Failed to send message:", error);
                 }
             }
         });
 
-        // Display messages in chat bubbles
         function displayMessage(sender, message, type) {
             const messageDiv = document.createElement("div");
             messageDiv.className = `message ${type}`;
             messageDiv.textContent = `${sender}: ${message}`;
+            document.getElementById("messages").appendChild(messageDiv);
+        }
+
+        // Handle file selection and upload
+        document.getElementById("attachFileButton").addEventListener("click", () => {
+            document.getElementById("fileInput").click();
+        });
+
+        document.getElementById("fileInput").addEventListener("change", async function () {
+            const file = this.files[0];
+            if (!file) return;
+
+            try {
+                const uploadResponse = await client.uploadContent(file);
+                const fileUrl = uploadResponse.content_uri;
+                await client.sendMessage(currentRoomId, {
+                    msgtype: "m.file",
+                    body: file.name,
+                    url: fileUrl
+                });
+            } catch (err) {
+                console.error("File upload failed:", err);
+            }
+        });
+
+        // Display uploaded media in the chat
+        function displayMedia(fileUrl, fileName) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "message received";
+
+            const mediaElement = document.createElement("img");
+            mediaElement.src = fileUrl;
+            mediaElement.alt = fileName;
+            messageDiv.appendChild(mediaElement);
+
             document.getElementById("messages").appendChild(messageDiv);
         }
     </script>
