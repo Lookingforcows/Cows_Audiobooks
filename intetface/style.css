@@ -1,3 +1,4 @@
+/* CSS styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #eceff1;
@@ -98,5 +99,22 @@ body {
     border: none;
     background: #3b5998;
     color: white;
+    cursor: pointer;
+}
+
+#fileInputContainer {
+    margin-top: 10px;
+}
+
+#fileInput {
+    display: none;
+}
+
+#attachFileButton {
+    margin-top: 10px;
+    background: #3b5998;
+    color: white;
+    padding: 5px;
+    border: none;
     cursor: pointer;
 }
