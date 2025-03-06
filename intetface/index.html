@@ -34,8 +34,8 @@
   <!-- Login Form -->
   <div id="login-container">
     <h2>Login to Matrix</h2>
-    <input type="text" id="username" placeholder="Username" required /><br>
-    <input type="password" id="password" placeholder="Password" required /><br>
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
     <button id="loginButton">Login</button>
     <p id="error-message" style="color:red;"></p>
   </div>
@@ -44,19 +44,19 @@
   <div id="chat-container">
     <h2>Chat Room</h2>
     <div id="messages" style="height:300px; overflow-y:auto; border:1px solid #ccc; padding:5px;"></div>
-    <input type="text" id="messageInput" placeholder="Type your message" style="width:80%;" />
+    <input type="text" id="messageInput" placeholder="Type your message" style="width:80%;">
     <button id="sendMessageButton">Send</button>
   </div>
 
   <script>
     // --- Configuration ---
-    const homeserverUrl = "https://your-matrix-server.com"; // Replace with your Matrix homeserver URL
-    const roomId = "!yourRoomId:your-matrix-server.com";      // Replace with your Matrix room ID
+    const homeserverUrl = "https://secret.lookingforcows.com:8448"; // Your Matrix homeserver
+    const roomId = "!yourRoomId:secret.lookingforcows.com";         // Replace with your actual Matrix room ID
 
     // --- Global Variables ---
     let accessToken = "";
     let userId = "";
-    let nextBatch = ""; // Used for sync pagination (not fully implemented)
+    let nextBatch = ""; // For sync pagination (not fully implemented)
 
     // --- Matrix API Functions ---
     async function matrixLogin(username, password) {
@@ -81,7 +81,7 @@
     }
 
     async function matrixSync() {
-      // Basic sync call (long polling can be implemented by adjusting timeout)
+      // Basic sync call with a 30s timeout. Adjust timeout and polling as needed.
       const syncUrl = `${homeserverUrl}/_matrix/client/r0/sync?access_token=${accessToken}&timeout=30000`;
       try {
         const res = await fetch(syncUrl, { method: "GET" });
@@ -95,7 +95,7 @@
     }
 
     function processSyncData(data) {
-      // Process only joined room events for our target room
+      // Process joined room events for our target room
       if (data.rooms && data.rooms.join && data.rooms.join[roomId]) {
         const timeline = data.rooms.join[roomId].timeline;
         if (timeline && timeline.events) {
@@ -109,7 +109,7 @@
     }
 
     async function sendMessage(messageText) {
-      // Use a unique transaction ID (here, using timestamp)
+      // Use a unique transaction ID (here, using the timestamp)
       const txnId = "m" + Date.now();
       const sendUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${encodeURIComponent(roomId)}/send/m.room.message/${txnId}?access_token=${accessToken}`;
       const body = {
@@ -144,7 +144,7 @@
     async function startSyncLoop() {
       while (true) {
         await matrixSync();
-        // Wait a few seconds before the next sync poll (adjust as needed)
+        // Wait 3 seconds before the next sync poll (adjust as needed)
         await new Promise(resolve => setTimeout(resolve, 3000));
       }
     }
@@ -160,7 +160,7 @@
         return;
       }
       try {
-        // Depending on your homeserver configuration, you might need to prepend an '@' or domain
+        // Depending on your homeserver, you might need to format the username (e.g., add '@')
         await matrixLogin(username, password);
         document.getElementById("login-container").style.display = "none";
         document.getElementById("chat-container").style.display = "block";
