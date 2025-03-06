@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Chat</title>
-    <script src="https://unpkg.com/matrix-js-sdk@latest"></script>
+    <script src="https://unpkg.com/matrix-js-sdk@latest" defer></script>
 </head>
 <body>
     <div id="login-container">
@@ -20,37 +20,46 @@
     </div>
 
     <script>
-        let client;
-        const homeserverUrl = "https://secret.lookingforcows.com:8448"; 
-        const domain = "secret.lookingforcows.com";
+        document.addEventListener("DOMContentLoaded", function () {
+            let client;
+            const homeserverUrl = "https://secret.lookingforcows.com:8448"; 
+            const domain = "secret.lookingforcows.com";
 
-        document.getElementById("loginButton").addEventListener("click", async () => {
-            const usernameInput = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const errorMessage = document.getElementById("error-message");
+            document.getElementById("loginButton").addEventListener("click", async () => {
+                const usernameInput = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value.trim();
+                const errorMessage = document.getElementById("error-message");
 
-            if (!usernameInput || !password) {
-                errorMessage.textContent = "Username and password are required.";
-                return;
-            }
+                if (!usernameInput || !password) {
+                    errorMessage.textContent = "Username and password are required.";
+                    return;
+                }
 
-            const fullUsername = `@${usernameInput}:${domain}`;
+                const fullUsername = `@${usernameInput}:${domain}`;
 
-            try {
-                console.log(`Logging in as: ${fullUsername}`);
-                client = matrixcs.createClient({ baseUrl: homeserverUrl });
+                try {
+                    console.log(`Logging in as: ${fullUsername}`);
 
-                const loginResponse = await client.loginWithPassword(fullUsername, password);
+                    if (typeof matrixcs === "undefined") {
+                        console.error("Matrix SDK not loaded.");
+                        errorMessage.textContent = "Matrix SDK failed to load.";
+                        return;
+                    }
 
-                console.log("Login successful:", loginResponse);
-                document.getElementById("login-container").style.display = "none";
-                document.getElementById("chat-container").style.display = "block";
+                    client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-                client.startClient();
-            } catch (error) {
-                console.error("Login failed:", error);
-                errorMessage.textContent = "Login failed! Check your password.";
-            }
+                    const loginResponse = await client.loginWithPassword(fullUsername, password);
+                    console.log("Login successful:", loginResponse);
+
+                    document.getElementById("login-container").style.display = "none";
+                    document.getElementById("chat-container").style.display = "block";
+
+                    client.startClient();
+                } catch (error) {
+                    console.error("Login failed:", error);
+                    errorMessage.textContent = "Login failed! Check your password.";
+                }
+            });
         });
     </script>
 </body>
