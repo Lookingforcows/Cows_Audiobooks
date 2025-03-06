@@ -1,190 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Minimal Matrix Chat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    #login-container, #chat-container {
-      margin-bottom: 20px;
-    }
-    #chat-container {
-      display: none;
-    }
-    .message {
-      padding: 5px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .sent {
-      background-color: #e0f7fa;
-      text-align: right;
-    }
-    .received {
-      background-color: #f0f0f0;
-      text-align: left;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Chat</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to the external style.css -->
+    <script src="https://unpkg.com/matrix-js-sdk@latest"></script> <!-- Link to Matrix SDK -->
 </head>
 <body>
-  <!-- Login Form -->
-  <div id="login-container">
-    <h2>Login to Matrix</h2>
-    <input type="text" id="username" placeholder="Username" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
-    <button id="loginButton">Login</button>
-    <p id="error-message" style="color:red;"></p>
-  </div>
+    <!-- Login Form -->
+    <div id="login-container">
+        <h2>Login to Matrix</h2>
+        <input type="text" id="username" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <button id="loginButton">Login</button>
+    </div>
 
-  <!-- Chat Container -->
-  <div id="chat-container">
-    <h2>Chat Room</h2>
-    <div id="messages" style="height:300px; overflow-y:auto; border:1px solid #ccc; padding:5px;"></div>
-    <input type="text" id="messageInput" placeholder="Type your message" style="width:80%;">
-    <button id="sendMessageButton">Send</button>
-  </div>
+    <!-- Chat Container -->
+    <div id="chat-container">
+        <div id="sidebar">
+            <h2>Rooms</h2>
+            <ul id="room-list"></ul>
+        </div>
+        <div id="chat-box">
+            <div id="messages"></div>
 
-  <script>
-    // --- Configuration ---
-    const homeserverUrl = "https://secret.lookingforcows.com:8448"; // Your Matrix homeserver
-    const roomId = "!yourRoomId:secret.lookingforcows.com";         // Replace with your actual Matrix room ID
+            <div id="messageInputContainer">
+                <input type="text" id="messageInput" placeholder="Type a message" />
+                <button id="sendMessageButton">Send</button>
+            </div>
 
-    // --- Global Variables ---
-    let accessToken = "";
-    let userId = "";
-    let nextBatch = ""; // For sync pagination (not fully implemented)
+            <div id="fileInputContainer">
+                <input type="file" id="fileInput" />
+                <button id="attachFileButton">Attach File</button>
+            </div>
+        </div>
+    </div>
 
-    // --- Matrix API Functions ---
-    async function matrixLogin(username, password) {
-      const loginUrl = `${homeserverUrl}/_matrix/client/r0/login`;
-      const body = {
-        type: "m.login.password",
-        identifier: { type: "m.id.user", user: username },
-        password: password
-      };
-      const res = await fetch(loginUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) {
-        throw new Error("Login failed");
-      }
-      const data = await res.json();
-      accessToken = data.access_token;
-      userId = data.user_id;
-      return data;
-    }
-
-    async function matrixSync() {
-      // Basic sync call with a 30s timeout. Adjust timeout and polling as needed.
-      const syncUrl = `${homeserverUrl}/_matrix/client/r0/sync?access_token=${accessToken}&timeout=30000`;
-      try {
-        const res = await fetch(syncUrl, { method: "GET" });
-        if (!res.ok) throw new Error("Sync error");
-        const data = await res.json();
-        nextBatch = data.next_batch || "";
-        processSyncData(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    function processSyncData(data) {
-      // Process joined room events for our target room
-      if (data.rooms && data.rooms.join && data.rooms.join[roomId]) {
-        const timeline = data.rooms.join[roomId].timeline;
-        if (timeline && timeline.events) {
-          timeline.events.forEach(event => {
-            if (event.type === "m.room.message" && event.content?.body) {
-              displayMessage(event.sender, event.content.body);
-            }
-          });
-        }
-      }
-    }
-
-    async function sendMessage(messageText) {
-      // Use a unique transaction ID (here, using the timestamp)
-      const txnId = "m" + Date.now();
-      const sendUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${encodeURIComponent(roomId)}/send/m.room.message/${txnId}?access_token=${accessToken}`;
-      const body = {
-        msgtype: "m.text",
-        body: messageText
-      };
-      const res = await fetch(sendUrl, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) throw new Error("Message failed to send");
-      return res.json();
-    }
-
-    // --- UI Functions ---
-    function displayMessage(sender, body) {
-      const messagesDiv = document.getElementById("messages");
-      const messageDiv = document.createElement("div");
-      messageDiv.classList.add("message");
-      if (sender === userId) {
-        messageDiv.classList.add("sent");
-      } else {
-        messageDiv.classList.add("received");
-      }
-      messageDiv.textContent = `${sender}: ${body}`;
-      messagesDiv.appendChild(messageDiv);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    // --- Sync Loop ---
-    async function startSyncLoop() {
-      while (true) {
-        await matrixSync();
-        // Wait 3 seconds before the next sync poll (adjust as needed)
-        await new Promise(resolve => setTimeout(resolve, 3000));
-      }
-    }
-
-    // --- Event Listeners ---
-    document.getElementById("loginButton").addEventListener("click", async () => {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorMessage = document.getElementById("error-message");
-      errorMessage.textContent = "";
-      if (!username || !password) {
-        errorMessage.textContent = "Username and password are required.";
-        return;
-      }
-      try {
-        // Depending on your homeserver, you might need to format the username (e.g., add '@')
-        await matrixLogin(username, password);
-        document.getElementById("login-container").style.display = "none";
-        document.getElementById("chat-container").style.display = "block";
-        // Start the sync loop in the background
-        startSyncLoop();
-      } catch (err) {
-        console.error(err);
-        errorMessage.textContent = "Login failed: " + err.message;
-      }
-    });
-
-    document.getElementById("sendMessageButton").addEventListener("click", async () => {
-      const messageInput = document.getElementById("messageInput");
-      const text = messageInput.value.trim();
-      if (!text) return;
-      try {
-        await sendMessage(text);
-        // Display the sent message immediately
-        displayMessage(userId, text);
-        messageInput.value = "";
-      } catch (err) {
-        console.error("Send error:", err);
-      }
-    });
-  </script>
+    <script src="client.js"></script> <!-- Link to the external client.js -->
 </body>
 </html>
