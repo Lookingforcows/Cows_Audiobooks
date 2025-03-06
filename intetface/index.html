@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Matrix Chat</title>
+  <title>Minimal Matrix Chat</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,15 +16,17 @@
     }
     .message {
       padding: 5px;
-      margin: 5px;
+      margin: 5px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
     .sent {
       background-color: #e0f7fa;
+      text-align: right;
     }
     .received {
       background-color: #f0f0f0;
+      text-align: left;
     }
   </style>
 </head>
@@ -34,81 +34,156 @@
   <!-- Login Form -->
   <div id="login-container">
     <h2>Login to Matrix</h2>
-    <input type="text" id="username" placeholder="Username" required /><br />
-    <input type="password" id="password" placeholder="Password" required /><br />
+    <input type="text" id="username" placeholder="Username" required /><br>
+    <input type="password" id="password" placeholder="Password" required /><br>
     <button id="loginButton">Login</button>
-    <p id="error-message" style="color: red;"></p>
+    <p id="error-message" style="color:red;"></p>
   </div>
 
   <!-- Chat Container -->
   <div id="chat-container">
     <h2>Chat Room</h2>
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="Type your message" />
+    <div id="messages" style="height:300px; overflow-y:auto; border:1px solid #ccc; padding:5px;"></div>
+    <input type="text" id="messageInput" placeholder="Type your message" style="width:80%;" />
     <button id="sendMessageButton">Send</button>
   </div>
 
-  <!-- Load the Matrix SDK via local copy -->
-  <script type="module">
-    import * as sdk from './libs/matrix-js-sdk/lib/index.js';  <!-- Path relative to your GitHub Pages site -->
-    window.matrixcs = sdk;
-  </script>
-
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (typeof matrixcs === 'undefined') {
-        console.error("Matrix SDK failed to load.");
-        document.getElementById("error-message").textContent = "Matrix SDK failed to load.";
+    // --- Configuration ---
+    const homeserverUrl = "https://your-matrix-server.com"; // Replace with your Matrix homeserver URL
+    const roomId = "!yourRoomId:your-matrix-server.com";      // Replace with your Matrix room ID
+
+    // --- Global Variables ---
+    let accessToken = "";
+    let userId = "";
+    let nextBatch = ""; // Used for sync pagination (not fully implemented)
+
+    // --- Matrix API Functions ---
+    async function matrixLogin(username, password) {
+      const loginUrl = `${homeserverUrl}/_matrix/client/r0/login`;
+      const body = {
+        type: "m.login.password",
+        identifier: { type: "m.id.user", user: username },
+        password: password
+      };
+      const res = await fetch(loginUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await res.json();
+      accessToken = data.access_token;
+      userId = data.user_id;
+      return data;
+    }
+
+    async function matrixSync() {
+      // Basic sync call (long polling can be implemented by adjusting timeout)
+      const syncUrl = `${homeserverUrl}/_matrix/client/r0/sync?access_token=${accessToken}&timeout=30000`;
+      try {
+        const res = await fetch(syncUrl, { method: "GET" });
+        if (!res.ok) throw new Error("Sync error");
+        const data = await res.json();
+        nextBatch = data.next_batch || "";
+        processSyncData(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function processSyncData(data) {
+      // Process only joined room events for our target room
+      if (data.rooms && data.rooms.join && data.rooms.join[roomId]) {
+        const timeline = data.rooms.join[roomId].timeline;
+        if (timeline && timeline.events) {
+          timeline.events.forEach(event => {
+            if (event.type === "m.room.message" && event.content?.body) {
+              displayMessage(event.sender, event.content.body);
+            }
+          });
+        }
+      }
+    }
+
+    async function sendMessage(messageText) {
+      // Use a unique transaction ID (here, using timestamp)
+      const txnId = "m" + Date.now();
+      const sendUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${encodeURIComponent(roomId)}/send/m.room.message/${txnId}?access_token=${accessToken}`;
+      const body = {
+        msgtype: "m.text",
+        body: messageText
+      };
+      const res = await fetch(sendUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) throw new Error("Message failed to send");
+      return res.json();
+    }
+
+    // --- UI Functions ---
+    function displayMessage(sender, body) {
+      const messagesDiv = document.getElementById("messages");
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("message");
+      if (sender === userId) {
+        messageDiv.classList.add("sent");
+      } else {
+        messageDiv.classList.add("received");
+      }
+      messageDiv.textContent = `${sender}: ${body}`;
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // --- Sync Loop ---
+    async function startSyncLoop() {
+      while (true) {
+        await matrixSync();
+        // Wait a few seconds before the next sync poll (adjust as needed)
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+    }
+
+    // --- Event Listeners ---
+    document.getElementById("loginButton").addEventListener("click", async () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMessage = document.getElementById("error-message");
+      errorMessage.textContent = "";
+      if (!username || !password) {
+        errorMessage.textContent = "Username and password are required.";
         return;
       }
-      console.log("Matrix SDK loaded successfully.");
+      try {
+        // Depending on your homeserver configuration, you might need to prepend an '@' or domain
+        await matrixLogin(username, password);
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("chat-container").style.display = "block";
+        // Start the sync loop in the background
+        startSyncLoop();
+      } catch (err) {
+        console.error(err);
+        errorMessage.textContent = "Login failed: " + err.message;
+      }
+    });
 
-      let client;
-      const homeserverUrl = "https://secret.lookingforcows.com:8448";
-      const domain = "secret.lookingforcows.com";
-
-      // Login button handler
-      document.getElementById("loginButton").addEventListener("click", async function () {
-        const usernameInput = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value.trim();
-        const errorMessage = document.getElementById("error-message");
-        errorMessage.textContent = "";
-
-        if (!usernameInput || !password) {
-          errorMessage.textContent = "Username and password are required.";
-          return;
-        }
-
-        // Automatically format the username (e.g., "john" becomes "@john:secret.lookingforcows.com")
-        const fullUsername = `@${usernameInput}:${domain}`;
-        console.log("Attempting login as: " + fullUsername);
-
-        try {
-          // Create the Matrix client using the locally loaded SDK
-          client = matrixcs.createClient({ baseUrl: homeserverUrl });
-          const loginResponse = await client.loginWithPassword(fullUsername, password);
-          console.log("Login successful:", loginResponse);
-
-          // Hide the login form and show the chat interface
-          document.getElementById("login-container").style.display = "none";
-          document.getElementById("chat-container").style.display = "block";
-
-          // Start syncing with the homeserver
-          client.startClient();
-        } catch (err) {
-          console.error("Login failed:", err);
-          errorMessage.textContent = "Login failed! Check your username and password.";
-        }
-      });
-
-      // Optional: Handle sending messages (requires room joining logic)
-      document.getElementById("sendMessageButton").addEventListener("click", async function () {
-        const messageText = document.getElementById("messageInput").value.trim();
-        if (!messageText || !client) return;
-        // Implement message sending logic here; for example:
-        // await client.sendTextMessage(currentRoomId, messageText);
-        console.log("Sending message:", messageText);
-      });
+    document.getElementById("sendMessageButton").addEventListener("click", async () => {
+      const messageInput = document.getElementById("messageInput");
+      const text = messageInput.value.trim();
+      if (!text) return;
+      try {
+        await sendMessage(text);
+        // Display the sent message immediately
+        displayMessage(userId, text);
+        messageInput.value = "";
+      } catch (err) {
+        console.error("Send error:", err);
+      }
     });
   </script>
 </body>
