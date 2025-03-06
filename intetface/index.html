@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Matrix Chat</title>
-  <!-- Load the Matrix JS SDK from unpkg. We use defer so it loads before our code runs. -->
-  <script src="https://unpkg.com/matrix-js-sdk@latest" defer></script>
+  <!-- Load the Matrix JS SDK as a module -->
+  <script type="module">
+    import * as sdk from 'https://unpkg.com/matrix-js-sdk@latest';
+
+    window.matrixcs = sdk;
+  </script>
   <style>
     #login-container { padding: 20px; }
     #chat-container { display: none; padding: 20px; }
