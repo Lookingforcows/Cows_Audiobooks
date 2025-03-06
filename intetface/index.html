@@ -3,26 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Matrix Chat</title>
-  <!-- Load the Matrix JS SDK as a module -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #login-container, #chat-container {
+      margin-bottom: 20px;
+    }
+    #chat-container {
+      display: none;
+    }
+    .message {
+      padding: 5px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .sent {
+      background-color: #e0f7fa;
+    }
+    .received {
+      background-color: #f0f0f0;
+    }
+  </style>
+  
+  <!-- Load the Matrix SDK via CDN as a module -->
   <script type="module">
-    import * as sdk from 'https://unpkg.com/matrix-js-sdk@latest';
-
+    import * as sdk from 'https://cdn.jsdelivr.net/npm/matrix-js-sdk@36.2.0/lib/index.js';
     window.matrixcs = sdk;
   </script>
-  <style>
-    #login-container { padding: 20px; }
-    #chat-container { display: none; padding: 20px; }
-    .message { padding: 5px; margin: 5px; border: 1px solid #ccc; }
-    .sent { background-color: #e0f7fa; }
-    .received { background-color: #f0f0f0; }
-  </style>
 </head>
 <body>
   <!-- Login Form -->
   <div id="login-container">
     <h2>Login to Matrix</h2>
-    <input type="text" id="username" placeholder="Username" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
+    <input type="text" id="username" placeholder="Username" required /><br />
+    <input type="password" id="password" placeholder="Password" required /><br />
     <button id="loginButton">Login</button>
     <p id="error-message" style="color: red;"></p>
   </div>
@@ -37,7 +54,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Ensure the SDK is loaded
       if (typeof matrixcs === 'undefined') {
         console.error("Matrix SDK failed to load.");
         document.getElementById("error-message").textContent = "Matrix SDK failed to load.";
@@ -49,7 +65,7 @@
       const homeserverUrl = "https://secret.lookingforcows.com:8448";
       const domain = "secret.lookingforcows.com";
 
-      // Login button click handler
+      // Login button handler
       document.getElementById("loginButton").addEventListener("click", async function () {
         const usernameInput = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
@@ -61,12 +77,12 @@
           return;
         }
 
-        // Automatically format the username for the user (e.g. "john" becomes "@john:secret.lookingforcows.com")
+        // Automatically format the username (e.g., "john" becomes "@john:secret.lookingforcows.com")
         const fullUsername = `@${usernameInput}:${domain}`;
         console.log("Attempting login as: " + fullUsername);
 
         try {
-          // Create the Matrix client using the global matrixcs object
+          // Create the Matrix client using the locally loaded SDK
           client = matrixcs.createClient({ baseUrl: homeserverUrl });
           const loginResponse = await client.loginWithPassword(fullUsername, password);
           console.log("Login successful:", loginResponse);
@@ -83,12 +99,11 @@
         }
       });
 
-      // (Optional) Send message button – you'll need to implement room joining logic for a full chat experience.
+      // Optional: Handle sending messages (requires room joining logic)
       document.getElementById("sendMessageButton").addEventListener("click", async function () {
         const messageText = document.getElementById("messageInput").value.trim();
         if (!messageText || !client) return;
-        // Send message logic goes here.
-        // For example, if you have a currentRoomId defined:
+        // Implement message sending logic here; for example:
         // await client.sendTextMessage(currentRoomId, messageText);
         console.log("Sending message:", messageText);
       });
