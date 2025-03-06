@@ -4,170 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Chat</title>
-    <!-- Load Matrix SDK as a module -->
-    <script type="module">
-        import * as matrix from "https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest";
-
-        window.matrix = matrix; // Expose to global window for further use
-    </script>
-    <style>
-        #chat-container {
-            display: none;
-        }
-        .message {
-            padding: 5px;
-            margin: 5px;
-            border: 1px solid #ccc;
-        }
-        .sent {
-            background-color: #e0f7fa;
-        }
-        .received {
-            background-color: #f0f0f0;
-        }
-    </style>
+    <script src="https://unpkg.com/matrix-js-sdk@latest"></script>
 </head>
 <body>
-    <!-- Login Form -->
     <div id="login-container">
         <h2>Login to Matrix</h2>
         <input type="text" id="username" placeholder="Username" required><br>
         <input type="password" id="password" placeholder="Password" required><br>
         <button id="loginButton">Login</button>
+        <p id="error-message" style="color: red;"></p>
     </div>
 
-    <!-- Chat Container -->
-    <div id="chat-container">
-        <h2>Rooms</h2>
-        <ul id="room-list"></ul>
-
-        <div id="messages"></div>
-
-        <input type="text" id="messageInput" placeholder="Type a message" />
-        <button id="sendMessageButton">Send</button>
+    <div id="chat-container" style="display: none;">
+        <h2>Welcome</h2>
     </div>
 
     <script>
         let client;
-        let currentRoomId;
+        const homeserverUrl = "https://secret.lookingforcows.com:8448"; 
+        const domain = "secret.lookingforcows.com"; // Your Matrix server domain
 
-        // Homeserver URL (replace with your actual server)
-        const homeserverUrl = "https://secret.lookingforcows.com:8448";
-        console.log("Initializing Matrix client with server: " + homeserverUrl);
-
-        // Create the Matrix client
-        try {
-            client = matrix.createClient({ baseUrl: homeserverUrl });
-            console.log("Matrix client created successfully!");
-        } catch (error) {
-            console.error("Error creating Matrix client:", error);
-        }
-
-        // Listen for "Enter" key in password input field
-        document.getElementById("password").addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                document.getElementById("loginButton").click(); // Trigger login on Enter
-            }
-        });
-
-        // Login function
         document.getElementById("loginButton").addEventListener("click", async () => {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+            const usernameInput = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorMessage = document.getElementById("error-message");
 
-            if (username && password) {
-                try {
-                    const domain = "secret.lookingforcows.com"; // Your homeserver domain
-                    const fullUsername = username.includes(":") ? username : `@${username}:${domain}`;
-                    console.log(`Logging in as: ${fullUsername}`);
+            if (!usernameInput || !password) {
+                errorMessage.textContent = "Username and password are required.";
+                return;
+            }
 
-                    const loginResponse = await client.loginWithPassword(fullUsername, password);
-                    console.log("Login response:", loginResponse);
+            // Auto-format the username (user enters "john", system converts to "@john:domain")
+            const fullUsername = `@${usernameInput}:${domain}`;
 
-                    // Start the client to sync with the server
-                    client.startClient();
+            try {
+                console.log(`Logging in as: ${fullUsername}`);
+                client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-                    document.getElementById("login-container").style.display = "none";
-                    document.getElementById("chat-container").style.display = "block";
+                const loginResponse = await client.login("m.login.password", {
+                    user: fullUsername,
+                    password: password,
+                });
 
-                    loadRooms(); // Load the rooms after successful login
-                } catch (error) {
-                    console.error("Login failed:", error);
-                    alert("Login failed! Check your username and password.");
-                }
+                console.log("Login successful:", loginResponse);
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("chat-container").style.display = "block";
+
+                client.startClient();
+            } catch (error) {
+                console.error("Login failed:", error);
+                errorMessage.textContent = "Login failed! Check your password.";
             }
         });
-
-        // Load rooms (contacts)
-        async function loadRooms() {
-            try {
-                console.log("Fetching rooms...");
-                const rooms = await client.getRooms(); // Getting the rooms
-                console.log("Rooms fetched:", rooms);
-                const roomListElement = document.getElementById("room-list");
-                roomListElement.innerHTML = "";
-
-                rooms.forEach(room => {
-                    const li = document.createElement("li");
-                    li.textContent = room.name || room.roomId; // Display room name or room ID
-                    li.addEventListener("click", () => joinRoom(room.roomId)); // Attach event to join room
-                    roomListElement.appendChild(li);
-                });
-            } catch (error) {
-                console.error("Failed to load rooms:", error);
-            }
-        }
-
-        // Join a room and listen for messages
-        async function joinRoom(roomId) {
-            try {
-                console.log(`Joining room: ${roomId}`);
-                currentRoomId = roomId;
-                await client.joinRoom(roomId); // Join the selected room
-                document.getElementById("messages").innerHTML = ""; // Clear previous messages
-
-                // Fetch previous messages
-                const room = client.getRoom(roomId);
-                const timeline = room.getLiveTimeline();
-                timeline.getEvents().forEach(event => {
-                    if (event.getType() === "m.room.message") {
-                        displayMessage(event.getSender(), event.getContent().body, "received");
-                    }
-                });
-
-                // Listen for new messages in the room
-                client.on("Room.timeline", (event, room) => {
-                    if (room.roomId === currentRoomId && event.getType() === "m.room.message") {
-                        displayMessage(event.getSender(), event.getContent().body, "received");
-                    }
-                });
-            } catch (error) {
-                console.error("Failed to join room:", error);
-            }
-        }
-
-        // Send a message
-        document.getElementById("sendMessageButton").addEventListener("click", async () => {
-            const message = document.getElementById("messageInput").value;
-            if (message && currentRoomId) {
-                try {
-                    console.log("Sending message:", message);
-                    await client.sendTextMessage(currentRoomId, message);
-                    displayMessage("You", message, "sent"); // Display the sent message
-                    document.getElementById("messageInput").value = ""; // Clear input field
-                } catch (error) {
-                    console.error("Failed to send message:", error);
-                }
-            }
-        });
-
-        // Display messages in chat bubbles
-        function displayMessage(sender, message, type) {
-            const messageDiv = document.createElement("div");
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = `${sender}: ${message}`;
-            document.getElementById("messages").appendChild(messageDiv);
-        }
     </script>
 </body>
 </html>
