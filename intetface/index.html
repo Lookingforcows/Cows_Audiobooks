@@ -31,7 +31,11 @@
   </div>
 
   <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest/+esm";
+    // Use a CORS proxy to bypass the CORS issue with jsDelivr
+    const matrixSdkUrl = "https://cors-anywhere.herokuapp.com/https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest/+esm";
+
+    // Import the Matrix SDK via the proxy
+    import { createClient } from matrixSdkUrl;
 
     let client;
     let currentRoomId;
