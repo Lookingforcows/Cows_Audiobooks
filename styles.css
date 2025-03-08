@@ -1,7 +1,0 @@
-/* Link to the Open Dyslexic font */
-@import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic&display=swap');
-
-/* Apply Open Dyslexic font to everything */
-* {
-  font-family: 'Open Dyslexic', sans-serif !important;
-}
