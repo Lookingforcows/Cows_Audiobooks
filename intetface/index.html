@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matrix Chat</title>
-  <!-- Load the locally hosted Matrix JS SDK using your IP address -->
-  <script src="http://50.126.103.250:81/matrix-js-sdk.js"></script>
+  <!-- Load the locally hosted Matrix JS SDK via HTTPS using your IP address -->
+  <script src="https://50.126.103.250/matrix-js-sdk.js"></script>
   <style>
     /* CSS Styles */
     body {
@@ -145,35 +145,35 @@
   </div>
 
   <script>
-    // Ensure that the Matrix JS SDK is loaded as the global object "matrixcs"
+    // Ensure that the Matrix JS SDK (matrixcs) is loaded
     let client;
     let currentRoomId;
-    // Matrix homeserver URL; ensure this is correct and accessible.
+    // Use your Matrix homeserver URL (ensure it's accessible)
     const homeserverUrl = "https://secret.lookingforcows.com:8448";
 
-    // Create the Matrix client using the globally loaded "matrixcs" object
+    // Create the Matrix client using the globally loaded matrixcs object
     client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-    // Allow login via Enter key in the password field
+    // Allow login by pressing the Enter key in the password field
     document.getElementById("password").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         document.getElementById("loginButton").click();
       }
     });
 
-    // Login function: Attempts to log in using the provided username and password.
+    // Login function: logs in the user with provided credentials
     document.getElementById("loginButton").addEventListener("click", async () => {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       if (username && password) {
         try {
-          // Format the username to include the domain if not provided.
+          // Format username (e.g., "@username:secret.lookingforcows.com")
           const domain = "secret.lookingforcows.com";
           const fullUsername = username.includes(":") ? username : `@${username}:${domain}`;
           console.log(`Logging in as: ${fullUsername}`);
           const loginResponse = await client.loginWithPassword(fullUsername, password);
           client.startClient();
-          // Hide the login form and show the chat interface.
+          // Hide login form and display chat interface
           document.getElementById("login-container").style.display = "none";
           document.getElementById("chat-container").style.display = "flex";
           loadRooms();
@@ -184,7 +184,7 @@
       }
     });
 
-    // Function to load available rooms and populate the room list.
+    // Function to load available rooms and populate the room list
     async function loadRooms() {
       try {
         const rooms = await client.getRooms();
@@ -201,7 +201,7 @@
       }
     }
 
-    // Function to join a room and listen for incoming messages.
+    // Function to join a room and start listening for messages
     async function joinRoom(roomId) {
       try {
         currentRoomId = roomId;
@@ -224,7 +224,7 @@
       }
     }
 
-    // Function to send a text message to the currently joined room.
+    // Function to send a message to the currently joined room
     document.getElementById("sendMessageButton").addEventListener("click", async () => {
       const message = document.getElementById("messageInput").value;
       if (message && currentRoomId) {
@@ -238,7 +238,7 @@
       }
     });
 
-    // Function to display a message in the chat window.
+    // Function to display a message in the chat window
     function displayMessage(sender, message, type) {
       const messageDiv = document.createElement("div");
       messageDiv.className = `message ${type}`;
