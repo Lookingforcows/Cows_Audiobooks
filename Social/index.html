@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Links</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: url('/assets/MG_6346.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        h1, p {
+            color: #fff;
+            margin: 10px 0;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #333;
+            border: 2px solid #555;
+            transition: background-color 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #555;
+        }
+        .donate-button {
+            color: #fff;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .donate-button:hover {
+            background-color: #555;
+        }
+        .profile-pic {
+            float: left;
+            margin: 0 20px 20px 0;
+            border-radius: 50%;
+        }
+        .clear {
+            clear: both;
+        }
+        iframe {
+            margin: 20px auto;
+            border: none;
+        }
+        .subscribe-form {
+            margin-top: 20px;
+        }
+        .email-button {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+/* Navigation links style */
+.nav-link {
+  display: block;  /* Make the link block-level so it occupies space */
+  width: 80%;      /* Set width to a percentage so they fit within the container */
+  max-width: 350px; /* Set a maximum width for the nav links */
+  height: 60px;    /* Fixed height for the links */
+  margin: 10px auto; /* Center the links horizontally with auto margin */
+  background-color: #000000; /* Background color */
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline */
+  text-align: center; /* Center the text inside */
+  line-height: 60px; /* Vertically center the text */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 18px; /* Font size */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+  box-sizing: border-box; /* Include padding and borders in width/height */
+}
+
+/* Hover effect */
+.nav-link:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .nav-link {
+    width: 90%;  /* Increase width on smaller screens */
+    font-size: 16px; /* Slightly smaller font on mobile */
+  }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Main Content Container -->
+    <div class="container">
+        <h1>Social Links</h1>
+        <p> 🐄 </p>
+
+        <!-- Threads Link -->
+        <a href="https://www.threads.net/@looking_for_cows_audio" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="nav-link">
+            Follow on Threads
+        </a>
+
+        <!-- TikTok Embed -->
+        <blockquote class="tiktok-embed" 
+                    cite="https://www.tiktok.com/@lookingforcows" 
+                    data-unique-id="lookingforcows" 
+                    data-embed-type="creator" 
+                    style="max-width: 780px; min-width: 288px;">
+            <section>
+                <a target="_blank" 
+                   href="https://www.tiktok.com/@lookingforcows?refer=creator_embed">
+                   TikTok
+                </a>
+            </section>
+        </blockquote>
+        <script async src="https://www.tiktok.com/embed.js"></script>
+
+        <!-- YouTube Link -->
+        <a href="https://youtube.com/@lookingforcowsaudio?si=l0MoHE_7JIyxrcoY" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="nav-link">
+            YouTube
+        </a>
+
+        <!-- Contact Email -->
+        <a href="mailto:rerockhapenguin@gmail.com" class="email-button">Email</a>
+
+        <!-- Subscription Form -->
+        <div class="subscribe-form" id="mc_embed_signup">
+            <form action="https://lookingforcows.us7.list-manage.com/subscribe/post?u=7a1d45e8cbadf0b1d05d99d27&amp;id=340bf6dfcb&amp;f_id=005ccce0f0" 
+                  method="post" 
+                  id="mc-embedded-subscribe-form" 
+                  name="mc-embedded-subscribe-form" 
+                  target="_blank">
+                <h2>Subscribe</h2>
+                <label for="mce-EMAIL">Email Address *</label>
+                <input type="email" name="EMAIL" id="mce-EMAIL" required>
+                <input type="submit" value="Subscribe" class="nav-link">
+            </form>
+        </div>
+
+        <!-- Discord Widget -->
+        <iframe src="https://discordapp.com/widget?id=1002054018606051418&theme=dark" 
+                width="350" 
+                height="500" 
+                allowtransparency="true" 
+                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+    </div>   
+
+</div>   
+</body>
+</html>
