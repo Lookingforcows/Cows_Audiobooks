@@ -4,253 +4,241 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matrix Chat</title>
-  <!-- Load the UMD build of Matrix JS SDK from unpkg -->
-  <script src="https://unpkg.com/matrix-js-sdk@latest/dist/matrix-js-sdk.js"></script>
+  <!-- Load the locally hosted Matrix JS SDK using your IP address -->
+  <script src="http://50.126.103.250:81/matrix-js-sdk.js"></script>
   <style>
-    /* Your CSS */
+    /* CSS Styles */
     body {
-        font-family: Arial, sans-serif;
-        background-color: #eceff1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #eceff1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-
     #login-container {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        width: 300px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
     }
-
     #chat-container {
-        display: flex;
-        width: 80%;
-        max-width: 900px;
-        height: 500px;
-        border: 1px solid #ccc;
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      width: 80%;
+      max-width: 900px;
+      height: 500px;
+      border: 1px solid #ccc;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
     }
-
     #sidebar {
-        width: 30%;
-        background: #3b5998;
-        color: white;
-        padding: 10px;
-        overflow-y: auto;
+      width: 30%;
+      background: #3b5998;
+      color: white;
+      padding: 10px;
+      overflow-y: auto;
     }
-
     #sidebar h2 {
-        margin-top: 0;
+      margin-top: 0;
     }
-
     #room-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
-
     #room-list li {
-        padding: 10px;
-        cursor: pointer;
-        border-bottom: 1px solid #4c669f;
-        transition: background 0.2s;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #4c669f;
+      transition: background 0.2s;
     }
-
     #room-list li:hover {
-        background: #4c669f;
+      background: #4c669f;
     }
-
     #chat-box {
-        width: 70%;
-        display: flex;
-        flex-direction: column;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
     }
-
     #messages {
-        flex-grow: 1;
-        padding: 10px;
-        overflow-y: auto;
-        background: #fafafa;
-        display: flex;
-        flex-direction: column;
-        scroll-behavior: smooth;
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
     }
-
     .message {
-        padding: 8px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        max-width: 80%;
-        word-wrap: break-word;
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      max-width: 80%;
+      word-wrap: break-word;
     }
-
     .sent {
-        background: #4caf50;
-        color: white;
-        align-self: flex-end;
-        text-align: right;
+      background: #4caf50;
+      color: white;
+      align-self: flex-end;
+      text-align: right;
     }
-
     .received {
-        background: #ddd;
-        align-self: flex-start;
-        text-align: left;
+      background: #ddd;
+      align-self: flex-start;
+      text-align: left;
     }
-
     /* Message Input Section */
     #message-container {
-        display: flex;
-        border-top: 1px solid #ccc;
-        padding: 5px;
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 5px;
     }
-
     #messageInput {
-        flex-grow: 1;
-        padding: 10px;
-        border: none;
-        outline: none;
-        font-size: 16px;
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
     }
-
     #sendMessageButton {
-        width: 50px;
-        border: none;
-        background: #3b5998;
-        color: white;
-        cursor: pointer;
-        transition: background 0.3s;
+      width: 50px;
+      border: none;
+      background: #3b5998;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
     }
-
     #sendMessageButton:hover {
-        background: #2d4373;
+      background: #2d4373;
     }
   </style>
 </head>
 <body>
   <!-- Login Form -->
   <div id="login-container">
-      <h2>Login to Matrix</h2>
-      <input type="text" id="username" placeholder="Username" required><br>
-      <input type="password" id="password" placeholder="Password" required><br>
-      <button id="loginButton">Login</button>
+    <h2>Login to Matrix</h2>
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button id="loginButton">Login</button>
   </div>
 
-  <!-- Chat Container -->
+  <!-- Chat Interface -->
   <div id="chat-container" style="display: none;">
-      <div id="sidebar">
-          <h2>Rooms</h2>
-          <ul id="room-list"></ul>
+    <div id="sidebar">
+      <h2>Rooms</h2>
+      <ul id="room-list"></ul>
+    </div>
+    <div id="chat-box">
+      <div id="messages"></div>
+      <div id="message-container">
+        <input type="text" id="messageInput" placeholder="Type a message" />
+        <button id="sendMessageButton">Send</button>
       </div>
-      <div id="chat-box">
-          <div id="messages"></div>
-          <div id="message-container">
-              <input type="text" id="messageInput" placeholder="Type a message" />
-              <button id="sendMessageButton">Send</button>
-          </div>
-      </div>
+    </div>
   </div>
 
   <script>
-    // Make sure the matrix-js-sdk is loaded as a global (matrixcs)
+    // Ensure that the Matrix JS SDK is loaded as the global object "matrixcs"
     let client;
     let currentRoomId;
+    // Matrix homeserver URL; ensure this is correct and accessible.
     const homeserverUrl = "https://secret.lookingforcows.com:8448";
 
-    // Create the client using the global matrixcs object
+    // Create the Matrix client using the globally loaded "matrixcs" object
     client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-    // Login on pressing "Enter" in the password field
-    document.getElementById("password").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            document.getElementById("loginButton").click();
-        }
+    // Allow login via Enter key in the password field
+    document.getElementById("password").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        document.getElementById("loginButton").click();
+      }
     });
 
-    // Login function
+    // Login function: Attempts to log in using the provided username and password.
     document.getElementById("loginButton").addEventListener("click", async () => {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       if (username && password) {
-          try {
-              const domain = "secret.lookingforcows.com"; // Homeserver domain
-              const fullUsername = username.includes(":") ? username : `@${username}:${domain}`;
-              console.log(`Logging in as: ${fullUsername}`);
-              const loginResponse = await client.loginWithPassword(fullUsername, password);
-              client.startClient();
-              document.getElementById("login-container").style.display = "none";
-              document.getElementById("chat-container").style.display = "flex";
-              loadRooms();
-          } catch (error) {
-              console.error("Login failed:", error);
-              alert("Login failed! Check your username and password.");
-          }
+        try {
+          // Format the username to include the domain if not provided.
+          const domain = "secret.lookingforcows.com";
+          const fullUsername = username.includes(":") ? username : `@${username}:${domain}`;
+          console.log(`Logging in as: ${fullUsername}`);
+          const loginResponse = await client.loginWithPassword(fullUsername, password);
+          client.startClient();
+          // Hide the login form and show the chat interface.
+          document.getElementById("login-container").style.display = "none";
+          document.getElementById("chat-container").style.display = "flex";
+          loadRooms();
+        } catch (error) {
+          console.error("Login failed:", error);
+          alert("Login failed! Check your username and password.");
+        }
       }
     });
 
-    // Load rooms
+    // Function to load available rooms and populate the room list.
     async function loadRooms() {
       try {
-          const rooms = await client.getRooms();
-          const roomListElement = document.getElementById("room-list");
-          roomListElement.innerHTML = "";
-          rooms.forEach(room => {
-              const li = document.createElement("li");
-              li.textContent = room.name || room.roomId;
-              li.addEventListener("click", () => joinRoom(room.roomId));
-              roomListElement.appendChild(li);
-          });
+        const rooms = await client.getRooms();
+        const roomListElement = document.getElementById("room-list");
+        roomListElement.innerHTML = "";
+        rooms.forEach(room => {
+          const li = document.createElement("li");
+          li.textContent = room.name || room.roomId;
+          li.addEventListener("click", () => joinRoom(room.roomId));
+          roomListElement.appendChild(li);
+        });
       } catch (error) {
-          console.error("Failed to load rooms:", error);
+        console.error("Failed to load rooms:", error);
       }
     }
 
-    // Join a room and listen for messages
+    // Function to join a room and listen for incoming messages.
     async function joinRoom(roomId) {
       try {
-          currentRoomId = roomId;
-          await client.joinRoom(roomId);
-          document.getElementById("messages").innerHTML = "";
-          const room = client.getRoom(roomId);
-          const timeline = room.getLiveTimeline();
-          timeline.getEvents().forEach(event => {
-              if (event.getType() === "m.room.message") {
-                  displayMessage(event.getSender(), event.getContent().body, "received");
-              }
-          });
-          client.on("Room.timeline", (event, room) => {
-              if (room.roomId === currentRoomId && event.getType() === "m.room.message") {
-                  displayMessage(event.getSender(), event.getContent().body, "received");
-              }
-          });
+        currentRoomId = roomId;
+        await client.joinRoom(roomId);
+        document.getElementById("messages").innerHTML = "";
+        const room = client.getRoom(roomId);
+        const timeline = room.getLiveTimeline();
+        timeline.getEvents().forEach(event => {
+          if (event.getType() === "m.room.message") {
+            displayMessage(event.getSender(), event.getContent().body, "received");
+          }
+        });
+        client.on("Room.timeline", (event, room) => {
+          if (room.roomId === currentRoomId && event.getType() === "m.room.message") {
+            displayMessage(event.getSender(), event.getContent().body, "received");
+          }
+        });
       } catch (error) {
-          console.error("Failed to join room:", error);
+        console.error("Failed to join room:", error);
       }
     }
 
-    // Send a message
+    // Function to send a text message to the currently joined room.
     document.getElementById("sendMessageButton").addEventListener("click", async () => {
       const message = document.getElementById("messageInput").value;
       if (message && currentRoomId) {
-          try {
-              await client.sendTextMessage(currentRoomId, message);
-              displayMessage("You", message, "sent");
-              document.getElementById("messageInput").value = "";
-          } catch (error) {
-              console.error("Failed to send message:", error);
-          }
+        try {
+          await client.sendTextMessage(currentRoomId, message);
+          displayMessage("You", message, "sent");
+          document.getElementById("messageInput").value = "";
+        } catch (error) {
+          console.error("Failed to send message:", error);
+        }
       }
     });
 
-    // Display a message in the chat window
+    // Function to display a message in the chat window.
     function displayMessage(sender, message, type) {
       const messageDiv = document.createElement("div");
       messageDiv.className = `message ${type}`;
