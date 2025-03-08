@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Matrix Messenger</title>
-  <!-- Load the Matrix JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest/browser-index.js"></script>
   <style>
     body { font-family: Arial, sans-serif; }
     #chat-container { display: none; }
@@ -32,13 +30,15 @@
     <button id="sendMessageButton">Send</button>
   </div>
 
-  <script>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest/+esm";
+
     let client;
     let currentRoomId;
     const homeserverUrl = "https://secret.lookingforcows.com:8448";
     const domain = "secret.lookingforcows.com";
 
-    client = matrixcs.createClient({ baseUrl: homeserverUrl });
+    client = createClient({ baseUrl: homeserverUrl });
 
     document.getElementById("loginButton").addEventListener("click", async () => {
       const username = document.getElementById("username").value.trim();
