@@ -4,7 +4,7 @@ description: Audiobooks
 
 lsi: false
 safe: true
-source: [your repo's top level directory]
+source: Cow's Audiobooks
 incremental: false
 highlighter: rouge
 gist:
