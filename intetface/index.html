@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Matrix Messenger</title>
-  <!-- Load the Matrix JS SDK from a reliable CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest"></script>
+  <!-- Load the Matrix JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest/browser-index.js"></script>
   <style>
-    /* Basic styling for demonstration */
     body { font-family: Arial, sans-serif; }
     #chat-container { display: none; }
     #room-list li { cursor: pointer; padding: 5px; border-bottom: 1px solid #ccc; }
@@ -18,7 +17,6 @@
   </style>
 </head>
 <body>
-  <!-- Login Form -->
   <div id="login-container">
     <h2>Login to Matrix</h2>
     <input type="text" id="username" placeholder="Username" required>
@@ -26,7 +24,6 @@
     <button id="loginButton">Login</button>
   </div>
 
-  <!-- Chat Interface -->
   <div id="chat-container">
     <h2>Rooms</h2>
     <ul id="room-list"></ul>
@@ -41,38 +38,24 @@
     const homeserverUrl = "https://secret.lookingforcows.com:8448";
     const domain = "secret.lookingforcows.com";
 
-    // Initialize the Matrix client (create it once)
     client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
-    // Trigger login on "Enter" key for username and password fields
-    document.getElementById("username").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") document.getElementById("loginButton").click();
-    });
-    document.getElementById("password").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") document.getElementById("loginButton").click();
-    });
-
-    // Login function (automatically append domain if needed)
     document.getElementById("loginButton").addEventListener("click", async () => {
-      const usernameInput = document.getElementById("username").value.trim();
+      const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
-      if (!usernameInput || !password) {
+      if (!username || !password) {
         alert("Please enter both username and password.");
         return;
       }
-      const fullUsername = usernameInput.includes(":") ? usernameInput : `@${usernameInput}:${domain}`;
-      console.log("Attempting login as:", fullUsername);
+      const fullUsername = username.includes(":") ? username : `@${username}:${domain}`;
+
       try {
         const loginResponse = await client.loginWithPassword(fullUsername, password);
         console.log("Login successful:", loginResponse);
-        // Start syncing the client
         client.startClient();
-
-        // Hide the login form and show the chat interface
         document.getElementById("login-container").style.display = "none";
         document.getElementById("chat-container").style.display = "block";
 
-        // Wait for initial sync and then load rooms
         client.on("sync", function(state) {
           if (state === "PREPARED") {
             loadRooms();
@@ -84,7 +67,6 @@
       }
     });
 
-    // Load rooms from the client after sync is ready
     function loadRooms() {
       const rooms = client.getRooms();
       const roomListElement = document.getElementById("room-list");
@@ -97,18 +79,14 @@
       });
     }
 
-    // Join a room and set up message listeners
     async function joinRoom(roomId) {
       currentRoomId = roomId;
       try {
-        // Try joining the room (if not already joined)
         await client.joinRoom(roomId).catch(e => console.warn("Join warning (maybe already joined):", e));
       } catch (error) {
         console.error("Error joining room:", error);
       }
-      // Clear the messages container
       document.getElementById("messages").innerHTML = "";
-      // Display past messages from the room's live timeline
       const room = client.getRoom(roomId);
       if (room) {
         const timeline = room.getLiveTimeline();
@@ -118,17 +96,14 @@
           }
         });
       }
-      // Listen for new messages in the room
       client.on("Room.timeline", (event, room, toStartOfTimeline) => {
-        if (toStartOfTimeline) return; // Ignore historical events
-        if (room.roomId !== currentRoomId) return; // Only handle events for the current room
+        if (toStartOfTimeline || room.roomId !== currentRoomId) return;
         if (event.getType() === "m.room.message") {
           displayMessage(event.getSender(), event.getContent().body, "received");
         }
       });
     }
 
-    // Send a message to the current room
     document.getElementById("sendMessageButton").addEventListener("click", async () => {
       const message = document.getElementById("messageInput").value;
       if (!message || !currentRoomId) return;
@@ -142,14 +117,12 @@
       }
     });
 
-    // Append a message bubble to the messages container
     function displayMessage(sender, message, type) {
       const messageDiv = document.createElement("div");
       messageDiv.className = `message ${type}`;
       messageDiv.textContent = `${sender}: ${message}`;
       const messagesContainer = document.getElementById("messages");
       messagesContainer.appendChild(messageDiv);
-      // Auto-scroll to the bottom of the messages container
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   </script>
