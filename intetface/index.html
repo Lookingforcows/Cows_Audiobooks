@@ -9,10 +9,12 @@
   <script type="module">
     import * as matrixcs from 'https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest';
 
+    let client;
+
     window.onload = function() {
       // Create the Matrix client
       const homeserverUrl = "https://secret.lookingforcows.com:8448";
-      let client = matrixcs.createClient({ baseUrl: homeserverUrl });
+      client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
       document.getElementById("loginButton").addEventListener("click", function() {
         const username = document.getElementById("username").value;
@@ -25,9 +27,9 @@
             // Hide the login form and show the chat interface
             document.getElementById("login-container").style.display = "none";
             document.getElementById("chat-container").style.display = "flex";
-
-            // You can call other functions to load rooms, messages, etc.
+            // Start syncing with the server and loading rooms
             loadRooms();
+            client.startClient();
           })
           .catch((err) => {
             console.error("Login failed:", err);
@@ -40,6 +42,7 @@
         const roomList = document.getElementById("room-list");
         const rooms = client.getRooms();
 
+        roomList.innerHTML = ''; // Clear any existing rooms
         rooms.forEach((room) => {
           const listItem = document.createElement("li");
           listItem.textContent = room.name || room.roomId;
@@ -54,8 +57,39 @@
         client.joinRoom(roomId).then(() => {
           console.log("Joined room:", roomId);
           // After joining, you can start sending and receiving messages
+          displayMessages(roomId);
         });
       }
+
+      function displayMessages(roomId) {
+        const messagesContainer = document.getElementById("messages");
+        messagesContainer.innerHTML = ''; // Clear previous messages
+
+        client.on("Room.timeline", function(event, room) {
+          if (room.roomId === roomId && event.getType() === "m.room.message") {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add(event.getSender() === client.getUserId() ? "sent" : "received");
+            messageElement.textContent = event.getContent().body;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
+          }
+        });
+      }
+
+      document.getElementById("sendMessageButton").addEventListener("click", function() {
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value;
+        const roomId = document.querySelector("#room-list li.active").dataset.roomId;
+
+        if (message && roomId) {
+          client.sendTextMessage(roomId, message).then(() => {
+            console.log("Message sent:", message);
+            messageInput.value = ''; // Clear input after sending
+          }).catch((err) => {
+            console.error("Failed to send message:", err);
+          });
+        }
+      });
     };
   </script>
 
@@ -66,7 +100,6 @@
       margin: 0;
     }
 
-    /* Login form stays the same */
     #login-container {
       background: white;
       padding: 20px;
@@ -77,7 +110,6 @@
       margin: 20px;
     }
 
-    /* Chat Interface Styling */
     #chat-container {
       display: flex;
       flex-direction: column;
@@ -93,7 +125,6 @@
       z-index: 9999;
     }
 
-    /* Sidebar and chat box styling */
     #sidebar {
       width: 30%;
       background: #3b5998;
@@ -123,13 +154,16 @@
       background: #4c669f;
     }
 
+    #room-list li.active {
+      background: #2d4373;
+    }
+
     #chat-box {
       width: 70%;
       display: flex;
       flex-direction: column;
     }
 
-    /* Message list and input area */
     #messages {
       flex-grow: 1;
       padding: 10px;
@@ -161,7 +195,6 @@
       text-align: left;
     }
 
-    /* Message Input Section */
     #message-container {
       display: flex;
       border-top: 1px solid #ccc;
