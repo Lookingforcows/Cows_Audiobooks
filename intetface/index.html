@@ -4,8 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matrix Chat</title>
+  
   <!-- Load Matrix JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest"></script>
+  <script type="module">
+    import * as matrixcs from 'https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest';
+
+    window.onload = function() {
+      // Create the Matrix client
+      const homeserverUrl = "https://secret.lookingforcows.com:8448";
+      let client = matrixcs.createClient({ baseUrl: homeserverUrl });
+
+      document.getElementById("loginButton").addEventListener("click", function() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Login with the provided username and password
+        client.login("m.login.password", { user: username, password: password })
+          .then((response) => {
+            console.log("Logged in:", response);
+            // Hide the login form and show the chat interface
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("chat-container").style.display = "flex";
+
+            // You can call other functions to load rooms, messages, etc.
+            loadRooms();
+          })
+          .catch((err) => {
+            console.error("Login failed:", err);
+            alert("Login failed. Please check your credentials.");
+          });
+      });
+
+      function loadRooms() {
+        // This is where you would load the list of rooms and display them
+        const roomList = document.getElementById("room-list");
+        const rooms = client.getRooms();
+
+        rooms.forEach((room) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = room.name || room.roomId;
+          listItem.addEventListener("click", function() {
+            joinRoom(room.roomId);
+          });
+          roomList.appendChild(listItem);
+        });
+      }
+
+      function joinRoom(roomId) {
+        client.joinRoom(roomId).then(() => {
+          console.log("Joined room:", roomId);
+          // After joining, you can start sending and receiving messages
+        });
+      }
+    };
+  </script>
 
   <style>
     body {
@@ -144,60 +196,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    // Create the Matrix client
-    const homeserverUrl = "https://secret.lookingforcows.com:8448";
-    let client;
-
-    window.onload = function() {
-      client = matrixcs.createClient({ baseUrl: homeserverUrl });
-
-      document.getElementById("loginButton").addEventListener("click", function() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // Login with the provided username and password
-        client.login("m.login.password", { user: username, password: password })
-          .then((response) => {
-            console.log("Logged in:", response);
-            // Hide the login form and show the chat interface
-            document.getElementById("login-container").style.display = "none";
-            document.getElementById("chat-container").style.display = "flex";
-
-            // You can call other functions to load rooms, messages, etc.
-            loadRooms();
-          })
-          .catch((err) => {
-            console.error("Login failed:", err);
-            alert("Login failed. Please check your credentials.");
-          });
-      });
-    };
-
-    function loadRooms() {
-      // This is where you would load the list of rooms and display them
-      // Currently, we just have a static room for demo purposes
-      const roomList = document.getElementById("room-list");
-      const rooms = client.getRooms();
-
-      rooms.forEach((room) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = room.name || room.roomId;
-        listItem.addEventListener("click", function() {
-          joinRoom(room.roomId);
-        });
-        roomList.appendChild(listItem);
-      });
-    }
-
-    function joinRoom(roomId) {
-      client.joinRoom(roomId).then(() => {
-        console.log("Joined room:", roomId);
-        // After joining, you can start sending and receiving messages
-      });
-    }
-  </script>
 
 </body>
 </html>
