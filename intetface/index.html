@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cow Chat</title>
   
-  <!-- Load Matrix JS SDK -->
+  <!-- Load Matrix JS SDK as a module -->
   <script type="module">
     import * as matrixcs from 'https://cdn.jsdelivr.net/npm/matrix-js-sdk@latest';
-
-    let client;
 
     window.onload = function() {
       // Create the Matrix client
       const homeserverUrl = "https://secret.lookingforcows.com:8448";
-      client = matrixcs.createClient({ baseUrl: homeserverUrl });
+      const client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
       document.getElementById("loginButton").addEventListener("click", function() {
         const username = document.getElementById("username").value;
@@ -38,11 +36,10 @@
       });
 
       function loadRooms() {
-        // This is where you would load the list of rooms and display them
         const roomList = document.getElementById("room-list");
         const rooms = client.getRooms();
 
-        roomList.innerHTML = ''; // Clear any existing rooms
+        roomList.innerHTML = ''; // Clear previous rooms
         rooms.forEach((room) => {
           const listItem = document.createElement("li");
           listItem.textContent = room.name || room.roomId;
@@ -56,7 +53,6 @@
       function joinRoom(roomId) {
         client.joinRoom(roomId).then(() => {
           console.log("Joined room:", roomId);
-          // After joining, you can start sending and receiving messages
           displayMessages(roomId);
         });
       }
