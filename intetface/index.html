@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cow Chat</title>
-  
-  <!-- Load Matrix JS SDK UMD Build (no type="module") -->
-  <script src="https://cdn.jsdelivr.net/npm/matrix-js-sdk@21.3.0/dist/browser/matrix-js-sdk.min.js"></script>
-  
+
+  <!-- Load Matrix JS SDK v27.0.0 from UNPKG -->
+  <script src="https://unpkg.com/matrix-js-sdk@27.0.0/dist/browser/matrix-js-sdk.min.js"></script>
+
   <script>
     window.onload = function() {
-      // Create the Matrix client using the global matrixcs
+      // Create the Matrix client using the global matrixcs object
       const homeserverUrl = "https://secret.lookingforcows.com:8448";
       const client = matrixcs.createClient({ baseUrl: homeserverUrl });
 
@@ -24,7 +24,6 @@
             // Hide the login form and show the chat interface
             document.getElementById("login-container").style.display = "none";
             document.getElementById("chat-container").style.display = "flex";
-            // Optionally, call functions to load rooms or sync events
           })
           .catch((err) => {
             console.error("Login failed:", err);
@@ -33,25 +32,25 @@
       });
     };
   </script>
-  
+
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #eceff1;
       margin: 0;
     }
-
+    
     /* Login Form Styling */
     #login-container {
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
       text-align: center;
       width: 300px;
       margin: 20px;
     }
-
+    
     /* Chat Interface Styling */
     #chat-container {
       display: none;
@@ -61,18 +60,15 @@
       border: 1px solid #ccc;
       background: white;
       border-radius: 8px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 9999;
     }
-
-    /* Additional styles for sidebar, messages, etc., can remain as you have them */
   </style>
 </head>
 <body>
-
   <!-- Login Form -->
   <div id="login-container">
     <h2>Login to Matrix</h2>
@@ -83,18 +79,7 @@
 
   <!-- Chat Interface -->
   <div id="chat-container">
-    <div id="sidebar">
-      <h2>Rooms</h2>
-      <ul id="room-list"></ul>
-    </div>
-    <div id="chat-box">
-      <div id="messages"></div>
-      <div id="message-container">
-        <input type="text" id="messageInput" placeholder="Type a message" />
-        <button id="sendMessageButton">Send</button>
-      </div>
-    </div>
+    <!-- Your chat UI elements go here -->
   </div>
-
 </body>
 </html>
