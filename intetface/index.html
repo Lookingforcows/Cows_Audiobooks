@@ -11,7 +11,7 @@
       margin: 0;
     }
 
-    #login-container, #chat-container, #dm-container {
+    #login-container, #chat-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,7 +23,7 @@
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    #chat-container, #dm-container {
+    #chat-container {
       display: none;
       width: 300px;
     }
@@ -81,6 +81,8 @@
   <div id="chat-container">
     <h3>Chat Room</h3>
     <input type="text" id="roomId" placeholder="Room ID" required><br>
+    <button onclick="joinRoom()">Join Room</button><br>
+    <input type="text" id="message" placeholder="Type a message" required><br>
     <button onclick="sendMessage()">Send</button>
     <div id="messages"></div>
     <div id="members-list">
@@ -89,22 +91,10 @@
     </div>
   </div>
 
-  <!-- Person-to-Person Messaging -->
-  <div id="dm-container">
-    <h3>Direct Messages</h3>
-    <input type="text" id="dmUser" placeholder="User ID (e.g. @username:server)" required><br>
-    <input type="text" id="dmMessage" placeholder="Type a message" required><br>
-    <button onclick="sendDirectMessage()">Send Direct Message</button>
-    <div id="dmMessages"></div>
-  </div>
-
   <script>
     const homeserverUrl = "https://secret.lookingforcows.com:8448";  // Change this to your server URL
     let accessToken = '';
     let roomId = '';  // Store room ID to track the active room
-
-    // Default room people join
-    const defaultRoomId = "!YLsHJansIkdseYfBNz:secret.lookingforcows.com";
 
     // Login function to authenticate and store access token
     async function login() {
@@ -132,7 +122,6 @@
           accessToken = data.access_token;
           document.getElementById("login-container").style.display = "none";
           document.getElementById("chat-container").style.display = "block";
-          joinDefaultRoom();  // Join the default room automatically after login
           console.log("Logged in successfully");
         } else {
           alert("Login failed. Check your credentials.");
@@ -178,34 +167,6 @@
       } catch (err) {
         console.error("Send message error:", err);
         alert("Message sending error. Please try again.");
-      }
-    }
-
-    // Join the default room after login
-    async function joinDefaultRoom() {
-      roomId = defaultRoomId;
-
-      const joinUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${roomId}/join`;
-
-      try {
-        const response = await fetch(joinUrl, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await response.json();
-        if (data.room_id) {
-          console.log(`Joined room: ${data.room_id}`);
-          getRoomMembers(data.room_id);  // Fetch the room members after joining
-          getRoomMessages(data.room_id); // Fetch the messages after joining
-        } else {
-          console.log("Error joining room");
-        }
-      } catch (err) {
-        console.error("Error joining room:", err);
       }
     }
 
@@ -263,44 +224,46 @@
       }
     }
 
-    // Send a direct message to another user
-    async function sendDirectMessage() {
-      const dmUser = document.getElementById("dmUser").value;
-      const dmMessage = document.getElementById("dmMessage").value;
+    // Join a room
+    async function joinRoom() {
+      roomId = document.getElementById("roomId").value;
 
-      if (!dmUser || !dmMessage) {
-        alert("Please enter both a user ID and a message.");
+      if (!roomId) {
+        alert("Please enter a valid room ID.");
         return;
       }
 
-      const messageUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${dmUser}/send/m.room.message`;
-      const messageData = {
-        msgtype: "m.text",
-        body: dmMessage,
-      };
+      const joinUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${roomId}/join`;
 
       try {
-        const response = await fetch(messageUrl, {
+        const response = await fetch(joinUrl, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(messageData),
         });
 
         const data = await response.json();
-        if (data.event_id) {
-          document.getElementById("dmMessages").innerHTML += `<div class="message"><strong>You:</strong> ${dmMessage}</div>`;
-          document.getElementById("dmMessage").value = ""; // Clear message input
+        if (data.room_id) {
+          console.log(`Joined room: ${data.room_id}`);
+          getRoomMembers(data.room_id);  // Fetch the room members after joining
+          getRoomMessages(data.room_id); // Fetch the messages after joining
         } else {
-          alert("Error sending direct message.");
+          console.log("Error joining room");
         }
       } catch (err) {
-        console.error("Send DM error:", err);
-        alert("Error sending direct message. Please try again.");
+        console.error("Error joining room:", err);
       }
     }
+
+    // Poll for new messages every 5 seconds
+    setInterval(() => {
+      if (roomId) {
+        getRoomMessages(roomId); // Fetch messages from the room
+      }
+    }, 5000);  // Poll every 5 seconds
+
   </script>
 
 </body>
