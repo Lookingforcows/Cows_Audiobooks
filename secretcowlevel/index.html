@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Cow Chat</title>
+  <style>
+    /* Your existing CSS here */
+  </style>
+</head>
+<body>
+
+  <!-- Login Form -->
+  <div id="login-container">
+    <h2>Login to Matrix</h2>
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Chat Interface -->
+  <div id="chat-container" style="display: none;">
+    <h3>Chat Room</h3>
+    <input type="text" id="roomId" placeholder="Room ID" required><br>
+    <button onclick="joinRoom()">Join Room</button><br>
+    <input type="text" id="message" placeholder="Type a message" required><br>
+    <button onclick="sendMessage()">Send</button>
+    <div id="messages"></div>
+    <div id="members-list">
+      <h4>Room Members:</h4>
+      <!-- Room members will appear here -->
+    </div>
+  </div>
+
+  <script>
+    const homeserverUrl = "https://secret.lookingforcows.com:8448";  // Change to your server URL
+    let accessToken = '';
+    let roomId = '';  // Store room ID to track the active room
+
+    // Login function to authenticate and store access token
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const loginUrl = `${homeserverUrl}/_matrix/client/r0/login`;
+      const loginData = {
+        type: "m.login.password",
+        user: username,
+        password: password,
+      };
+
+      try {
+        const response = await fetch(loginUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        });
+
+        const data = await response.json();
+        if (data.access_token) {
+          accessToken = data.access_token;
+          document.getElementById("login-container").style.display = "none";
+          document.getElementById("chat-container").style.display = "block";
+          console.log("Logged in successfully");
+        } else {
+          alert("Login failed. Check your credentials.");
+        }
+      } catch (err) {
+        console.error("Login error:", err);
+        alert("Login error. Please try again.");
+      }
+    }
+
+    // Fetch room messages when the user joins the room
+    async function getRoomMessages(roomId) {
+      const messagesUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${roomId}/messages?limit=50`; // limit to 50 messages for now
+
+      try {
+        const response = await fetch(messagesUrl, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        });
+
+        const data = await response.json();
+        if (data.chunk && data.chunk.length > 0) {
+          const messagesList = data.chunk.map(message => {
+            return `<div class="message"><strong>${message.sender}</strong>: ${message.body}</div>`;
+          }).join('');
+
+          document.getElementById("messages").innerHTML = messagesList;
+        } else {
+          console.log("No messages found or failed to fetch messages");
+        }
+      } catch (err) {
+        console.error("Error fetching room messages:", err);
+      }
+    }
+
+    // Function to join a room
+    async function joinRoom() {
+      roomId = document.getElementById("roomId").value;
+
+      if (!roomId) {
+        alert("Please enter a valid room ID.");
+        return;
+      }
+
+      const joinUrl = `${homeserverUrl}/_matrix/client/r0/rooms/${roomId}/join`;
+
+      try {
+        const response = await fetch(joinUrl, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+        if (data.room_id) {
+          console.log(`Joined room: ${data.room_id}`);
+          getRoomMembers(data.room_id);  // Fetch room members
+          getRoomMessages(data.room_id); // Fetch room messages
+        } else {
+          console.log("Error joining room");
+        }
+      } catch (err) {
+        console.error("Error joining room:", err);
+      }
+    }
+
+    // Poll for new messages every 5 seconds
+    setInterval(() => {
+      if (roomId) {
+        getRoomMessages(roomId); // Refresh the room messages
+      }
+    }, 5000);
+  </script>
+
+</body>
+</html>
