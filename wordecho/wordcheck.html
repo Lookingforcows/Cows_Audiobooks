@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repeat Word Highlighter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    .controls {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .highlight {
+      background-color: #fffa65;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Repeat Word Highlighter</h1>
+  <p>Paste your text below and click "Analyze" to find words repeated within a given window size.</p>
+  <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+
+  <div class="controls">
+    <label for="windowSize">Window size (words):</label>
+    <input type="number" id="windowSize" value="10" min="1" style="width: 4rem;">
+    <button id="analyzeBtn">Analyze</button>
+  </div>
+
+  <div id="output" aria-live="polite"></div>
+
+  <script>
+    document.getElementById('analyzeBtn').addEventListener('click', () => {
+      const text = document.getElementById('inputText').value;
+      const windowSize = parseInt(document.getElementById('windowSize').value, 10);
+      const tokenPattern = /(\w+|\W+)/g;
+      const tokens = text.match(tokenPattern) || [];
+
+      const wordMap = {};
+      const flaggedIndices = new Set();
+      let wordCount = 0;
+
+      tokens.forEach((tok, idx) => {
+        const wordMatch = tok.match(/^\w+$/);
+        if (wordMatch) {
+          wordCount++;
+          const wordLower = tok.toLowerCase();
+          if (wordMap[wordLower] !== undefined) {
+            const prev = wordMap[wordLower];
+            if (wordCount - prev.count <= windowSize) {
+              flaggedIndices.add(idx);
+              flaggedIndices.add(prev.idx);
+            }
+          }
+          // update last occurrence
+          wordMap[wordLower] = { idx, count: wordCount };
+        }
+      });
+
+      // build highlighted HTML
+      const highlighted = tokens.map((tok, idx) => {
+        if (flaggedIndices.has(idx) && tok.match(/^\w+$/)) {
+          return `<span class="highlight">${tok}</span>`;
+        }
+        return tok.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }).join('');
+
+      document.getElementById('output').innerHTML = highlighted;
+    });
+  </script>
+</body>
+</html>
