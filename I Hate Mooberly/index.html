@@ -1,146 +1,69 @@
+
+
+  <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Word Puzzle Over Bonfire</title>
-  <style type="text/css">
-    * {
-      box-sizing: border-box;
-    }
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+  body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 16pt; /* Increased from 10pt */
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.8;
+    margin: 0;
+    padding: 2em;
+  }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
+  div.div1 {
+    margin: 0 auto;
+    width: 600px;
+    max-width: 90vw;
+  }
+
+  img.img1 {
+    height: auto;
+    width: 100%;
+  }
+
+  img.img2 {
+    height: auto;
+    width: 100%;
+  }
+
+  span.s1,
+  span.s2,
+  span.s3,
+  span.s4,
+  span.s5 {
+    color: #ffffff;
+    font-family: 'Trebuchet MS', sans-serif;
+  }
+
+  span.s1 { font-size: 3.0rem; }
+  span.s2 { font-size: 2.25rem; }
+  span.s3 { font-size: 1.8rem; color: #bbbbbb; }
+  span.s4 { font-size: 1.5rem; }
+  span.s5 { font-size: 1.5rem; font-style: italic; }
+
+  span.Scrivener-tab-span,
+  span.Scrivener-converted-space {
+    white-space: pre;
+  }
+
+  @media (max-width: 600px) {
+    body {
       font-size: 18pt;
-      color: #ffffff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* 🔥 Fullscreen video background */
-    #video-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -2;
-    }
-
-    /* Dark overlay for readability */
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: -1;
-    }
-
-    /* Main content container */
-    .div1 {
-      position: relative;
-      z-index: 1;
-      margin: 0 auto;
-      width: 600px;
-      max-width: 90vw;
-      padding: 2em;
-      line-height: 1.8;
-    }
-
-    /* Scrivener text styles */
-    span.s1 { font-size: 3rem; font-family: 'Trebuchet MS'; }
-    span.s2 { font-size: 2.25rem; font-family: 'Trebuchet MS'; }
-    span.s3 { font-size: 1.8rem; color: #bbbbbb; font-family: 'Trebuchet MS'; }
-    span.s4 { font-size: 1.5rem; font-family: 'Trebuchet MS'; }
-    span.s5 { font-size: 1.5rem; font-style: italic; font-family: 'Trebuchet MS'; }
-
-    /* Word puzzle styling */
-    .puzzle {
-      margin-top: 2em;
       padding: 1em;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
     }
 
-    .puzzle input {
-      font-size: 1.5rem;
-      padding: 0.5em;
-      width: 100%;
-      background: #000;
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 5px;
-    }
-
-    .puzzle button {
-      margin-top: 1em;
-      font-size: 1.2rem;
-      padding: 0.5em 1em;
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .result {
-      margin-top: 1em;
-      font-size: 1.4rem;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        font-size: 20pt;
-      }
-
-      span.s1 { font-size: 3.4rem; }
-      span.s2 { font-size: 2.6rem; }
-      span.s3 { font-size: 2.2rem; }
-      span.s4, span.s5 { font-size: 1.8rem; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 🔥 Background Video -->
-  <video id="video-bg" autoplay muted loop playsinline>
-    <source src="bonfire.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video.
-  </video>
-  <div id="overlay"></div>
-
-  <!-- 📜 Main Content -->
-  <div class="div1">
-    <p><span class="s1">Welcome, Traveler</span></p>
-    <p><span class="s3">As the flames crackle, something stirs in the ashes...</span></p>
-
-    <!-- 🧩 Word Puzzle -->
-    <div class="puzzle">
-      <p><strong>Unscramble the word:</strong> <em>RFIE</em></p>
-      <input type="text" id="guess" placeholder="Your answer here" />
-      <button onclick="checkAnswer()">Submit</button>
-      <div class="result" id="result"></div>
-    </div>
-  </div>
-
-  <!-- 🧠 Puzzle Logic -->
-  <script>
-    function checkAnswer() {
-      const answer = document.getElementById('guess').value.trim().toLowerCase();
-      const result = document.getElementById('result');
-      if (answer === 'fire') {
-        result.innerHTML = "🔥 Correct! The flames respond to your voice.";
-      } else {
-        result.innerHTML = "❌ Not quite... try again.";
-      }
-    }
-  </script>
-
+    span.s1 { font-size: 3.4rem; }
+    span.s2 { font-size: 2.6rem; }
+    span.s3 { font-size: 2.2rem; }
+    span.s4, span.s5 { font-size: 1.8rem; }
+  }
+</style>
 </body>
 </html>
 
