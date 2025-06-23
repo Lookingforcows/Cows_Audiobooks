@@ -9,19 +9,65 @@
   <meta name="Generator" content="Scrivener for Windows HTML Writer" />
   <meta name="ScrivenerVersion" content="3.1.5.1" />
   <style type="text/css">
-    body {font-family: 'Segoe UI'; font-size: 22pt; font-style: normal; font-weight: 3200}
-    div.div1 {margin: 0 auto; width: 600px}
-    img.img1 {height: auto; width: 100%}
-    span.s1 {color: #000000; font-family: 'Trebuchet MS'; font-size: 2.00rem}
+    body {
+      margin: 0;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Segoe UI';
+      font-size: 22pt;
+      font-style: normal;
+      font-weight: 3200;
+    }
+
+    /* Video background */
+    #bgVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    div.div1 {
+      margin: 0 auto;
+      width: 600px;
+      position: relative;
+      z-index: 1;
+    }
+
+    img.img1 {
+      height: auto;
+      width: 100%;
+    }
+
+    span.s1 {color: #ffffff; font-family: 'Trebuchet MS'; font-size: 2.00rem}
     span.s2 {font-family: 'Trebuchet MS'; font-size: 1.17rem}
-    span.s3 {color: #7f7f7f; font-family: 'Trebuchet MS'; font-size: 1.33rem}
+    span.s3 {color: #cccccc; font-family: 'Trebuchet MS'; font-size: 1.33rem}
     span.s4 {font-family: 'Trebuchet MS'; font-size: 1.00rem}
     span.s5 {font-family: 'Trebuchet MS'; font-size: 1.00rem; font-style: italic}
     span.Scrivener-tab-span {white-space:pre}
     span.Scrivener-converted-space {white-space:pre;}
   </style>
 </head>
+
 <body>
+  <!-- Video Background -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="your-video.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Page Content -->
+  <div class="div1">
+    <!-- Your content goes here -->
+    <h1><span class="s1">I Hate Mooberly</span></h1>
+    <p><span class="s2">Insert your main text here...</span></p>
+  </div>
+</body>
+</html>
+
 <div class="div1">
 <p class="ps1"><a id="doc1"></a><span class="s1">      </span></p>
 <p class="ps2"><img alt="bb42d8a6dd5b0494da55aba84363d7a3" src="index_files/bb42d8a6dd5b0494da55aba84363d7a3.jpg" class="img1" /><span class="s2"><br />By M.p Temple</span></p>
