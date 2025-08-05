@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Looking for cows Audio</title>
+
   <!-- Favicons -->
   <link rel="icon" href="https://lookingforcows.com/favicon/favicon.ico" type="image/x-icon" />
   <link rel="icon" type="image/png" href="https://lookingforcows.com/favicon/favicon-96x96.png" sizes="96x96" />
@@ -13,7 +14,6 @@
   <meta name="apple-mobile-web-app-title" content="Cow's Audiobooks" />
 
   <style>
-    /* Body Background */
     body {
       margin: 0;
       padding: 0;
@@ -29,17 +29,14 @@
       position: relative;
     }
 
-    /* Banner */
     .banner {
       width: 100%;
       max-width: 400px;
       height: auto;
       display: block;
       margin: 0 auto;
-      padding: 0;
     }
 
-    /* Container for main content */
     .container {
       max-width: 800px;
       width: 100%;
@@ -51,7 +48,6 @@
       z-index: 10;
     }
 
-    /* Horizontal scrolling container for episodes */
     .episode-list {
       display: flex;
       overflow-x: auto;
@@ -93,20 +89,6 @@
       margin-top: 10px;
     }
 
-    .episode button {
-      margin-top: 10px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .episode button:hover {
-      background-color: #45a049;
-    }
-
-    /* Navigation Footer */
     ul {
       list-style-type: none;
       margin: 0;
@@ -118,9 +100,11 @@
       width: 100%;
       z-index: 100;
     }
+
     ul li {
       float: left;
     }
+
     ul li a {
       display: block;
       color: white;
@@ -128,6 +112,7 @@
       padding: 14px 16px;
       text-decoration: none;
     }
+
     ul li a:hover {
       background-color: #111;
     }
@@ -141,20 +126,19 @@
       margin-bottom: 50px;
     }
 
-    /* Shortcut Thumbnails (your shortcut boxes) */
     .thumbnail-container {
       position: fixed;
-      bottom: 20px; /* Positioned at the bottom */
+      bottom: 20px;
       left: 50%;
-      transform: translateX(-50%); /* Center horizontally */
+      transform: translateX(-50%);
       display: flex;
       gap: 10px;
       z-index: 110;
     }
 
     .thumbnail {
-      width: 60px; /* 60px wide */
-      height: 60px; /* Square thumbnail (60x60) */
+      width: 60px;
+      height: 60px;
       object-fit: cover;
       cursor: pointer;
       border: 2px solid #ddd;
@@ -165,7 +149,6 @@
       transform: scale(1.05);
     }
 
-    /* Fullscreen overlay and container for iframe */
     .fullscreen-overlay {
       position: fixed;
       top: 0;
@@ -209,6 +192,7 @@
   </style>
 </head>
 <body>
+
   <!-- Shortcut Thumbnails -->
   <div class="thumbnail-container">
     <img src="/assets/social.jpg" class="thumbnail" onclick="openFullscreen('https://lookingforcows.com/Social')" alt="Social links">
@@ -225,20 +209,22 @@
   <!-- Main Content -->
   <img src="/assets/51uEZVeGgtL.jpg" alt="Cow's Audiobooks Banner" class="banner">
   <div class="container">
-
-      <h1>Hello there.</h1>
-  
-
+    <h1>Hello there.</h1>
     <p>Listen below. Enjoy! Scroll ➡️</p>
     <div class="episode-list" id="episode-list">
       <!-- Episodes will be dynamically loaded here -->
     </div>
     <p>To download, right-click and "save as".</p>
   </div>
-  <!-- Navigation Footer -->
 
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Looking for cows Audio</p>
+    <p>All Rights Reserved.</p>
+  </footer>
+
+  <!-- Script -->
   <script>
-    // Open fullscreen iframe when a shortcut is clicked
     function openFullscreen(url) {
       document.getElementById('fullscreenIframe').src = url;
       document.getElementById('fullscreenOverlay').style.display = 'block';
@@ -246,7 +232,6 @@
       document.body.style.overflow = 'hidden';
     }
 
-    // Close the fullscreen iframe
     function closeFullscreen() {
       document.getElementById('fullscreenOverlay').style.display = 'none';
       document.getElementById('fullscreenContainer').style.display = 'none';
@@ -254,23 +239,19 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Fetch and display podcast episodes (only those with "full audiobook" in the title or description)
     async function fetchPodcastEpisodes() {
       const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
-      console.log("Fetching RSS feed...");
 
       try {
         const response = await fetch(rssUrl);
-        if (!response.ok) {
-          throw new Error("Failed to fetch RSS feed");
-        }
+        if (!response.ok) throw new Error("Failed to fetch RSS feed");
+
         const xml = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xml, 'application/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
         if (items.length === 0) {
-          console.log("No episodes found.");
           document.getElementById('episode-list').innerHTML = '<p>No episodes found.</p>';
           return;
         }
@@ -284,15 +265,15 @@
           const description = items[i].getElementsByTagName('description')[0].textContent;
           const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
-          // Only include episodes with "full audiobook" in the title or description
           if (title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook")) {
             const episodeElement = document.createElement('div');
             episodeElement.classList.add('episode');
+
             episodeElement.innerHTML = `
               <img src="${coverImage}" alt="${title}">
               <h3>${title}</h3>
               <p>${description}</p>
-              <audio controls>
+              <audio controls preload="none">
                 <source src="${link}" type="audio/mp3">
                 Your browser does not support the audio element.
               </audio>
@@ -308,10 +289,5 @@
 
     window.onload = fetchPodcastEpisodes;
   </script>
-  <footer>
-    <p style="text-align: center;">© 2025 Looking for cows Audio</p>
-    <p style="text-align: center;">All Rights Reserved.</p>
-  </footer>
 </body>
 </html>
-
