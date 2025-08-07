@@ -1,293 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Looking for cows Audio</title>
+<script>
+  function openFullscreen(url) {
+    document.getElementById('fullscreenIframe').src = url;
+    document.getElementById('fullscreenOverlay').style.display = 'block';
+    document.getElementById('fullscreenContainer').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
 
-  <!-- Favicons -->
-  <link rel="icon" href="https://lookingforcows.com/favicon/favicon.ico" type="image/x-icon" />
-  <link rel="icon" type="image/png" href="https://lookingforcows.com/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="https://lookingforcows.com/favicon/favicon.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="https://lookingforcows.com/favicon/apple-touch-icon.png" />
-  <link rel="manifest" href="https://lookingforcows.com/favicon/site.webmanifest" />
-  <meta name="apple-mobile-web-app-title" content="Cow's Audiobooks" />
+  function closeFullscreen() {
+    document.getElementById('fullscreenOverlay').style.display = 'none';
+    document.getElementById('fullscreenContainer').style.display = 'none';
+    document.getElementById('fullscreenIframe').src = '';
+    document.body.style.overflow = 'auto';
+  }
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-image: url('/assets/background.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      font-family: 'Open Dyslexic', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      position: relative;
-    }
+  async function fetchPodcastEpisodes() {
+    const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
 
-    .banner {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
+    try {
+      const response = await fetch(rssUrl);
+      if (!response.ok) throw new Error("Failed to fetch RSS feed");
 
-    .container {
-      max-width: 800px;
-      width: 100%;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.8);
-      text-align: center;
-      padding-bottom: 120px;
-      z-index: 10;
-    }
+      const xml = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xml, 'application/xml');
+      const items = xmlDoc.getElementsByTagName('item');
 
-    .episode-list {
-      display: flex;
-      overflow-x: auto;
-      gap: 20px;
-      margin-top: 20px;
-      padding-bottom: 20px;
-      scroll-snap-type: x mandatory;
-    }
+      if (items.length === 0) {
+        document.getElementById('episode-list').innerHTML = '<p>No episodes found.</p>';
+        return;
+      }
 
-    .episode {
-      background-color: rgba(0, 0, 0, 0.7);
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      width: 250px;
-      flex-shrink: 0;
-      box-sizing: border-box;
-      scroll-snap-align: start;
-    }
+      const episodeList = document.getElementById('episode-list');
+      episodeList.innerHTML = '';
 
-    .episode img {
-      width: 200px;
-      height: auto;
-      border-radius: 5px;
-    }
+      for (let i = 0; i < items.length; i++) {
+        const title = items[i].getElementsByTagName('title')[0].textContent;
+        const description = items[i].getElementsByTagName('description')[0].textContent;
+        const enclosure = items[i].getElementsByTagName('enclosure')[0];
+        if (!enclosure) continue;
 
-    .episode h3 {
-      margin-top: 10px;
-      font-size: 18px;
-    }
+        const link = enclosure.getAttribute('url');
+        const type = enclosure.getAttribute('type') || '';
+        const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
-    .episode p {
-      font-size: 14px;
-      margin-top: 10px;
-    }
+        // Only show episodes that mention "full audiobook"
+        if (title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook")) {
+          const episodeElement = document.createElement('div');
+          episodeElement.classList.add('episode');
 
-    .episode audio {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      z-index: 100;
-    }
-
-    ul li {
-      float: left;
-    }
-
-    ul li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-
-    ul li a:hover {
-      background-color: #111;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: black;
-      width: 100%;
-      position: relative;
-      margin-bottom: 50px;
-    }
-
-    .thumbnail-container {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 110;
-    }
-
-    .thumbnail {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      cursor: pointer;
-      border: 2px solid #ddd;
-      transition: transform 0.3s ease;
-    }
-
-    .thumbnail:hover {
-      transform: scale(1.05);
-    }
-
-    .fullscreen-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 200;
-      display: none;
-    }
-
-    .fullscreen-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 201;
-      display: none;
-    }
-
-    .fullscreen-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .close-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: red;
-      color: white;
-      font-size: 20px;
-      padding: 10px 15px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      z-index: 202;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Shortcut Thumbnails -->
-  <div class="thumbnail-container">
-    <img src="/assets/social.jpg" class="thumbnail" onclick="openFullscreen('https://lookingforcows.com/Social')" alt="Social links">
-    <img src="/assets/about.jpg" class="thumbnail" onclick="openFullscreen('https://lookingforcows.com/About')" alt="about me">
-  </div>
-
-  <!-- Fullscreen overlay and iframe container -->
-  <div id="fullscreenOverlay" class="fullscreen-overlay"></div>
-  <div id="fullscreenContainer" class="fullscreen-container">
-    <button class="close-button" onclick="closeFullscreen()">X</button>
-    <iframe id="fullscreenIframe" class="fullscreen-iframe" src=""></iframe>
-  </div>
-
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Don't forget the milk.</h1>
-    <p>Listen below. Enjoy! Scroll ➡️</p>
-    <div class="episode-list" id="episode-list">
-      <!-- Episodes will be dynamically loaded here -->
-    </div>
-    <p>To download, right-click and "save as".</p>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Looking for cows Audio</p>
-    <p>All Rights Reserved.</p>
-  </footer>
-
-  <!-- Script -->
-  <script>
-    function openFullscreen(url) {
-      document.getElementById('fullscreenIframe').src = url;
-      document.getElementById('fullscreenOverlay').style.display = 'block';
-      document.getElementById('fullscreenContainer').style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeFullscreen() {
-      document.getElementById('fullscreenOverlay').style.display = 'none';
-      document.getElementById('fullscreenContainer').style.display = 'none';
-      document.getElementById('fullscreenIframe').src = '';
-      document.body.style.overflow = 'auto';
-    }
-
-    async function fetchPodcastEpisodes() {
-      const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
-
-      try {
-        const response = await fetch(rssUrl);
-        if (!response.ok) throw new Error("Failed to fetch RSS feed");
-
-        const xml = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xml, 'application/xml');
-        const items = xmlDoc.getElementsByTagName('item');
-
-        if (items.length === 0) {
-          document.getElementById('episode-list').innerHTML = '<p>No episodes found.</p>';
-          return;
-        }
-
-        const episodeList = document.getElementById('episode-list');
-        episodeList.innerHTML = '';
-
-        for (let i = 0; i < items.length; i++) {
-          const title = items[i].getElementsByTagName('title')[0].textContent;
-          const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
-          const description = items[i].getElementsByTagName('description')[0].textContent;
-          const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
-
-          if (title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook")) {
-            const episodeElement = document.createElement('div');
-            episodeElement.classList.add('episode');
-
-            episodeElement.innerHTML = `
-              <img src="${coverImage}" alt="${title}">
-              <h3>${title}</h3>
-              <p>${description}</p>
+          // Determine media player
+          let mediaPlayer = '';
+          if (type.startsWith('video')) {
+            mediaPlayer = `
+              <video controls preload="none" width="100%">
+                <source src="${link}" type="${type}">
+                Your browser does not support the video tag.
+              </video>
+            `;
+          } else {
+            mediaPlayer = `
               <audio controls preload="none">
-                <source src="${link}" type="audio/mp3">
+                <source src="${link}" type="${type}">
                 Your browser does not support the audio element.
               </audio>
             `;
-            episodeList.appendChild(episodeElement);
           }
+
+          episodeElement.innerHTML = `
+            <img src="${coverImage}" alt="${title}">
+            <h3>${title}</h3>
+            <p>${description}</p>
+            ${mediaPlayer}
+          `;
+          episodeList.appendChild(episodeElement);
         }
-      } catch (error) {
-        console.error("Error fetching RSS feed:", error);
-        document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
       }
+    } catch (error) {
+      console.error("Error fetching RSS feed:", error);
+      document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
     }
+  }
 
-    window.onload = fetchPodcastEpisodes;
-  </script>
-</body>
-</html>
-
+  window.onload = fetchPodcastEpisodes;
+</script>
