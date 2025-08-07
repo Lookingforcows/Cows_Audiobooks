@@ -34,33 +34,38 @@
       episodeList.innerHTML = '';
 
       for (let i = 0; i < items.length; i++) {
-        const title = items[i].getElementsByTagName('title')[0].textContent;
-        const description = items[i].getElementsByTagName('description')[0].textContent;
-        const enclosure = items[i].getElementsByTagName('enclosure')[0];
+        const item = items[i];
+
+        const title = item.getElementsByTagName('title')[0]?.textContent || 'Untitled';
+        const description = item.getElementsByTagName('description')[0]?.textContent || '';
+        const enclosure = item.getElementsByTagName('enclosure')[0];
+        const coverImage = item.getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
+
+        // Skip if no enclosure (no media file)
         if (!enclosure) continue;
 
-        const link = enclosure.getAttribute('url');
+        const link = enclosure.getAttribute('url') || '';
         const type = enclosure.getAttribute('type') || '';
-        const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
-        // Only show episodes that mention "full audiobook"
+        // Only include specific content
         if (title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook")) {
           const episodeElement = document.createElement('div');
           episodeElement.classList.add('episode');
 
-          // Determine media player
           let mediaPlayer = '';
-          if (type.startsWith('video')) {
+
+          // Choose player based on media type
+          if (type.includes('video') || link.endsWith('.mp4')) {
             mediaPlayer = `
               <video controls preload="none" width="100%">
-                <source src="${link}" type="${type}">
+                <source src="${link}" type="${type || 'video/mp4'}">
                 Your browser does not support the video tag.
               </video>
             `;
           } else {
             mediaPlayer = `
               <audio controls preload="none">
-                <source src="${link}" type="${type}">
+                <source src="${link}" type="${type || 'audio/mpeg'}">
                 Your browser does not support the audio element.
               </audio>
             `;
@@ -72,6 +77,7 @@
             <p>${description}</p>
             ${mediaPlayer}
           `;
+
           episodeList.appendChild(episodeElement);
         }
       }
