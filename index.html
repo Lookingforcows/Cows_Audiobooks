@@ -189,6 +189,29 @@
       border-radius: 5px;
       z-index: 202;
     }
+
+    .filter-buttons {
+      margin-top: 20px;
+    }
+
+    .filter-buttons button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .filter-buttons button:hover {
+      background-color: #666;
+    }
+
+    .filter-buttons button.active {
+      background-color: #00aaff;
+    }
   </style>
 </head>
 <body>
@@ -208,10 +231,15 @@
 
   <!-- Main Content -->
   <div class="container">
-    <h1>There are no monsters but the ones we let live inside ourselves. </h1>
-
-
+    <h1>There are no monsters but the ones we let live inside ourselves.</h1>
     <p>Listen below. Enjoy! Scroll ➡️</p>
+
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+      <button id="audiobookBtn" class="active" onclick="setFilter('audiobook')">Full Audiobooks</button>
+      <button id="poetryBtn" onclick="setFilter('poetry')">Poetry</button>
+    </div>
+
     <div class="episode-list" id="episode-list">
       <!-- Episodes will be dynamically loaded here -->
     </div>
@@ -240,7 +268,17 @@
       document.body.style.overflow = 'auto';
     }
 
-    async function fetchPodcastEpisodes() {
+    let currentFilter = 'audiobook';
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.getElementById('audiobookBtn').classList.remove('active');
+      document.getElementById('poetryBtn').classList.remove('active');
+      document.getElementById(filter + 'Btn').classList.add('active');
+      fetchPodcastEpisodes(filter);
+    }
+
+    async function fetchPodcastEpisodes(filter = 'audiobook') {
       const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
 
       try {
@@ -252,21 +290,19 @@
         const xmlDoc = parser.parseFromString(xml, 'application/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
-        if (items.length === 0) {
-          document.getElementById('episode-list').innerHTML = '<p>No episodes found.</p>';
-          return;
-        }
-
         const episodeList = document.getElementById('episode-list');
         episodeList.innerHTML = '';
 
         for (let i = 0; i < items.length; i++) {
           const title = items[i].getElementsByTagName('title')[0].textContent;
-          const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
           const description = items[i].getElementsByTagName('description')[0].textContent;
+          const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
           const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
-          if (title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook")) {
+          const isAudiobook = title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook");
+          const isPoetry = title.toLowerCase().includes("poetry") || description.toLowerCase().includes("poetry");
+
+          if ((filter === 'audiobook' && isAudiobook) || (filter === 'poetry' && isPoetry)) {
             const episodeElement = document.createElement('div');
             episodeElement.classList.add('episode');
 
@@ -282,29 +318,18 @@
             episodeList.appendChild(episodeElement);
           }
         }
+
+        if (episodeList.innerHTML.trim() === '') {
+          episodeList.innerHTML = '<p>No episodes found for this category.</p>';
+        }
+
       } catch (error) {
         console.error("Error fetching RSS feed:", error);
         document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
       }
     }
 
-    window.onload = fetchPodcastEpisodes;
+    window.onload = () => fetchPodcastEpisodes('audiobook');
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
