@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Looking for cows Audio</title>
 
-  <!-- Favicons -->
   <link rel="icon" href="https://lookingforcows.com/favicon/favicon.ico" type="image/x-icon" />
   <link rel="icon" type="image/png" href="https://lookingforcows.com/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="https://lookingforcows.com/favicon/favicon.svg" />
@@ -17,6 +16,7 @@
     body {
       margin: 0;
       padding: 0;
+      /* CHANGE YOUR BACKGROUND IMAGE URL HERE */
       background-image: url('/assets/IMG_0716.jpg');
       background-size: cover;
       background-position: center;
@@ -27,14 +27,6 @@
       flex-direction: column;
       min-height: 100vh;
       position: relative;
-    }
-
-    .banner {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
     }
 
     .container {
@@ -82,39 +74,14 @@
     .episode p {
       font-size: 14px;
       margin-top: 10px;
+      /* Added a max height and scroll for super long descriptions */
+      max-height: 100px; 
+      overflow-y: auto;
     }
 
     .episode audio {
       width: 100%;
       margin-top: 10px;
-    }
-
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      z-index: 100;
-    }
-
-    ul li {
-      float: left;
-    }
-
-    ul li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-
-    ul li a:hover {
-      background-color: #111;
     }
 
     footer {
@@ -123,7 +90,7 @@
       background-color: black;
       width: 100%;
       position: relative;
-      margin-bottom: 50px;
+      margin-top: auto; /* Pushes footer to the bottom */
     }
 
     .thumbnail-container {
@@ -136,17 +103,25 @@
       z-index: 110;
     }
 
+    .thumbnail-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
     .thumbnail {
       width: 60px;
       height: 60px;
       object-fit: cover;
-      cursor: pointer;
       border: 2px solid #ddd;
       transition: transform 0.3s ease;
     }
 
-    .thumbnail:hover {
+    .thumbnail-btn:hover .thumbnail,
+    .thumbnail-btn:focus .thumbnail {
       transform: scale(1.05);
+      border-color: #00aaff;
     }
 
     .fullscreen-overlay {
@@ -216,44 +191,42 @@
 </head>
 <body>
 
-  <!-- Shortcut Thumbnails -->
   <div class="thumbnail-container">
-    <img src="/assets/social.jpg" class="thumbnail" onclick="openFullscreen('https://lookingforcows.com/Social')" alt="Social links">
-    <img src="/assets/about.jpg" class="thumbnail" onclick="openFullscreen('https://lookingforcows.com/About')" alt="about me">
+    <button class="thumbnail-btn" onclick="openFullscreen('https://lookingforcows.com/Social')" aria-label="Social links">
+      <img src="/assets/social.jpg" class="thumbnail" alt="">
+    </button>
+    <button class="thumbnail-btn" onclick="openFullscreen('https://lookingforcows.com/About')" aria-label="About me">
+      <img src="/assets/about.jpg" class="thumbnail" alt="">
+    </button>
   </div>
 
-  <!-- Fullscreen overlay and iframe container -->
   <div id="fullscreenOverlay" class="fullscreen-overlay"></div>
   <div id="fullscreenContainer" class="fullscreen-container">
     <button class="close-button" onclick="closeFullscreen()">X</button>
     <iframe id="fullscreenIframe" class="fullscreen-iframe" src=""></iframe>
   </div>
 
-  <!-- Main Content -->
   <div class="container">
     <h1>There are no monsters but the ones we let live inside ourselves.</h1>
     <p>Listen below. Enjoy! Scroll ➡️</p>
 
-    <!-- Filter Buttons -->
     <div class="filter-buttons">
       <button id="audiobookBtn" class="active" onclick="setFilter('audiobook')">Full Audiobooks</button>
       <button id="poetryBtn" onclick="setFilter('poetry')">Poetry</button>
     </div>
 
     <div class="episode-list" id="episode-list">
-      <!-- Episodes will be dynamically loaded here -->
-    </div>
+      </div>
     <p>To download, right-click and "save as".</p>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>© 2026 Looking for cows Audio</p>
     <p>All Rights Reserved.</p>
   </footer>
 
-  <!-- Script -->
   <script>
+    // --- Fullscreen Iframe Logic ---
     function openFullscreen(url) {
       document.getElementById('fullscreenIframe').src = url;
       document.getElementById('fullscreenOverlay').style.display = 'block';
@@ -268,6 +241,8 @@
       document.body.style.overflow = 'auto';
     }
 
+    // --- Podcast Fetching and Filtering Logic ---
+    let allEpisodes = []; // This stores the RSS data so we only fetch it once
     let currentFilter = 'audiobook';
 
     function setFilter(filter) {
@@ -275,11 +250,49 @@
       document.getElementById('audiobookBtn').classList.remove('active');
       document.getElementById('poetryBtn').classList.remove('active');
       document.getElementById(filter + 'Btn').classList.add('active');
-      fetchPodcastEpisodes(filter);
+      
+      // Instead of fetching the URL again, we just re-sort the saved array
+      renderEpisodes(filter);
     }
 
-    async function fetchPodcastEpisodes(filter = 'audiobook') {
+    function renderEpisodes(filter) {
+      const episodeList = document.getElementById('episode-list');
+      episodeList.innerHTML = ''; // Clear the current view
+
+      // Filter our saved array based on the button clicked
+      const filteredEpisodes = allEpisodes.filter(ep => {
+        if (filter === 'audiobook') return ep.isAudiobook;
+        if (filter === 'poetry') return ep.isPoetry;
+        return false;
+      });
+
+      if (filteredEpisodes.length === 0) {
+        episodeList.innerHTML = '<p>No episodes found for this category.</p>';
+        return;
+      }
+
+      // Build the HTML for the filtered episodes
+      filteredEpisodes.forEach(ep => {
+        const episodeElement = document.createElement('div');
+        episodeElement.classList.add('episode');
+
+        episodeElement.innerHTML = `
+          <img src="${ep.coverImage}" alt="${ep.title}">
+          <h3>${ep.title}</h3>
+          <p>${ep.description}</p>
+          <audio controls preload="none">
+            <source src="${ep.link}" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+        `;
+        episodeList.appendChild(episodeElement);
+      });
+    }
+
+    async function fetchPodcastEpisodes() {
       const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
+      const episodeList = document.getElementById('episode-list');
+      episodeList.innerHTML = '<p>Loading episodes...</p>';
 
       try {
         const response = await fetch(rssUrl);
@@ -290,47 +303,37 @@
         const xmlDoc = parser.parseFromString(xml, 'application/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
-        const episodeList = document.getElementById('episode-list');
-        episodeList.innerHTML = '';
-
+        // Parse the XML and save it into our allEpisodes array
         for (let i = 0; i < items.length; i++) {
-          const title = items[i].getElementsByTagName('title')[0].textContent;
-          const description = items[i].getElementsByTagName('description')[0].textContent;
-          const link = items[i].getElementsByTagName('enclosure')[0].getAttribute('url');
+          const title = items[i].getElementsByTagName('title')[0]?.textContent || 'Untitled';
+          const description = items[i].getElementsByTagName('description')[0]?.textContent || '';
+          const link = items[i].getElementsByTagName('enclosure')[0]?.getAttribute('url') || '';
           const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
 
           const isAudiobook = title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook");
           const isPoetry = title.toLowerCase().includes("poetry") || description.toLowerCase().includes("poetry");
 
-          if ((filter === 'audiobook' && isAudiobook) || (filter === 'poetry' && isPoetry)) {
-            const episodeElement = document.createElement('div');
-            episodeElement.classList.add('episode');
-
-            episodeElement.innerHTML = `
-              <img src="${coverImage}" alt="${title}">
-              <h3>${title}</h3>
-              <p>${description}</p>
-              <audio controls preload="none">
-                <source src="${link}" type="audio/mp3">
-                Your browser does not support the audio element.
-              </audio>
-            `;
-            episodeList.appendChild(episodeElement);
-          }
+          allEpisodes.push({
+            title,
+            description,
+            link,
+            coverImage,
+            isAudiobook,
+            isPoetry
+          });
         }
 
-        if (episodeList.innerHTML.trim() === '') {
-          episodeList.innerHTML = '<p>No episodes found for this category.</p>';
-        }
+        // Display the default category once the data is loaded
+        renderEpisodes(currentFilter);
 
       } catch (error) {
         console.error("Error fetching RSS feed:", error);
-        document.getElementById('episode-list').innerHTML = '<p>Error loading episodes.</p>';
+        episodeList.innerHTML = '<p>Error loading episodes.</p>';
       }
     }
 
-    window.onload = () => fetchPodcastEpisodes('audiobook');
+    // Fetch the RSS feed ONE time when the page loads
+    window.onload = fetchPodcastEpisodes;
   </script>
 </body>
 </html>
-
