@@ -16,11 +16,11 @@
     body {
       margin: 0;
       padding: 0;
-      /* CHANGE YOUR BACKGROUND IMAGE URL HERE */
       background-image: url('/assets/IMG_0716.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      background-attachment: fixed; /* This locks the background in place */
       font-family: 'Open Dyslexic', sans-serif;
       color: white;
       display: flex;
@@ -32,7 +32,8 @@
     .container {
       max-width: 800px;
       width: 100%;
-      margin: 20px auto;
+      /* Pushes the container down 80% of the screen so the phone is visible first */
+      margin: 80vh auto 20px auto; 
       padding: 20px;
       background-color: rgba(0, 0, 0, 0.8);
       text-align: center;
@@ -74,7 +75,6 @@
     .episode p {
       font-size: 14px;
       margin-top: 10px;
-      /* Added a max height and scroll for super long descriptions */
       max-height: 100px; 
       overflow-y: auto;
     }
@@ -90,7 +90,7 @@
       background-color: black;
       width: 100%;
       position: relative;
-      margin-top: auto; /* Pushes footer to the bottom */
+      margin-top: auto;
     }
 
     .thumbnail-container {
@@ -207,7 +207,7 @@
   </div>
 
   <div class="container">
-    <h1>There are no cup cakes.</h1>
+    <h1>There are no cup cakes</h1>
     <p>Listen below. Enjoy! Scroll ➡️</p>
 
     <div class="filter-buttons">
@@ -242,7 +242,7 @@
     }
 
     // --- Podcast Fetching and Filtering Logic ---
-    let allEpisodes = []; // This stores the RSS data so we only fetch it once
+    let allEpisodes = []; 
     let currentFilter = 'audiobook';
 
     function setFilter(filter) {
@@ -251,15 +251,13 @@
       document.getElementById('poetryBtn').classList.remove('active');
       document.getElementById(filter + 'Btn').classList.add('active');
       
-      // Instead of fetching the URL again, we just re-sort the saved array
       renderEpisodes(filter);
     }
 
     function renderEpisodes(filter) {
       const episodeList = document.getElementById('episode-list');
-      episodeList.innerHTML = ''; // Clear the current view
+      episodeList.innerHTML = ''; 
 
-      // Filter our saved array based on the button clicked
       const filteredEpisodes = allEpisodes.filter(ep => {
         if (filter === 'audiobook') return ep.isAudiobook;
         if (filter === 'poetry') return ep.isPoetry;
@@ -271,7 +269,6 @@
         return;
       }
 
-      // Build the HTML for the filtered episodes
       filteredEpisodes.forEach(ep => {
         const episodeElement = document.createElement('div');
         episodeElement.classList.add('episode');
@@ -303,7 +300,6 @@
         const xmlDoc = parser.parseFromString(xml, 'application/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
-        // Parse the XML and save it into our allEpisodes array
         for (let i = 0; i < items.length; i++) {
           const title = items[i].getElementsByTagName('title')[0]?.textContent || 'Untitled';
           const description = items[i].getElementsByTagName('description')[0]?.textContent || '';
@@ -323,7 +319,6 @@
           });
         }
 
-        // Display the default category once the data is loaded
         renderEpisodes(currentFilter);
 
       } catch (error) {
@@ -332,7 +327,6 @@
       }
     }
 
-    // Fetch the RSS feed ONE time when the page loads
     window.onload = fetchPodcastEpisodes;
   </script>
 </body>
