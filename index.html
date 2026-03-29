@@ -187,6 +187,40 @@
     .filter-buttons button.active {
       background-color: #00aaff;
     }
+    /* Mobile Specific Adjustments */
+@media (max-width: 600px) {
+  body {
+    /* Fixed attachment often breaks 'cover' on mobile; 
+       scroll is more reliable for mobile browsers */
+    background-attachment: scroll; 
+  }
+
+  .container {
+    /* Reduce the massive gap at the top for mobile screens */
+    margin-top: 40vh; 
+    padding: 15px;
+  }
+
+  .episode {
+    /* Make the cards slightly narrower to fit mobile better */
+    width: 200px; 
+    padding: 15px;
+  }
+
+  .episode img {
+    width: 150px;
+  }
+
+  .thumbnail-container {
+    /* Ensure buttons don't overlap footer on short screens */
+    bottom: 10px;
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+}
   </style>
 </head>
 <body>
