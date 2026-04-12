@@ -16,17 +16,27 @@
     body {
       margin: 0;
       padding: 0;
-      background-image: url('/assets/IMG_0716.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed; /* This locks the background in place */
       font-family: 'Open Dyslexic', sans-serif;
       color: white;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       position: relative;
+    }
+
+    /* This pseudo-element is the best way to do fixed backgrounds on mobile */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('/assets/IMG_0716.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: -1;
     }
 
     .container {
@@ -39,15 +49,16 @@
       text-align: center;
       padding-bottom: 120px;
       z-index: 10;
+      box-sizing: border-box;
     }
 
     .episode-list {
-      display: flex;
-      overflow-x: auto;
+      /* Changed to CSS Grid for automatic wrapping and vertical scrolling */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       margin-top: 20px;
       padding-bottom: 20px;
-      scroll-snap-type: x mandatory;
     }
 
     .episode {
@@ -55,10 +66,11 @@
       border-radius: 8px;
       padding: 20px;
       text-align: center;
-      width: 250px;
-      flex-shrink: 0;
+      width: 100%;
       box-sizing: border-box;
-      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .episode img {
@@ -91,6 +103,7 @@
       width: 100%;
       position: relative;
       margin-top: auto;
+      box-sizing: border-box;
     }
 
     .thumbnail-container {
@@ -187,40 +200,33 @@
     .filter-buttons button.active {
       background-color: #00aaff;
     }
+
     /* Mobile Specific Adjustments */
-@media (max-width: 600px) {
-  body {
-    /* Fixed attachment often breaks 'cover' on mobile; 
-       scroll is more reliable for mobile browsers */
-    background-attachment: scroll; 
-  }
+    @media (max-width: 600px) {
+      .container {
+        /* Reduce the massive gap at the top for mobile screens */
+        margin-top: 40vh; 
+        padding: 15px;
+      }
 
-  .container {
-    /* Reduce the massive gap at the top for mobile screens */
-    margin-top: 40vh; 
-    padding: 15px;
-  }
+      .episode {
+        padding: 15px;
+      }
 
-  .episode {
-    /* Make the cards slightly narrower to fit mobile better */
-    width: 200px; 
-    padding: 15px;
-  }
+      .episode img {
+        width: 150px;
+      }
 
-  .episode img {
-    width: 150px;
-  }
+      .thumbnail-container {
+        /* Ensure buttons don't overlap footer on short screens */
+        bottom: 10px;
+      }
 
-  .thumbnail-container {
-    /* Ensure buttons don't overlap footer on short screens */
-    bottom: 10px;
-  }
-
-  .thumbnail {
-    width: 50px;
-    height: 50px;
-  }
-}
+      .thumbnail {
+        width: 50px;
+        height: 50px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -241,8 +247,8 @@
   </div>
 
   <div class="container">
-    <h1>Audiobooks for people, read by a person. </h1>
-    <p>Listen below. Enjoy! Scroll ➡️</p>
+    <h1>Audiobooks for people, read by a person.</h1>
+    <p>Listen below. Enjoy!</p>
 
     <div class="filter-buttons">
       <button id="audiobookBtn" class="active" onclick="setFilter('audiobook')">Full Audiobooks</button>
