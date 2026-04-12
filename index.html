@@ -227,6 +227,83 @@
         height: 50px;
       }
     }
+    /* --- VHS EFFECT --- */
+
+/* Scanlines */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.03) 0px,
+    rgba(0,0,0,0.15) 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 300;
+}
+/* --- BALANCED VHS EFFECT --- */
+
+/* Scanlines (visible but not harsh) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.02) 0px,
+    rgba(0,0,0,0.12) 2px,
+    transparent 5px
+  );
+  pointer-events: none;
+  z-index: 300;
+}
+
+/* Slight analog feel */
+body {
+  animation: vhsFlicker 0.25s infinite;
+  filter: contrast(1.1) saturate(1.15);
+}
+
+/* RGB split (noticeable but clean) */
+.container::before,
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.1;
+}
+
+.container::before {
+  transform: translate(1px, 0);
+  background: rgba(255, 0, 0, 0.2);
+}
+
+.container::after {
+  transform: translate(-1px, 0);
+  background: rgba(0, 255, 255, 0.2);
+}
+
+/* Gentle flicker */
+@keyframes vhsFlicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.99; }
+  100% { opacity: 1; }
+}
+
+/* Occasional glitch (not constant) */
+@keyframes rareGlitch {
+  0%, 96%, 100% { transform: translateX(0); }
+  97% { transform: translateX(-1px); }
+  98% { transform: translateX(1px); }
+}
+
+.container {
+  animation: rareGlitch 5s infinite;
+}
   </style>
 </head>
 <body>
@@ -371,3 +448,147 @@
   </script>
 </body>
 </html>
+// --- Fullscreen Iframe Logic ---
+    function openFullscreen(url) {
+      document.getElementById('fullscreenIframe').src = url;
+      document.getElementById('fullscreenOverlay').style.display = 'block';
+      document.getElementById('fullscreenContainer').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullscreen() {
+      document.getElementById('fullscreenOverlay').style.display = 'none';
+      document.getElementById('fullscreenContainer').style.display = 'none';
+      document.getElementById('fullscreenIframe').src = '';
+      document.body.style.overflow = 'auto';
+    }
+
+    // --- Podcast Logic ---
+    let allEpisodes = []; 
+    let currentFilter = 'audiobook';
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.getElementById('audiobookBtn').classList.remove('active');
+      document.getElementById('poetryBtn').classList.remove('active');
+      document.getElementById(filter + 'Btn').classList.add('active');
+      renderEpisodes(filter);
+    }
+
+    function renderEpisodes(filter) {
+      const episodeList = document.getElementById('episode-list');
+      episodeList.innerHTML = ''; 
+
+      const filteredEpisodes = allEpisodes.filter(ep => {
+        if (filter === 'audiobook') return ep.isAudiobook;
+        if (filter === 'poetry') return ep.isPoetry;
+        return false;
+      });
+
+      if (filteredEpisodes.length === 0) {
+        episodeList.innerHTML = '<p>No episodes found for this category.</p>';
+        return;
+      }
+
+      filteredEpisodes.forEach((ep, index) => {
+        const episodeElement = document.createElement('div');
+        episodeElement.classList.add('episode');
+        episodeElement.id = `ep-${index}`;
+
+        // Create unique ID for storage based on Title
+        const storageKey = `progress_${btoa(ep.title).substring(0, 16)}`;
+        const savedTime = localStorage.getItem(storageKey);
+
+        episodeElement.innerHTML = `
+          <div id="resume-${index}" class="resume-badge">RESUMING SAVED SPOT</div>
+          <img src="${ep.coverImage}" alt="${ep.title}">
+          <h3>${ep.title}</h3>
+          <p>${ep.description}</p>
+          
+          <audio id="audio-${index}" controls preload="none">
+            <source src="${ep.link}" type="audio/mp3">
+          </audio>
+
+          <div class="audio-controls-extra">
+            <button class="control-btn" onclick="skip('${index}', -15)">-15s</button>
+            <button class="control-btn" onclick="skip('${index}', 30)">+30s</button>
+            <select class="speed-select" onchange="changeSpeed('${index}', this.value)">
+              <option value="1">1x Speed</option>
+              <option value="1.25">1.25x</option>
+              <option value="1.5">1.5x</option>
+              <option value="2">2x</option>
+            </select>
+          </div>
+        `;
+        episodeList.appendChild(episodeElement);
+
+        // --- Event Listeners for the Audio Player ---
+        const audio = document.getElementById(`audio-${index}`);
+        
+        // 1. Highlight playing episode
+        audio.onplay = () => {
+          document.querySelectorAll('.episode').forEach(e => e.classList.remove('is-playing'));
+          episodeElement.classList.add('is-playing');
+          
+          // Resume if we have a saved time
+          if (savedTime && audio.currentTime < 1) {
+             audio.currentTime = savedTime;
+             document.getElementById(`resume-${index}`).style.display = 'inline-block';
+             setTimeout(() => { document.getElementById(`resume-${index}`).style.fadeOut; }, 3000);
+          }
+        };
+
+        // 2. Save progress every 5 seconds
+        audio.ontimeupdate = () => {
+          if (audio.currentTime > 5) {
+            localStorage.setItem(storageKey, audio.currentTime);
+          }
+        };
+      });
+    }
+
+    // Helper Functions for Controls
+    function skip(id, seconds) {
+      const audio = document.getElementById(`audio-${id}`);
+      audio.currentTime += seconds;
+    }
+
+    function changeSpeed(id, speed) {
+      const audio = document.getElementById(`audio-${id}`);
+      audio.playbackRate = speed;
+    }
+
+    async function fetchPodcastEpisodes() {
+      const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
+      const episodeList = document.getElementById('episode-list');
+      episodeList.innerHTML = '<p>Loading episodes...</p>';
+
+      try {
+        const response = await fetch(rssUrl);
+        if (!response.ok) throw new Error("Failed to fetch RSS feed");
+
+        const xml = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xml, 'application/xml');
+        const items = xmlDoc.getElementsByTagName('item');
+
+        allEpisodes = []; // Clear for fresh fetch
+        for (let i = 0; i < items.length; i++) {
+          const title = items[i].getElementsByTagName('title')[0]?.textContent || 'Untitled';
+          const description = items[i].getElementsByTagName('description')[0]?.textContent || '';
+          const link = items[i].getElementsByTagName('enclosure')[0]?.getAttribute('url') || '';
+          const coverImage = items[i].getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '';
+
+          const isAudiobook = title.toLowerCase().includes("full audiobook") || description.toLowerCase().includes("full audiobook");
+          const isPoetry = title.toLowerCase().includes("poetry") || description.toLowerCase().includes("poetry");
+
+          allEpisodes.push({ title, description, link, coverImage, isAudiobook, isPoetry });
+        }
+        renderEpisodes(currentFilter);
+      } catch (error) {
+        console.error("Error:", error);
+        episodeList.innerHTML = '<p>Error loading episodes.</p>';
+      }
+    }
+
+    window.onload = fetchPodcastEpisodes;
