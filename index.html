@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Looking for cows Audio</title>
   
-  <!-- SEO & Social Meta -->
   <meta name="description" content="Audiobooks and poetry read by a real person — full audiobooks, chapters, and original poetry. Dyslexia-friendly font.">
   <meta property="og:title" content="Looking for cows Audio">
   <meta property="og:description" content="Hand-read audiobooks & poetry. Listen free.">
   <meta property="og:image" content="https://lookingforcows.com/assets/IMG_0716.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicon -->
   <link rel="icon" href="https://lookingforcows.com/favicon/favicon.ico" type="image/x-icon" />
   <link rel="icon" type="image/png" href="https://lookingforcows.com/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="https://lookingforcows.com/favicon/favicon.svg" />
@@ -41,7 +39,6 @@
       position: relative;
     }
 
-    /* Fixed background with slight darkening for better readability */
     body::before {
       content: "";
       position: fixed;
@@ -57,17 +54,26 @@
       filter: brightness(0.65);
     }
 
-    .container {
+    main.container {
       max-width: 800px;
       width: 100%;
-      margin: 80vh auto 20px auto;
-      padding: 20px;
+      margin: 10vh auto 20px auto;
+      padding: 30px 20px;
       background-color: rgba(0, 0, 0, 0.85);
       text-align: center;
-      padding-bottom: 120px;
+      padding-bottom: 80px;
       z-index: 10;
       box-sizing: border-box;
       border-radius: 12px;
+    }
+
+    header h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      opacity: 0.9;
     }
 
     .episode-list {
@@ -97,14 +103,16 @@
     }
 
     .episode img {
-      width: 200px;
+      width: 100%;
+      max-width: 200px;
       height: auto;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      background-color: #333;
     }
 
     .episode h3 {
-      margin-top: 12px;
+      margin-top: 15px;
       font-size: 18px;
       line-height: 1.3;
     }
@@ -116,18 +124,32 @@
       font-weight: normal;
     }
 
-    .episode p {
+    .episode p.desc {
       font-size: 14px;
       margin-top: 8px;
       margin-bottom: 16px;
       max-height: 110px;
       overflow-y: auto;
       line-height: 1.4;
+      text-align: left;
+      padding-right: 5px;
+    }
+
+    .episode p.desc::-webkit-scrollbar {
+      width: 6px;
+    }
+    .episode p.desc::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    .episode p.desc::-webkit-scrollbar-thumb {
+      background: rgba(0, 170, 255, 0.5);
+      border-radius: 4px;
     }
 
     .episode audio {
       width: 100%;
-      margin-top: 8px;
+      margin-top: auto;
     }
 
     .download-btn {
@@ -138,7 +160,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 8px 16px;
       border: 1px solid #00aaff;
       border-radius: 6px;
       transition: all 0.2s ease;
@@ -154,7 +176,6 @@
       padding: 20px;
       background-color: black;
       width: 100%;
-      position: relative;
       margin-top: auto;
       box-sizing: border-box;
     }
@@ -165,7 +186,7 @@
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 10px;
+      gap: 15px;
       z-index: 110;
     }
 
@@ -181,13 +202,14 @@
       height: 60px;
       object-fit: cover;
       border: 2px solid #ddd;
-      border-radius: 8px;
-      transition: transform 0.3s ease;
+      border-radius: 50%;
+      transition: transform 0.3s ease, border-color 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
     .thumbnail-btn:hover .thumbnail,
     .thumbnail-btn:focus .thumbnail {
-      transform: scale(1.08);
+      transform: scale(1.1);
       border-color: #00aaff;
     }
 
@@ -231,22 +253,31 @@
       border-radius: 8px;
       z-index: 202;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: background-color 0.2s;
+    }
+
+    .close-button:hover {
+      background-color: #ff0000;
     }
 
     .filter-buttons {
       margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
 
     .filter-buttons button {
       background-color: #444;
       color: white;
       border: none;
-      padding: 12px 24px;
-      margin: 6px;
+      padding: 10px 20px;
       cursor: pointer;
       border-radius: 8px;
       font-size: 16px;
       transition: all 0.2s ease;
+      font-family: 'Open Dyslexic', sans-serif;
     }
 
     .filter-buttons button:hover {
@@ -255,10 +286,9 @@
 
     .filter-buttons button.active {
       background-color: #00aaff;
-      box-shadow: 0 0 12px #00aaff;
+      box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
     }
 
-    /* Search bar */
     #search-input {
       width: 100%;
       max-width: 420px;
@@ -273,24 +303,35 @@
       font-family: 'Open Dyslexic', sans-serif;
       outline: none;
       transition: border-color 0.2s;
+      box-sizing: border-box;
     }
 
     #search-input:focus {
       border-color: #00aaff;
     }
 
-    /* Mobile adjustments */
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border-left-color: #00aaff;
+      animation: spin 1s linear infinite;
+      margin: 40px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     @media (max-width: 600px) {
-      .container {
-        margin-top: 40vh;
-        padding: 15px;
-        border-radius: 8px;
-      }
-      .episode {
-        padding: 15px;
+      main.container {
+        margin-top: 5vh;
+        padding: 20px 15px;
       }
       .episode img {
-        width: 160px;
+        max-width: 160px;
       }
       .thumbnail-container {
         bottom: 12px;
@@ -303,7 +344,6 @@
   </style>
 </head>
 <body>
-  <!-- Thumbnail navigation -->
   <div class="thumbnail-container">
     <button class="thumbnail-btn" onclick="openFullscreen('https://lookingforcows.com/Social')" aria-label="Social links">
       <img src="/assets/social.jpg" class="thumbnail" alt="Social">
@@ -313,31 +353,32 @@
     </button>
   </div>
 
-  <!-- Fullscreen iframe -->
   <div id="fullscreenOverlay" class="fullscreen-overlay"></div>
   <div id="fullscreenContainer" class="fullscreen-container">
     <button class="close-button" onclick="closeFullscreen()">✕</button>
     <iframe id="fullscreenIframe" class="fullscreen-iframe" src=""></iframe>
   </div>
 
-  <div class="container">
-    <h1>Audiobooks for people, read by a person.</h1>
-    <p>Listen below. Enjoy!</p>
+  <main class="container">
+    <header>
+      <h1>Audiobooks for people, read by a person.</h1>
+      <p>Listen below. Enjoy!</p>
+    </header>
 
-    <!-- Search bar -->
     <input type="text" id="search-input" placeholder=" Search titles or descriptions...">
 
-    <!-- Filter buttons -->
-    <div class="filter-buttons">
+    <nav class="filter-buttons">
+      <button id="allBtn" onclick="setFilter('all')">All Episodes</button>
       <button id="audiobookBtn" class="active" onclick="setFilter('audiobook')">Full Audiobooks</button>
       <button id="poetryBtn" onclick="setFilter('poetry')">Poetry</button>
+    </nav>
+
+    <div class="episode-list" id="episode-list">
+       <div class="spinner"></div>
     </div>
 
-    <!-- Episode grid -->
-    <div class="episode-list" id="episode-list"></div>
-
-    <p style="margin-top: 30px; opacity: 0.7;">To download, right-click the audio player or use the download button below each episode.</p>
-  </div>
+    <p style="margin-top: 30px; opacity: 0.7; font-size: 14px;">Just drink the tea.</p>
+  </main>
 
   <footer>
     <p>© 2026 Looking for cows Audio</p>
@@ -364,9 +405,11 @@
     let allEpisodes = [];
     let currentFilter = 'audiobook';
     let searchQuery = '';
+    let searchTimeout;
 
     function setFilter(filter) {
       currentFilter = filter;
+      document.getElementById('allBtn').classList.remove('active');
       document.getElementById('audiobookBtn').classList.remove('active');
       document.getElementById('poetryBtn').classList.remove('active');
       document.getElementById(filter + 'Btn').classList.add('active');
@@ -374,8 +417,11 @@
     }
 
     function updateSearch() {
-      searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
-      renderEpisodes();
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
+        renderEpisodes();
+      }, 300);
     }
 
     function makeAudioExclusive() {
@@ -385,8 +431,13 @@
           audios.forEach(other => {
             if (other !== audio) other.pause();
           });
-        }, { once: true });
+        });
       });
+    }
+
+    function stripHTML(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      return doc.body.textContent || "";
     }
 
     function renderEpisodes() {
@@ -394,10 +445,15 @@
       episodeList.innerHTML = '';
 
       const filteredEpisodes = allEpisodes.filter(ep => {
-        const matchesCategory = (currentFilter === 'audiobook' ? ep.isAudiobook : ep.isPoetry);
+        let matchesCategory = false;
+        if (currentFilter === 'all') matchesCategory = true;
+        else if (currentFilter === 'audiobook') matchesCategory = ep.isAudiobook;
+        else if (currentFilter === 'poetry') matchesCategory = ep.isPoetry;
+
         const matchesSearch = !searchQuery ||
           ep.title.toLowerCase().includes(searchQuery) ||
           ep.description.toLowerCase().includes(searchQuery);
+          
         return matchesCategory && matchesSearch;
       });
 
@@ -411,33 +467,33 @@
           ? new Date(ep.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
           : '';
 
-        const episodeElement = document.createElement('div');
+        const episodeElement = document.createElement('article');
         episodeElement.classList.add('episode');
+        
+        // --- LAZY LOADING FIX IMPLEMENTED HERE ---
         episodeElement.innerHTML = `
-          <img src="${ep.coverImage}" alt="${ep.title}">
+          <img src="${ep.coverImage}" alt="Cover art for ${ep.title}" loading="lazy">
           <h3>${ep.title}</h3>
           <p class="meta">
             ${dateStr}
             ${ep.duration ? ' • ' + ep.duration : ''}
           </p>
-          <p>${ep.description}</p>
-          <audio controls preload="none">
-            <source src="${ep.link}" type="audio/mpeg">
+          <p class="desc">${ep.description}</p>
+          <audio controls preload="none" onplay="if(!this.src) { this.src='${ep.link}'; this.play(); }">
+            <source type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
-          <a href="${ep.link}" download class="download-btn"> Download MP3</a>
+          <a href="${ep.link}" download class="download-btn" aria-label="Download ${ep.title}"> Download MP3</a>
         `;
         episodeList.appendChild(episodeElement);
       });
 
-      // Make sure only one audio plays at a time
       makeAudioExclusive();
     }
 
     async function fetchPodcastEpisodes() {
       const rssUrl = 'https://anchor.fm/s/e586064c/podcast/rss';
       const episodeList = document.getElementById('episode-list');
-      episodeList.innerHTML = '<p style="grid-column: 1 / -1; padding: 60px 20px;">Loading episodes…</p>';
 
       try {
         const response = await fetch(rssUrl);
@@ -453,7 +509,9 @@
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
           const title = item.getElementsByTagName('title')[0]?.textContent || 'Untitled';
-          const description = item.getElementsByTagName('description')[0]?.textContent || '';
+          const rawDescription = item.getElementsByTagName('description')[0]?.textContent || '';
+          const description = stripHTML(rawDescription);
+          
           const link = item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || '';
           const coverImage = item.getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '/assets/default-cover.jpg';
           const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent || '';
@@ -476,23 +534,17 @@
           });
         }
 
-        // Sort newest first
         allEpisodes.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
         renderEpisodes();
 
       } catch (error) {
         console.error("Error fetching RSS feed:", error);
-        episodeList.innerHTML = '<p style="grid-column: 1 / -1; padding: 60px 20px; color:#ff6666;">Error loading episodes.<br>Please try again later.</p>';
+        episodeList.innerHTML = '<p style="grid-column: 1 / -1; padding: 60px 20px; color:#ff6666;">Error loading episodes. Please check your connection or try again later.</p>';
       }
     }
 
-    // Initialize everything
     window.onload = function() {
-      // Search input listener
       document.getElementById('search-input').addEventListener('input', updateSearch);
-      
-      // Load the episodes
       fetchPodcastEpisodes();
     };
   </script>
