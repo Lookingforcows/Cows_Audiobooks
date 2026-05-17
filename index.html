@@ -479,10 +479,17 @@
             ${ep.duration ? ' • ' + ep.duration : ''}
           </p>
           <p class="desc">${ep.description}</p>
-          <audio controls preload="none" onplay="if(!this.src) { this.src='${ep.link}'; this.play(); }">
-            <source type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+         <audio controls preload="none"
+  onplay="
+    if (!this.querySelector('source').src) {
+      this.querySelector('source').src='${ep.link}';
+      this.load();
+      this.play();
+    }
+  ">
+  <source src="" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
           <a href="${ep.link}" download class="download-btn" aria-label="Download ${ep.title}"> Download MP3</a>
         `;
         episodeList.appendChild(episodeElement);
