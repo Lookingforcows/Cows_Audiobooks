@@ -19,6 +19,10 @@
   <meta name="apple-mobile-web-app-title" content="Cow's Audiobooks" />
 
   <style>
+    :root {
+      --bg-image: url('https://lookingforcows.com/assets/IMG_0716.jpg');
+    }
+
     @font-face {
       font-family: 'Open Dyslexic';
       src: url('https://lookingforcows.com/assets/fonts/OpenDyslexic-Regular.woff2') format('woff2'),
@@ -39,6 +43,7 @@
       position: relative;
     }
 
+    /* Resizable Background Container */
     body::before {
       content: "";
       position: fixed;
@@ -46,10 +51,11 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-image: url('https://lookingforcows.com/assets/IMG_0716.jpg');
+      background-image: var(--bg-image);
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
+      background-attachment: fixed;
       z-index: -1;
       filter: brightness(0.65);
     }
@@ -58,10 +64,9 @@
       max-width: 800px;
       width: 100%;
       margin: 10vh auto 20px auto;
-      padding: 30px 20px;
+      padding: 30px 20px 80px 20px;
       background-color: rgba(0, 0, 0, 0.85);
       text-align: center;
-      padding-bottom: 80px;
       z-index: 10;
       box-sizing: border-box;
       border-radius: 12px;
@@ -408,7 +413,6 @@
   </footer>
 
   <script>
-    // === Fullscreen logic ===
     function openFullscreen(url) {
       document.getElementById('fullscreenIframe').src = url;
       document.getElementById('fullscreenOverlay').style.display = 'block';
@@ -423,7 +427,6 @@
       document.body.style.overflow = 'auto';
     }
 
-    // === Podcast data & filtering ===
     let allEpisodes = [];
     let currentFilter = 'audiobook';
     let searchQuery = '';
@@ -460,6 +463,28 @@
     function stripHTML(html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       return doc.body.textContent || "";
+    }
+
+    // Save and restores audio positions across sessions using localStorage
+    function attachAudioPositionTracker(audioElement, audioUrl) {
+      const storageKey = 'audio_pos_' + btoa(audioUrl);
+
+      audioElement.addEventListener('loadedmetadata', () => {
+        const savedTime = localStorage.getItem(storageKey);
+        if (savedTime && !isNaN(savedTime)) {
+          audioElement.currentTime = parseFloat(savedTime);
+        }
+      });
+
+      audioElement.addEventListener('timeupdate', () => {
+        if (audioElement.currentTime > 0) {
+          localStorage.setItem(storageKey, audioElement.currentTime);
+        }
+      });
+
+      audioElement.addEventListener('ended', () => {
+        localStorage.removeItem(storageKey);
+      });
     }
 
     function renderEpisodes() {
@@ -500,22 +525,19 @@
             ${ep.duration ? ' • ' + ep.duration : ''}
           </p>
           <p class="desc">${ep.description}</p>
-          <audio controls preload="none"
-            onplay="
-              if (!this.querySelector('source').src) {
-                this.querySelector('source').src='${ep.link}';
-                this.load();
-                this.play();
-              }
-            ">
-            <source src="" type="audio/mpeg">
+          <audio controls preload="metadata">
+            <source src="${ep.link}" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
           <div class="btn-group">
             <a href="${ep.link}" download class="btn download-btn" aria-label="Download ${ep.title}">⬇ Download</a>
-            <a href="${ep.episodePage}" target="_blank" class="btn anchor-btn">Listen on Anchor</a>
+            <a href="${ep.episodePage}" target="_blank" rel="noopener" class="btn anchor-btn">Listen on Anchor</a>
           </div>
         `;
+
+        const audioEl = episodeElement.querySelector('audio');
+        attachAudioPositionTracker(audioEl, ep.link);
+
         episodeList.appendChild(episodeElement);
       });
 
@@ -527,12 +549,23 @@
       const episodeList = document.getElementById('episode-list');
 
       try {
-        const response = await fetch(rssUrl);
-        if (!response.ok) throw new Error("Failed to fetch RSS feed");
+        let xmlText = '';
+        try {
+          const directRes = await fetch(rssUrl);
+          if (directRes.ok) {
+            xmlText = await directRes.text();
+          } else {
+            throw new Error('Direct fetch failed');
+          }
+        } catch {
+          // CORS Fallback proxy
+          const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+          const json = await proxyRes.json();
+          xmlText = json.contents;
+        }
 
-        const xml = await response.text();
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xml, 'application/xml');
+        const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
         allEpisodes = [];
@@ -544,7 +577,7 @@
           const description = stripHTML(rawDescription);
           
           const link = item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || '';
-          const coverImage = item.getElementsByTagName('itunes:image')[0]?.getAttribute('href') || '/assets/default-cover.jpg';
+          const coverImage = item.getElementsByTagName('itunes:image')[0]?.getAttribute('href') || 'https://lookingforcows.com/assets/default-cover.jpg';
           const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent || '';
           const duration = item.getElementsByTagName('itunes:duration')[0]?.textContent || '';
           const episodePage = item.getElementsByTagName('link')[0]?.textContent || '#';
